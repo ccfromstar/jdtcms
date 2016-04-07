@@ -9,6 +9,7 @@ var debug = require('debug')('myapp:index');
 var ejsExcel = require("./ejsExcel");
 var fs = require("fs");
 var formidable = require('formidable');
+var request = require("request");
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -32,7 +33,42 @@ exports.wx_recorddo = function(req, res) {
 
 exports.getopenid = function(req, res) {
 	var code = req.query.code;
-	console.log(code);
+	var id = req.query.id;
+	var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+    request(url,function(err,response,body){
+        if(!err && response.statusCode == 200){
+            if(JSON.parse(body).errcode != null){
+                console.log(body);
+                res.redirect(req.url);
+                return false;
+            }
+            var openid = JSON.parse(body).openid;
+            var sql = "select id from wx_user_record where wx_openid = '"+openid+"' and post_id = "+id;
+            mysql.query(sql, function(err, rows) {
+				if (err) return console.error(err.stack);
+				if(!rows[0]){
+					/*记录用户阅读行为*/
+					setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),3,'',"+id+")");
+					/*文章的阅读数+1*/
+					var sql2 = "update post set read_count = read_count + 1 where id = "+id;
+					mysql.query(sql2, function(err, rows) {
+						if (err) return console.error(err.stack);
+					});
+				}
+				res.redirect(settings.hosts+"/post_read.html?id="+id);
+			});	
+        }
+    });
+}
+
+/*记录用户行为*/
+function setLog(sql){
+	mysql.query(sql, function(err, info) {
+		if (err) return console.error(err.stack);
+		// do something
+	});	
 }
 
 function getToday() {

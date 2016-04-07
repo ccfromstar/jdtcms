@@ -5,5 +5,6 @@ module.exports = {
     database:'jdtcms',
     port: 3306,
     AppID:"wx50581eac2142a492",
-    AppSecret:"9085f1e16dc8ce523980eb6b236a21a4"
+    AppSecret:"9085f1e16dc8ce523980eb6b236a21a4",
+    hosts:"http://127.0.0.1:8089"
 };

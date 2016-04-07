@@ -114,6 +114,8 @@ var R_content = React.createClass({
 				<tr>
 	              <td>{c.title}</td>
 	              <td>{c.created_at}</td>
+	              <td>{c.read_count}</td>
+	              <td>{c.like_count}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
@@ -163,6 +165,8 @@ var R_content = React.createClass({
 				              <tr>
 				                <th>标题</th>
 			            		<th>创建日期</th>
+			            		<th>阅读数</th>
+			            		<th>点赞数</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>
