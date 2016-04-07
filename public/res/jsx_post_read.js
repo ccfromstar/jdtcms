@@ -33,23 +33,26 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
-	},
-	setLike:function(){
-		$.ajax({
-			type: "post",
-			url: hosts + "/post/setPost",
-			data: {
-				id:readdocid,
-				openid:openid
-			},
-			success: function(data) {
-				if(data == "300"){
-					var like_count = Number($("#like_count").html());
-					$("#like_count").html(like_count+1);
-				}else{
-					alert("不能重复点赞");
-				}
+		$("#thumbs").bind("click",function(){
+			if(!openid){
+				alert("请在微信中打开");return false;
 			}
+			$.ajax({
+				type: "post",
+				url: hosts + "/post/setPost",
+				data: {
+					id:readdocid,
+					openid:openid
+				},
+				success: function(data) {
+					if(data == "300"){
+						var like_count = Number($("#like_count").html());
+						$("#like_count").html(like_count+1);
+					}else{
+						alert("不能重复点赞");
+					}
+				}
+			});
 		});
 	},
 	render:function(){
@@ -65,7 +68,7 @@ var R_content = React.createClass({displayName: "R_content",
 							)
 						), 
 						React.createElement("div", {id: "post_info"}, 
-							"阅读 ", React.createElement("span", {id: "read_count"}), React.createElement("span", {onClick: this.setLike.bind(this), id: "thumbs", className: "am-icon-thumbs-o-up"}), "   ", React.createElement("span", {id: "like_count"})
+							"阅读 ", React.createElement("span", {id: "read_count"}), React.createElement("span", {id: "thumbs", className: "am-icon-thumbs-o-up"}), "   ", React.createElement("span", {id: "like_count"})
 						)
 					)
 				)

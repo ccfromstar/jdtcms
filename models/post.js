@@ -109,6 +109,7 @@ function getPostById(req,res){
 }
 
 function setPost(req,res){
+		console.log("点赞");
 		var id = req.param("id");
 		var openid = req.param("openid");
 		var sql = "select id from wx_user_record where type_id = 4 and wx_openid = '"+openid+"' and post_id = "+id;

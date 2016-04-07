@@ -33,23 +33,26 @@ var R_content = React.createClass({
 				$modal.modal('close');
 			}
 		});
-	},
-	setLike:function(){
-		$.ajax({
-			type: "post",
-			url: hosts + "/post/setPost",
-			data: {
-				id:readdocid,
-				openid:openid
-			},
-			success: function(data) {
-				if(data == "300"){
-					var like_count = Number($("#like_count").html());
-					$("#like_count").html(like_count+1);
-				}else{
-					alert("不能重复点赞");
-				}
+		$("#thumbs").bind("click",function(){
+			if(!openid){
+				alert("请在微信中打开");return false;
 			}
+			$.ajax({
+				type: "post",
+				url: hosts + "/post/setPost",
+				data: {
+					id:readdocid,
+					openid:openid
+				},
+				success: function(data) {
+					if(data == "300"){
+						var like_count = Number($("#like_count").html());
+						$("#like_count").html(like_count+1);
+					}else{
+						alert("不能重复点赞");
+					}
+				}
+			});
 		});
 	},
 	render:function(){
@@ -65,7 +68,7 @@ var R_content = React.createClass({
 							</div>
 						</div>
 						<div id="post_info">
-							阅读 <span id="read_count"></span><span onClick={this.setLike.bind(this)} id='thumbs' className="am-icon-thumbs-o-up"></span>   <span id="like_count"></span>
+							阅读 <span id="read_count"></span><span id='thumbs' className="am-icon-thumbs-o-up"></span>   <span id="like_count"></span>
 						</div>
 					</article>
 				</div>
