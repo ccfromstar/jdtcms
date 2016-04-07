@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.session({ secret: "keyboard cat" }));
 
 //文件上传路径
-app.use(express.bodyParser({uploadDir:'./public/files'}));
+app.use(express.bodyParser({uploadDir:'./public/upload'}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -69,7 +69,12 @@ var R_sidebar = React.createClass({
 			      	<li><a href="#"><span className="am-icon-search"></span> 员工业绩查询</a></li>
 			       	<li><a href="#"><span className="am-icon-cog"></span> 系统设定</a></li>
 					<li><a href="user.html"><span className="am-icon-user"></span> 管理员帐号管理</a></li>
-					<li><a href="#"><span className="am-icon-wechat"></span> 服务号管理</a></li>
+					<li className="admin-parent">
+						<a href="#"><span className="am-icon-wechat"></span> 服务号管理</a>
+						<ul className="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+            				<li><a href="post.html"><span className="am-icon-bookmark"></span> 软文管理</a></li>
+          				</ul>
+					</li>
 					<li><a href="#"><span className="am-icon-flag"></span> 我的信息</a></li>
 			      </ul>
 			      <div className="fix_bottom"></div>

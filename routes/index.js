@@ -1,11 +1,13 @@
 var settings = require('../settings');
 var mysql = require('../models/db');
 var User = require('../models/user');
+var Post = require('../models/post');
 var WxUser = require('../models/wx_user');
 var async = require('async');
 var debug = require('debug')('myapp:index');
 var ejsExcel = require("./ejsExcel");
 var fs = require("fs");
+var formidable = require('formidable');
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -17,12 +19,26 @@ exports.wx_userdo = function(req, res) {
 	var wx_user = new WxUser(req.params.sql,req,res);
 }
 
+exports.postdo = function(req, res) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	var post = new Post(req.params.sql,req,res);
+}
+
 function getToday() {
 	var myDate = new Date();
 	var y = myDate.getFullYear();
 	var m = (((myDate.getMonth() + 1) + "").length == 1) ? "0" + (myDate.getMonth() + 1) : (myDate.getMonth() + 1);
 	var d = (((myDate.getDate()) + "").length == 1) ? "0" + (myDate.getDate()) : (myDate.getDate());
 	return y + "-" + m + "-" + d;
+}
+
+exports.uploadImg = function(req, res) {
+    var fname = req.files.imgFile.path.replace("public\\upload\\", "").replace("public/upload/", "");
+    var info = {
+        "error": 0,
+        "url": "/upload/"+fname
+    };
+    res.send(info);
 }
 
 Date.prototype.Format = function(fmt) {
