@@ -23,13 +23,11 @@ var R_content = React.createClass({displayName: "R_content",
 				$("#_date").html(s_date + " 建定工程");
 				$("#_post").html(data[0].post);
 				//修复图片，表格太宽的问题
-				$(".post-main").find("img").css("max-width","100%");
-				$(".post-main").find("table").css("width","100%");
+				$(".blog-main").find("img").css("max-width","100%");
+				$(".blog-main").find("table").css("width","100%");
 				$modal.modal('close');
 			}
 		});
-		/*记录用户阅读操作*/
-		
 	},
 	render:function(){
 		return(

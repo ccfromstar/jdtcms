@@ -7,10 +7,12 @@ var R_content = React.createClass({displayName: "R_content",
 	newDoc:function(){
 		window.sessionStorage.setItem("mode","new");
 		window.sessionStorage.removeItem("editid");
-		window.location = 'postform.html';
+		window.sessionStorage.removeItem("startDate");
+		window.location = 'booking.html';
 	},
 	readDoc:function(id){
-		window.open('post_read.html?id='+id);
+		window.sessionStorage.setItem("readdocid",id);
+		window.location = 'booking_read.html';
 	},
 	delDoc:function(id,e){
 		var o = this;
@@ -18,28 +20,19 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.setItem("delid",id);
 		$("#del-confirm").modal();
 	},
-	showAddress:function(id,e){
-		var o = this;
-		e.preventDefault();
-		var redirect_uri = hosts + "/getopenid?id=" + id;
-		var _url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state=index&connect_redirect=1#wechat_redirect";
-		$('.successinfo').html(_url).removeClass("none");
-		setTimeout(function() {
-			$('.successinfo').addClass("none");
-		}, 10000);
-	},
-	editDoc:function(id,e){
+	editDoc:function(id,startDate,e){
 		var o = this;
 		e.preventDefault();
 		window.sessionStorage.setItem("editid",id);
+		window.sessionStorage.setItem("startDate",startDate);
 		window.sessionStorage.setItem("mode","edit");
-		window.location = 'postform.html';
+		window.location = 'booking.html';
 	},
 	delsql:function(){
 		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/post/delPost",
+			url: hosts + "/service/delBooking",
 			data: {
 				id:window.sessionStorage.getItem("delid")
 			},
@@ -59,42 +52,27 @@ var R_content = React.createClass({displayName: "R_content",
 		if(e){
 			e.preventDefault();
 		}
+		/*昵称*/
+		var key = $("#key").val();
+		/*分组*/
+		var groupid = $("#wx_group").val();
+		groupid = (groupid=='-')?null:groupid;
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		var role = window.sessionStorage.getItem("crole");
 		indexPage = indexPage?indexPage:1;
-		$.ajax({
-			type: "post",
-			url: hosts + "/post/getPost",
-			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
-		if(role == "管理员"){
-			$("#btn_add").removeClass("none");
-		}
 		$.ajax({
 			type: "post",
-			url: hosts + "/post/getPost",
+			url: hosts + "/wx_user/getUserByKey",
 			data: {
-				indexPage:indexPage
+				key:key,
+				indexPage:indexPage,
+				cid:id,
+				role:role,
+				groupid:groupid
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -106,21 +84,149 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},
+	exportXls:function(){
+		var id = window.sessionStorage.getItem('cid');
+		var role = window.sessionStorage.getItem("crole");
+		$.ajax({
+			type: "post",
+			url: hosts + "/service/exportBooking",
+			data: {
+				cid:id,
+				role:role
+			},
+			success: function(data) {
+				window.open(hosts + "/excelop/temp/"+data);
+				$('.loadinfo').html("<a href='"+hosts + "/excelop/temp/"+data+"'>如果没有自动弹出下载报表，说明您的浏览器禁止了弹出框，您可以点击这里下载报表(10秒后自动关闭)</a>").removeClass("none");
+				setTimeout(function() {
+					$('.loadinfo').addClass("none");
+				}, 10000);
+			}
+		});
+	},
+	search:function(){
+		var o = this;
+		/*昵称*/
+		var key = $("#key").val();
+		/*分组*/
+		var groupid = $("#wx_group").val();
+		groupid = (groupid=='-')?null:groupid;
+		var indexPage = window.sessionStorage.getItem("indexPage");
+		var id = window.sessionStorage.getItem('cid');
+		indexPage = indexPage?indexPage:1;
+		var role = window.sessionStorage.getItem("crole");
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getUserByKey",
+			data: {
+				key:key,
+				indexPage:indexPage,
+				cid:id,
+				role:role,
+				groupid:groupid
+			},
+			success: function(data) {
+				o.setState({data:data.record});
+				o.setState({total:data.total});
+				o.setState({totalpage:data.totalpage});
+				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
+				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
+				$modal.modal('close');
+			}
+		});
+	},
+	UpdateWxUser:function(){
+		$('.loadinfo').html('<p>更新中...</p>').removeClass("none");
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/updateWxUser",
+			data: {
+
+			},
+			success: function(data) {
+				if(data == "200"){
+					$('.loadinfo').addClass("none");
+					$('.successinfo').html('<p>关注者列表更新成功</p>').removeClass("none");
+					window.location = "index.html";
+				}
+			}
+		});
+	},	
+	UpdateWxGroup:function(){
+		$('.loadinfo').html('<p>更新中...</p>').removeClass("none");
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/updateWxGroup",
+			data: {
+
+			},
+			success: function(data) {
+				if(data == "200"){
+					$('.loadinfo').addClass("none");
+					$('.successinfo').html('<p>分组更新成功</p>').removeClass("none");
+					window.location = "index.html";
+				}
+			}
+		});
+	},	
+	componentDidMount:function(){
+		var o = this;
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		var indexPage = window.sessionStorage.getItem("indexPage");
+		var id = window.sessionStorage.getItem('cid');
+		indexPage = indexPage?indexPage:1;
+		var role = window.sessionStorage.getItem("crole");
+		/*获取用户列表*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getWxUser",
+			data: {
+				indexPage:indexPage,
+				cid:id,
+				role:role
+			},
+			success: function(data) {
+				o.setState({data:data.record});
+				o.setState({total:data.total});
+				o.setState({totalpage:data.totalpage});
+				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
+				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
+				$modal.modal('close');
+			}
+		});
+		/*获取分组*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getWxGroup",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>分组</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
+				}
+				$("#wx_group").html(option);
+			}
+		});
+	},
 	render:function(){
 		var o = this;
 		var list = this.state.data.map(function(c){
-		var _url = hosts + "/post_read.html?id=" + c.id;
+		var _subtime = new Date(c.subscribe_time*1000).Format("yyyy-MM-dd hh:mm:ss");
 		return(
 				React.createElement("tr", null, 
-	              React.createElement("td", null, c.title), 
-	              React.createElement("td", null, c.created_at), 
+				  React.createElement("td", null, c.openid), 
+				  React.createElement("td", null, c.nickname), 
+				  React.createElement("td", null, c.city), 
+				  React.createElement("td", null, c.province), 
+				  React.createElement("td", null, c.country), 
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
-	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-	                  	React.createElement("button", {onClick: o.showAddress.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 显示地址"), 
-	                  	React.createElement("button", {onClick: o.readDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 预览"), 
-	                    React.createElement("button", {onClick: o.editDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-pencil-square-o"}), " 编辑"), 
-	                    React.createElement("button", {onClick: o.delDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-danger"}, React.createElement("span", {className: "am-icon-trash-o"}), " 删除")
+	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
+	                    
 	                  )
 	                )
 	              )
@@ -143,13 +249,22 @@ var R_content = React.createClass({displayName: "R_content",
 			React.createElement("div", {className: "admin-content"}, 
 			
 			    React.createElement("div", {className: "am-cf am-padding"}, 
-			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "软文管理"), " / ", React.createElement("small", null, "列表"))
+			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "关注者行为查询"), " / ", React.createElement("small", null, "列表"))
 				), 
 			    React.createElement("div", {className: "am-g"}, 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-9"}, 
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
 			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-			            React.createElement("button", {id: "btn_add", type: "button", onClick: this.newDoc, className: "am-btn am-btn-default none"}, React.createElement("span", {className: "am-icon-plus"}), " 新增")
+			            React.createElement("button", {type: "button", onClick: this.UpdateWxUser, className: "am-btn am-btn-default "}, React.createElement("span", {className: "am-icon-refresh"}), " 更新关注者"), 
+			          	React.createElement("button", {type: "button", onClick: this.UpdateWxGroup, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新分组")
+			          )
+			        )
+			      ), 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-3"}, 
+			        React.createElement("div", {className: "am-input-group am-input-group-sm"}, 
+			          React.createElement("input", {type: "text", id: "key", className: "am-form-field", placeholder: "用户昵称"}), 
+			          React.createElement("span", {className: "am-input-group-btn"}, 
+			            React.createElement("button", {onClick: this.search, className: "am-btn am-btn-default", type: "button"}, "搜索")
 			          )
 			        )
 			      )
@@ -161,8 +276,16 @@ var R_content = React.createClass({displayName: "R_content",
 				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main"}, 
 				            React.createElement("thead", null, 
 				              React.createElement("tr", null, 
-				                React.createElement("th", null, "标题"), 
-			            		React.createElement("th", null, "创建日期"), 
+				              	React.createElement("th", null, 
+									React.createElement("select", {id: "wx_group", onChange: this.toPage.bind(this,1)}
+							       
+							        )
+				              	), 
+				              	React.createElement("th", null, "openid"), 
+				              	React.createElement("th", null, "昵称"), 
+				              	React.createElement("th", null, "操作时间"), 
+				              	React.createElement("th", null, "行为分类"), 
+				              	React.createElement("th", null, "记录备注"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 				              )
 				          	), 

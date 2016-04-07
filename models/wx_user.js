@@ -79,6 +79,9 @@ function updateWxUser(req,res){
 						count += 1;
 						/*如果在数据库里没有找到*/
 						if(openidlist.indexOf(record) == -1){
+							/*记录用户操作*/
+        					var sql1 = "insert into wx_user_record(wx_openid,operation_time,type_id,remark) values('"+record+"',now(),1,'')";
+        					setLog(sql1);
 							/*如果原来关注过，直接把subscribe设为1*/
 							var _sql = "select id from wx_user where openid = '" +record+ "'";
 							mysql.query(_sql, function(_err, _row) {
@@ -131,6 +134,9 @@ function updateWxUser(req,res){
         		}
         	}
         	async.eachSeries(del_openid, function(record, callback) {
+        		/*记录用户操作*/
+        		var sql1 = "insert into wx_user_record(wx_openid,operation_time,type_id,remark) values('"+record+"',now(),2,'')";
+        		setLog(sql1);
 				var sql = 'update wx_user set subscribe = 0 where openid = "'+record+'"';
 				mysql.query(sql, function(err, info) {
 					if (err) return console.error(err.stack);
@@ -152,6 +158,14 @@ function updateWxUser(req,res){
     }else{
         debug("not first access_token");
     }
+}
+
+/*记录用户行为*/
+function setLog(sql){
+	mysql.query(sql, function(err, info) {
+		if (err) return console.error(err.stack);
+		// do something
+	});	
 }
 
 /*获取微信分组*/

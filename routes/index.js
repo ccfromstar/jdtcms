@@ -3,6 +3,7 @@ var mysql = require('../models/db');
 var User = require('../models/user');
 var Post = require('../models/post');
 var WxUser = require('../models/wx_user');
+var WxRecord = require('../models/wx_record');
 var async = require('async');
 var debug = require('debug')('myapp:index');
 var ejsExcel = require("./ejsExcel");
@@ -22,6 +23,16 @@ exports.wx_userdo = function(req, res) {
 exports.postdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	var post = new Post(req.params.sql,req,res);
+}
+
+exports.wx_recorddo = function(req, res) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	var wx_record = new WxRecord(req.params.sql,req,res);
+}
+
+exports.getopenid = function(req, res) {
+	var code = req.query.code;
+	console.log(code);
 }
 
 function getToday() {

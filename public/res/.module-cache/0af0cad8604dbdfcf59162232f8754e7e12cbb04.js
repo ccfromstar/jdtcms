@@ -18,16 +18,6 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.setItem("delid",id);
 		$("#del-confirm").modal();
 	},
-	showAddress:function(id,e){
-		var o = this;
-		e.preventDefault();
-		var redirect_uri = hosts + "/getopenid?id=" + id;
-		var _url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state=index&connect_redirect=1#wechat_redirect";
-		$('.successinfo').html(_url).removeClass("none");
-		setTimeout(function() {
-			$('.successinfo').addClass("none");
-		}, 10000);
-	},
 	editDoc:function(id,e){
 		var o = this;
 		e.preventDefault();

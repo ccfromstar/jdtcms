@@ -28,8 +28,6 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
-		/*记录用户阅读操作*/
-		
 	},
 	render:function(){
 		return(

@@ -18,16 +18,6 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.setItem("delid",id);
 		$("#del-confirm").modal();
 	},
-	showAddress:function(id,e){
-		var o = this;
-		e.preventDefault();
-		var redirect_uri = hosts + "/getopenid?id=" + id;
-		var _url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_base&state=index&connect_redirect=1#wechat_redirect";
-		$('.successinfo').html(_url).removeClass("none");
-		setTimeout(function() {
-			$('.successinfo').addClass("none");
-		}, 10000);
-	},
 	editDoc:function(id,e){
 		var o = this;
 		e.preventDefault();
@@ -117,7 +107,6 @@ var R_content = React.createClass({displayName: "R_content",
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
 	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-	                  	React.createElement("button", {onClick: o.showAddress.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 显示地址"), 
 	                  	React.createElement("button", {onClick: o.readDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 预览"), 
 	                    React.createElement("button", {onClick: o.editDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-pencil-square-o"}), " 编辑"), 
 	                    React.createElement("button", {onClick: o.delDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-danger"}, React.createElement("span", {className: "am-icon-trash-o"}), " 删除")
