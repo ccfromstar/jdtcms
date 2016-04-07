@@ -299,7 +299,7 @@ var R_content = React.createClass({
 				              	<th>省市</th>
 				              	<th>国家</th>
 				              	<th>备注</th>
-				              	<th>关注时间</th>
+				              	<th>首次关注时间</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

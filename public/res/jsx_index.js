@@ -299,7 +299,7 @@ var R_content = React.createClass({displayName: "R_content",
 				              	React.createElement("th", null, "省市"), 
 				              	React.createElement("th", null, "国家"), 
 				              	React.createElement("th", null, "备注"), 
-				              	React.createElement("th", null, "关注时间"), 
+				              	React.createElement("th", null, "首次关注时间"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 				              )
 				          	), 

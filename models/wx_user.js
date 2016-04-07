@@ -79,22 +79,37 @@ function updateWxUser(req,res){
 						count += 1;
 						/*如果在数据库里没有找到*/
 						if(openidlist.indexOf(record) == -1){
-							console.log('正在获取第' + count + '个用户的信息，共有' + list.length + '个用户...');
-							var url_basic = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+record+"&lang=zh_CN";
-							request(url_basic,function(err,response,body){
-					            if(response.statusCode == 200){
-					                var record = JSON.parse(body);
-					                /*写入数据库*/
-					                console.log('正在写入第' + count + '条数据，共有' + list.length + '条...');
-					                var sql = 'insert into wx_user(openid,subscribe,nickname,sex,language,city,province,country,headimgurl,subscribe_time,unionid,remark,groupid) values("' +record.openid+',",'+record.subscribe+',"'+record.nickname+'",'+record.sex+',"'+record.language+'","'+record.city+'","'+record.province+'","'+record.country+'","'+record.headimgurl+'",'+record.subscribe_time+',"'+record.unionid+'","'+record.remark+'",'+record.groupid+');';
-									mysql.query(sql, function(err, info) {
-										if (err) return console.error(err.stack);
-										if (info.affectedRows == 1) {
-											callback(err);
-										}
+							/*如果原来关注过，直接把subscribe设为1*/
+							var _sql = "select id from wx_user where openid = '" +record+ "'";
+							mysql.query(_sql, function(_err, _row) {
+								if (_err) return console.error(_err.stack);
+								if(_row[0]){
+									var sql = 'update wx_user set subscribe = 1 where id = '+_row[0].id;
+										mysql.query(sql, function(err, info) {
+											if (err) return console.error(err.stack);
+											if (info.affectedRows == 1) {
+												callback(err);
+											}
 									});
-					            }
-					        });
+								}else{
+									console.log('正在获取第' + count + '个用户的信息，共有' + list.length + '个用户...');
+									var url_basic = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+record+"&lang=zh_CN";
+									request(url_basic,function(err,response,body){
+							            if(response.statusCode == 200){
+							                var record = JSON.parse(body);
+							                /*写入数据库*/
+							                console.log('正在写入第' + count + '条数据，共有' + list.length + '条...');
+							                var sql = 'insert into wx_user(openid,subscribe,nickname,sex,language,city,province,country,headimgurl,subscribe_time,unionid,remark,groupid) values("' +record.openid+',",'+record.subscribe+',"'+record.nickname+'",'+record.sex+',"'+record.language+'","'+record.city+'","'+record.province+'","'+record.country+'","'+record.headimgurl+'",'+record.subscribe_time+',"'+record.unionid+'","'+record.remark+'",'+record.groupid+');';
+											mysql.query(sql, function(err, info) {
+												if (err) return console.error(err.stack);
+												if (info.affectedRows == 1) {
+													callback(err);
+												}
+											});
+							            }
+							        });
+								}
+							});
 						}else{
 							/*找到了，在列表openidlist删除*/
 							openidlist = openidlist.replace(record,null);
