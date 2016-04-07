@@ -416,3 +416,11 @@ gallery.html css
 	font-size:1.4rem !important;
 	font-weight: normal;
 }
+
+#post_info{
+	margin-bottom: 2rem;
+}
+
+#thumbs{
+	margin-left: 1.5rem;
+}

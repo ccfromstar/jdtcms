@@ -19,6 +19,13 @@
 		<!--<script type="text/javascript" src="js/basic.js"></script>-->
 		<script type="text/javascript" src="res/jsx_main.js"></script>
 		<script type="text/javascript" src="res/jsx_post_read.js"></script>
+		<script>
+			function GetQueryString(name) {
+			   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)","i");
+			   var r = window.location.search.substr(1).match(reg);
+			   if (r!=null) return (r[2]); return null;
+			}
+		</script>
 		<script type="text/jsx">
 			React.render(
 				<div>

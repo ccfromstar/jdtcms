@@ -1,3 +1,6 @@
+var openid = "";
+var readdocid = "";
+
 var R_content = React.createClass({displayName: "R_content",
 	cancleDoc:function(){
 		history.go(-1);
@@ -6,9 +9,9 @@ var R_content = React.createClass({displayName: "R_content",
 		var o = this;
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
-		var url = window.location.href;
-		var arr = url.split("?id=");
-		var readdocid = arr[1];
+
+		readdocid = GetQueryString("id");
+		openid = GetQueryString("openid");
 		$.ajax({
 			type: "post",
 			url: hosts + "/post/getPostById",
@@ -22,14 +25,32 @@ var R_content = React.createClass({displayName: "R_content",
 				s_date = s_date.substring(0,10);
 				$("#_date").html(s_date + " 建定工程");
 				$("#_post").html(data[0].post);
+				$("#read_count").html(data[0].read_count);
+				$("#like_count").html(data[0].like_count);
 				//修复图片，表格太宽的问题
 				$(".post-main").find("img").css("max-width","100%");
 				$(".post-main").find("table").css("width","100%");
 				$modal.modal('close');
 			}
 		});
-		/*记录用户阅读操作*/
-		
+	},
+	setLike:function(){
+		$.ajax({
+			type: "post",
+			url: hosts + "/post/setPost",
+			data: {
+				id:readdocid,
+				openid:openid
+			},
+			success: function(data) {
+				if(data == "300"){
+					var like_count = Number($("#like_count").html());
+					$("#like_count").html(like_count+1);
+				}else{
+					alert("不能重复点赞");
+				}
+			}
+		});
 	},
 	render:function(){
 		return(
@@ -42,6 +63,9 @@ var R_content = React.createClass({displayName: "R_content",
 							React.createElement("div", {id: "_post", className: "am-u-sm-12"}
 								
 							)
+						), 
+						React.createElement("div", {id: "post_info"}, 
+							"阅读 ", React.createElement("span", {id: "read_count"}), React.createElement("span", {onClick: this.setLike.bind(this), id: "thumbs", className: "am-icon-thumbs-o-up"}), "   ", React.createElement("span", {id: "like_count"})
 						)
 					)
 				)

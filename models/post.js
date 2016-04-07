@@ -19,6 +19,9 @@ Post = function(action,req,res){
 	  	case "getPostById":
 	  		getPostById(req,res);
 	  		break;
+	  	case "setPost":
+	  		setPost(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -103,6 +106,34 @@ function getPostById(req,res){
 			if (err) return console.error(err.stack);
 			res.json(result);
 		});	
+}
+
+function setPost(req,res){
+		var id = req.param("id");
+		var openid = req.param("openid");
+		var sql = "select id from wx_user_record where type_id = 4 and wx_openid = '"+openid+"' and post_id = "+id;
+		mysql.query(sql, function(err, rows) {
+			if (err) return console.error(err.stack);
+			if(rows[0]){
+				res.send("400");
+			}else{
+				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),4,'',"+id+")");
+				/*文章点赞数+1*/
+				var sql2 = "update post set like_count = like_count + 1 where id = "+id;
+					mysql.query(sql2, function(err, rows) {
+						if (err) return console.error(err.stack);
+						res.send("300");
+				});
+			}
+		});	
+}
+
+/*记录用户行为*/
+function setLog(sql){
+	mysql.query(sql, function(err, info) {
+		if (err) return console.error(err.stack);
+		// do something
+	});	
 }
 
 function delPost(req,res){

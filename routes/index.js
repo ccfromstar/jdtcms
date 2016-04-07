@@ -45,7 +45,7 @@ exports.getopenid = function(req, res) {
                 return false;
             }
             var openid = JSON.parse(body).openid;
-            var sql = "select id from wx_user_record where wx_openid = '"+openid+"' and post_id = "+id;
+            var sql = "select id from wx_user_record where type_id = 3 and wx_openid = '"+openid+"' and post_id = "+id;
             mysql.query(sql, function(err, rows) {
 				if (err) return console.error(err.stack);
 				if(!rows[0]){
@@ -57,7 +57,7 @@ exports.getopenid = function(req, res) {
 						if (err) return console.error(err.stack);
 					});
 				}
-				res.redirect(settings.hosts+"/post_read.html?id="+id);
+				res.redirect(settings.hosts+"/post_read.html?id="+id+"&openid="+openid);
 			});	
         }
     });
