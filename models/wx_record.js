@@ -23,8 +23,8 @@ function getRecord(req,res){
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT
-	var sql1 = "select * from view_record_user_type order by operation_time desc limit " + (page - 1) * limit + "," + limit;
-	var sql2 = "select count(*) as count from view_record_user_type";
+	var sql1 = "select * from view_record_user_type_post order by operation_time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_record_user_type_post";
 	debug(sql1);
 	async.waterfall([function(callback) {
 		mysql.query(sql1, function(err, result) {
