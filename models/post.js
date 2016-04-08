@@ -22,6 +22,12 @@ Post = function(action,req,res){
 	  	case "setPost":
 	  		setPost(req,res);
 	  		break;
+	  	case "shareToFriend":
+	  		shareToFriend(req,res);
+	  		break;
+	  	case "shareToCricle":
+	  		shareToCricle(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -112,7 +118,6 @@ function getPostById(req,res){
 }
 
 function setPost(req,res){
-		console.log("点赞");
 		var id = req.param("id");
 		var openid = req.param("openid");
 		var sql = "select id from wx_user_record where type_id = 4 and wx_openid = '"+openid+"' and post_id = "+id;
@@ -128,6 +133,36 @@ function setPost(req,res){
 						if (err) return console.error(err.stack);
 						res.send("300");
 				});
+			}
+		});	
+}
+
+function shareToFriend(req,res){
+		var id = req.param("id");
+		var openid = req.param("openid");
+		var sql = "select id from wx_user_record where type_id = 5 and wx_openid = '"+openid+"' and post_id = "+id;
+		mysql.query(sql, function(err, rows) {
+			if (err) return console.error(err.stack);
+			if(rows[0]){
+				res.send("400");
+			}else{
+				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
+				res.send("300");
+			}
+		});	
+}
+
+function shareToCricle(req,res){
+		var id = req.param("id");
+		var openid = req.param("openid");
+		var sql = "select id from wx_user_record where type_id = 6 and wx_openid = '"+openid+"' and post_id = "+id;
+		mysql.query(sql, function(err, rows) {
+			if (err) return console.error(err.stack);
+			if(rows[0]){
+				res.send("400");
+			}else{
+				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
+				res.send("300");
 			}
 		});	
 }

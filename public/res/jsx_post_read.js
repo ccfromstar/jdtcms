@@ -54,6 +54,98 @@ var R_content = React.createClass({displayName: "R_content",
 				}
 			});
 		});
+			/*微信jssdk配置部分*/
+			wx.config({
+				debug: false,
+				appId: GetQueryString("appId"),
+				timestamp: GetQueryString("timestamp"),
+				nonceStr: GetQueryString("nonceStr"),
+				signature: GetQueryString("signature"),
+				jsApiList: [
+					'checkJsApi',
+					'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'onMenuShareQQ',
+					'onMenuShareWeibo',
+					'onMenuShareQZone',
+					'hideMenuItems',
+					'showMenuItems',
+					'hideAllNonBaseMenuItem',
+					'showAllNonBaseMenuItem',
+					'translateVoice',
+					'startRecord',
+					'stopRecord',
+					'onVoiceRecordEnd',
+					'playVoice',
+					'onVoicePlayEnd',
+					'pauseVoice',
+					'stopVoice',
+					'uploadVoice',
+					'downloadVoice',
+					'chooseImage',
+					'previewImage',
+					'uploadImage',
+					'downloadImage',
+					'getNetworkType',
+					'openLocation',
+					'getLocation',
+					'hideOptionMenu',
+					'showOptionMenu',
+					'closeWindow',
+					'scanQRCode',
+					'chooseWXPay',
+					'openProductSpecificView',
+					'addCard',
+					'chooseCard',
+					'openCard'
+				]
+			});
+			wx.error(function(res) {
+				alert(res.errMsg);
+			});
+			wx.ready(function() {
+				wx.onMenuShareAppMessage({
+					title: '关于邮轮产品的投票',
+					desc: '一年一度的邮轮旅游季又来了，陈叔叔需要您的宝贵意见！',
+					link: 'http://www.4000191177.com/weixin_js',
+					imgUrl: 'http://www.4000191177.com/img/f20140823172412133878.jpg',
+					trigger: function(res) {
+						// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+						alert('用户点击发送给朋友');
+					},
+					success: function(res) {
+						alert('已分享');
+					},
+					cancel: function(res) {
+						alert('已取消');
+					},
+					fail: function(res) {
+						alert(JSON.stringify(res));
+					}
+				});
+				wx.onMenuShareTimeline({
+					title: '关于邮轮产品的投票',
+					desc: '一年一度的邮轮旅游季又来了，陈叔叔需要您的宝贵意见！',
+					link: 'http://www.4000191177.com/weixin_js',
+					imgUrl: 'http://www.4000191177.com/img/f20140823172412133878.jpg',
+					trigger: function(res) {
+						// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+						alert('用户点击发送给朋友');
+					},
+					success: function(res) {
+						alert('已分享');
+						//alert("恭喜您分享成功！陈叔叔根据您的投票为您推荐了一个合适的产品！");
+						//window.location = 'http://wap.huiyoulun.com/detail/1539';
+						share = 1;
+					},
+					cancel: function(res) {
+						alert('已取消');
+					},
+					fail: function(res) {
+						alert(JSON.stringify(res));
+					}
+				});
+			});
 	},
 	render:function(){
 		return(

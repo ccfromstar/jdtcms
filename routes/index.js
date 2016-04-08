@@ -10,6 +10,7 @@ var ejsExcel = require("./ejsExcel");
 var fs = require("fs");
 var formidable = require('formidable');
 var request = require("request");
+var crypto = require("crypto");
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -44,6 +45,7 @@ exports.getopenid = function(req, res) {
                 res.redirect(req.url);
                 return false;
             }
+            console.log(body);
             var openid = JSON.parse(body).openid;
             var sql = "select id from wx_user_record where type_id = 3 and wx_openid = '"+openid+"' and post_id = "+id;
             mysql.query(sql, function(err, rows) {
@@ -57,11 +59,108 @@ exports.getopenid = function(req, res) {
 						if (err) return console.error(err.stack);
 					});
 				}
-				res.redirect(settings.hosts+"/post_read.html?id="+id+"&openid="+openid);
+				res.redirect(settings.hosts+"/weixin_js?id="+id+"&openid="+openid);
 			});	
         }
     });
 }
+
+var strat_time = new Date();
+
+exports.weixin_js = function (req, res) {
+	var id = req.query.id;
+	var openid = req.query.openid;
+    var timestamp = parseInt(new Date().getTime() / 1000) + '';
+    var nonceStr = Math.random().toString(36).substr(2, 15);
+    var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    var wx_url = settings.hosts+req.url;
+    console.log("wx_url:"+wx_url);
+    //判断access_token和jsapi_ticket是否已经获得，并且时效在2小时(7200s)以内
+    var end_time = new Date();
+    var timediff=end_time.getTime()-strat_time.getTime()  //时间差的毫秒数
+    //console.log(end_time + "-->" + strat_time);
+    timediff = timediff/1000;
+    //if(access_token == "" || jsapi_ticket == "" || Number(timediff) > 7200){
+    if(1 == 1){
+        console.log("first access_token");
+        //1.获取access_token
+        var url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
+        request(url,function(err,response,body){
+            if(!err && response.statusCode == 200){
+                console.log("body:"+body);
+                var o = JSON.parse(body);
+                access_token = o.access_token;
+                console.log("access_token:"+access_token);
+                //2.获取jsapi_ticket
+                var url_jsapi = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='+access_token+'&type=jsapi';
+                request(url_jsapi,function(err_jsapi,response_jsapi,body_jsapi){
+                    if(!err_jsapi && response_jsapi.statusCode == 200){
+                        console.log("body_jsapi:"+body_jsapi);
+                        jsapi_ticket = (JSON.parse(body_jsapi)).ticket;
+                        console.log("jsapi_ticket:"+jsapi_ticket);
+                        strat_time = new Date();
+                        var signature = sign(jsapi_ticket,nonceStr,timestamp,wx_url);
+                        //var url_info = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='+access_token+'&openid=oEDF2xBoerpEFGh3brZPkWfVRZZg&lang=zh_CN';
+                        var url_info = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+access_token+'&next_openid=';
+                        request(url_info,function(err_info,response_info,body_info){
+                            if(!err_info && response_info.statusCode == 200){
+                            	
+                               res.render('weixin_js',{signature:signature,jsapi_ticket:jsapi_ticket,body_info:body_info,appId:appId,id:id,openid:openid});
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }else{
+        console.log("not first access_token");
+        var signature = sign(jsapi_ticket,nonceStr,timestamp,wx_url);
+        //var url_info = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='+access_token+'&openid=oEDF2xBoerpEFGh3brZPkWfVRZZg&lang=zh_CN';
+        var url_info = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token='+access_token+'&next_openid=';
+        request(url_info,function(err_info,response_info,body_info){
+            if(!err_info && response_info.statusCode == 200){
+                res.render('weixin_js',{signature:signature,jsapi_ticket:jsapi_ticket,body_info:body_info});
+            }
+        });
+    }
+}
+
+function sign(jsapi_ticket, nonceStr,timestamp,url) {
+  var ret = {
+    jsapi_ticket: jsapi_ticket,
+    nonceStr: nonceStr,
+    timestamp: timestamp,
+    url: url
+  };
+  var string = raw(ret);
+      jsSHA = require('jssha');
+      shaObj = new jsSHA(string, 'TEXT');
+  ret.signature = shaObj.getHash('SHA-1', 'HEX');
+
+  console.log("jsapi_ticket=>"+jsapi_ticket);
+  console.log("nonceStr=>"+nonceStr);
+  console.log("timestamp=>"+timestamp);
+  console.log("url=>"+url);
+  console.log("ret=>"+ret.signature);
+  return ret;
+};
+
+function raw(args) {
+  var keys = Object.keys(args);
+  keys = keys.sort()
+  var newArgs = {};
+  keys.forEach(function (key) {
+    newArgs[key.toLowerCase()] = args[key];
+  });
+
+  var string = '';
+  for (var k in newArgs) {
+    string += '&' + k + '=' + newArgs[k];
+  }
+  string = string.substr(1);
+  return string;
+};
 
 /*记录用户行为*/
 function setLog(sql){

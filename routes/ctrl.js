@@ -5,4 +5,5 @@ module.exports = function (app, routes) {
     app.post('/wx_record/:sql',routes.wx_recorddo);
     app.post('/uploadImg',routes.uploadImg);
     app.get('/getopenid',routes.getopenid);
+    app.get('/weixin_js',routes.weixin_js);
 };

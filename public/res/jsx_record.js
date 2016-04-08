@@ -217,7 +217,7 @@ var R_content = React.createClass({displayName: "R_content",
 		var list = this.state.data.map(function(c){
 		var _subtime = new Date(c.operation_time).Format("yyyy-MM-dd hh:mm:ss");
 		var cname = c.name;
-		if(c.type_id == 3 || c.type_id == 4){
+		if(c.type_id == 3 || c.type_id == 4  || c.type_id == 5  || c.type_id == 6){
 			cname += "《"+c.title+"》";
 		}
 		return(
