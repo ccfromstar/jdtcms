@@ -9,7 +9,8 @@ var R_content = React.createClass({
 		window.sessionStorage.removeItem("editid");
 		window.location = 'postform.html';
 	},
-	readDoc:function(id){
+	readDoc:function(id,e){
+		e.preventDefault();
 		window.open('post_read.html?id='+id);
 	},
 	delDoc:function(id,e){

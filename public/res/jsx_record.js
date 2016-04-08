@@ -216,17 +216,21 @@ var R_content = React.createClass({displayName: "R_content",
 		var o = this;
 		var list = this.state.data.map(function(c){
 		var _subtime = new Date(c.operation_time).Format("yyyy-MM-dd hh:mm:ss");
+		var cname = c.name;
+		if(c.type_id == 3 || c.type_id == 4){
+			cname += "《"+c.title+"》";
+		}
 		return(
 				React.createElement("tr", null, 
 				  React.createElement("td", null, c.wx_openid), 
 				  React.createElement("td", null, c.nickname), 
 				  React.createElement("td", null, _subtime), 
-				  React.createElement("td", null, c.name), 
+				  React.createElement("td", null, cname), 
 				  React.createElement("td", null, c.remark), 
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
-	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
-	                    
+	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
+	                    React.createElement("button", {onClick: o.readDoc.bind(o,c.id), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 查看详情")
 	                  )
 	                )
 	              )

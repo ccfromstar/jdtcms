@@ -216,17 +216,21 @@ var R_content = React.createClass({
 		var o = this;
 		var list = this.state.data.map(function(c){
 		var _subtime = new Date(c.operation_time).Format("yyyy-MM-dd hh:mm:ss");
+		var cname = c.name;
+		if(c.type_id == 3 || c.type_id == 4){
+			cname += "《"+c.title+"》";
+		}
 		return(
 				<tr>
 				  <td>{c.wx_openid}</td>
 				  <td>{c.nickname}</td>
 				  <td>{_subtime}</td>
-				  <td>{c.name}</td>
+				  <td>{cname}</td>
 				  <td>{c.remark}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
-	                    
+	                    <button onClick={o.readDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-search"></span> 查看详情</button>
 	                  </div>
 	                </div>
 	              </td>

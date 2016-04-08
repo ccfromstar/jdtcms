@@ -75,6 +75,9 @@ function createPost(req,res){
 		var title = req.param("title");
 		var post = req.param("post");
 		var editid = req.param("editid");
+		/*对单引号进行转义*/
+		title = title.replace(/'/g, "\\'");
+		post = post.replace(/'/g, "\\'");
 		/*编辑模式*/
 		if(mode == "edit"){
 			var sql = "update post set ";
