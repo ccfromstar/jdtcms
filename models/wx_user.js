@@ -24,6 +24,18 @@ WxUser = function(action,req,res){
 	  	case "getWxGroup":
 	  		getWxGroup(req,res);
 	  		break;
+	  	case "getUserById":
+	  		getUserById(req,res);
+	  		break;
+	  	case "getUser":
+	  		getUser(req,res);
+	  		break;
+	  	case "setUser":
+	  		setUser(req,res);
+	  		break;
+	  	case "getScore":
+	  		getScore(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -79,9 +91,6 @@ function updateWxUser(req,res){
 						count += 1;
 						/*如果在数据库里没有找到*/
 						if(openidlist.indexOf(record) == -1){
-							/*记录用户操作*/
-        					var sql1 = "insert into wx_user_record(wx_openid,operation_time,type_id,remark) values('"+record+"',now(),1,'')";
-        					setLog(sql1);
 							/*如果原来关注过，直接把subscribe设为1*/
 							var _sql = "select id from wx_user where openid = '" +record+ "'";
 							mysql.query(_sql, function(_err, _row) {
@@ -106,6 +115,22 @@ function updateWxUser(req,res){
 											mysql.query(sql, function(err, info) {
 												if (err) return console.error(err.stack);
 												if (info.affectedRows == 1) {
+													/*用户记录插入完执行*/
+													/*记录用户关注操作*/
+						        					var sql1 = "insert into wx_user_record(wx_openid,operation_time,type_id,remark) values('"+record.openid+"',now(),1,'')";
+						        					setLog(sql1);
+						        					/*获取系统设定*/
+						        					var sql_settings = "select * from settings";
+						        					mysql.query(sql_settings, function(err, settings) {
+														if (err) return console.error(err.stack);
+														/*记录微信用户积分行为*/
+						        						var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id) values('"+record.openid+"',now(),"+settings[0].score_focus+",1)";
+						        						setLog(sql_score);
+						        						/*给用户增加积分*/
+						        						var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_focus+",score_total = score_total + "+settings[0].score_focus+" where openid = '" +record.openid+"'";
+						        						setLog(sql_wx_user);
+													});
+
 													callback(err);
 												}
 											});
@@ -160,7 +185,7 @@ function updateWxUser(req,res){
     }
 }
 
-/*记录用户行为*/
+/*记录微信用户行为,微信用户积分增加减少记录，微信用户信息表积分变化*/
 function setLog(sql){
 	mysql.query(sql, function(err, info) {
 		if (err) return console.error(err.stack);
@@ -272,6 +297,37 @@ function updateWxGroup(req,res){
     }
 }
 
+function getUserById(req,res){
+		var id = req.param("id");
+		var sql = "select * from view_user_group where id = " + id;
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
+}
+
+function setUser(req,res){
+		var userid = req.param("userid");
+		var id = req.param("id");
+		var sql = "update wx_user set user_id = "+userid+" where id = " + id;
+		var sql1 = "select name from view_user_group where id = " + id;
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			mysql.query(sql1, function(err, rows) {
+				if (err) return console.error(err.stack);
+				res.json(rows[0]);
+			});
+		});
+}
+
+function getUser(req,res){
+		var sql = "select id,name from user";
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
+}
+
 /*获取wx_user*/
 function getWxUser(req,res){
 	var page = parseInt(req.param("indexPage"));
@@ -300,6 +356,45 @@ function getWxUser(req,res){
             var isFirstPage = page == 1 ;
             var isLastPage = ((page -1) * limit + result.length) == total;
                 
+		   	var ret = {
+		    	total:total,
+		    	totalpage:totalpage,
+		    	isFirstPage:isFirstPage,
+		    	isLastPage:isLastPage,
+				record:result
+			};
+			res.json(ret);
+		}
+	});
+}
+
+function getScore(req,res){
+	var page = parseInt(req.param("indexPage"));
+	var openid = req.param("cid");
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT
+	var sql1 = "select * from view_score_user_type_post where wx_openid = '"+openid+"' order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_score_user_type_post where wx_openid = '"+openid+"'";
+	debug(sql1);
+	async.waterfall([function(callback) {
+		mysql.query(sql1, function(err, result) {
+		    if (err) return console.error(err.stack);
+		    callback(null, result);
+		});
+	}, function(result, callback) {
+		mysql.query(sql2, function(err, rows) {
+		    if (err) return console.error(err.stack);
+		    callback(err, rows,result);
+		});
+	}], function(err,rows,result) {
+		if(err){
+		    console.log(err);
+		}else{	
+		    var total = rows[0].count;
+		    var totalpage = Math.ceil(total/limit);
+            var isFirstPage = page == 1 ;
+            var isLastPage = ((page -1) * limit + result.length) == total;
 		   	var ret = {
 		    	total:total,
 		    	totalpage:totalpage,

@@ -31,7 +31,7 @@ var R_content = React.createClass({
 		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/delUser",
+			url: hosts + "/user/delUser",
 			data: {
 				id:window.sessionStorage.getItem("delid")
 			},
@@ -58,7 +58,7 @@ var R_content = React.createClass({
 		indexPage = indexPage?indexPage:1;
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/getUser",
+			url: hosts + "/user/getUser",
 			data: {
 				indexPage:indexPage
 			},
@@ -105,7 +105,12 @@ var R_content = React.createClass({
 				<tr>
 	              <td>{c.username}</td>
 	              <td>{c.name}</td>
-	              <td>{c.role}</td>
+	              <td>{c.password}</td>
+	              <td>{c.role_basic}</td>
+	              <td>{c.role_manage}</td>
+	              <td>{c.role_send}</td>
+	              <td>{c.role_custom}</td>
+	              <td>{c.role_option}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
@@ -153,7 +158,12 @@ var R_content = React.createClass({
 				              <tr>
 				                <th>手机号</th>
 				                <th>姓名</th>
-			            		<th>权限</th>
+			            		<th>密码</th>
+			            		<th>基础权限</th>
+			            		<th>管理权限</th>
+			            		<th>派发权限</th>
+			            		<th>自定义派发权限</th>
+			            		<th>系统权限</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

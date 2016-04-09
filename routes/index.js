@@ -1,6 +1,7 @@
 var settings = require('../settings');
 var mysql = require('../models/db');
 var User = require('../models/user');
+var Settings = require('../models/settings');
 var Post = require('../models/post');
 var WxUser = require('../models/wx_user');
 var WxRecord = require('../models/wx_record');
@@ -32,6 +33,11 @@ exports.wx_recorddo = function(req, res) {
 	var wx_record = new WxRecord(req.params.sql,req,res);
 }
 
+exports.settingsdo = function(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  var settings = new Settings(req.params.sql,req,res);
+}
+
 exports.getopenid = function(req, res) {
 	var code = req.query.code;
 	var id = req.query.id;
@@ -53,6 +59,17 @@ exports.getopenid = function(req, res) {
 				if(!rows[0]){
 					/*记录用户阅读行为*/
 					setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),3,'',"+id+")");
+          /*获取系统设定*/
+          var sql_settings = "select * from settings";
+          mysql.query(sql_settings, function(err, settings) {
+              if (err) return console.error(err.stack);
+              /*记录微信用户积分行为*/
+              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_read+",3,"+id+")";
+              setLog(sql_score);
+              /*给用户增加积分*/
+              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_read+",score_total = score_total + "+settings[0].score_read+" where openid = '" +openid+"'";
+              setLog(sql_wx_user);
+          });
 					/*文章的阅读数+1*/
 					var sql2 = "update post set read_count = read_count + 1 where id = "+id;
 					mysql.query(sql2, function(err, rows) {

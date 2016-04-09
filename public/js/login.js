@@ -52,7 +52,11 @@ $(function() {
 				/*记住用户标识*/
 				window.sessionStorage.setItem("cid",data.id);
 				window.sessionStorage.setItem("cname",data.name);
-				window.sessionStorage.setItem('crole',data.role);
+				window.sessionStorage.setItem('c_role_basic',data.role_basic);
+				window.sessionStorage.setItem('c_role_manage',data.role_manage);
+				window.sessionStorage.setItem('c_role_send',data.role_send);
+				window.sessionStorage.setItem('c_role_custom',data.role_custom);
+				window.sessionStorage.setItem('c_role_option',data.role_option);
 				window.location = 'index.html';
 			}
 		});

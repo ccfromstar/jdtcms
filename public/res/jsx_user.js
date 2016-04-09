@@ -31,7 +31,7 @@ var R_content = React.createClass({displayName: "R_content",
 		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/delUser",
+			url: hosts + "/user/delUser",
 			data: {
 				id:window.sessionStorage.getItem("delid")
 			},
@@ -58,7 +58,7 @@ var R_content = React.createClass({displayName: "R_content",
 		indexPage = indexPage?indexPage:1;
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/getUser",
+			url: hosts + "/user/getUser",
 			data: {
 				indexPage:indexPage
 			},
@@ -105,7 +105,12 @@ var R_content = React.createClass({displayName: "R_content",
 				React.createElement("tr", null, 
 	              React.createElement("td", null, c.username), 
 	              React.createElement("td", null, c.name), 
-	              React.createElement("td", null, c.role), 
+	              React.createElement("td", null, c.password), 
+	              React.createElement("td", null, c.role_basic), 
+	              React.createElement("td", null, c.role_manage), 
+	              React.createElement("td", null, c.role_send), 
+	              React.createElement("td", null, c.role_custom), 
+	              React.createElement("td", null, c.role_option), 
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
 	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
@@ -153,7 +158,12 @@ var R_content = React.createClass({displayName: "R_content",
 				              React.createElement("tr", null, 
 				                React.createElement("th", null, "手机号"), 
 				                React.createElement("th", null, "姓名"), 
-			            		React.createElement("th", null, "权限"), 
+			            		React.createElement("th", null, "密码"), 
+			            		React.createElement("th", null, "基础权限"), 
+			            		React.createElement("th", null, "管理权限"), 
+			            		React.createElement("th", null, "派发权限"), 
+			            		React.createElement("th", null, "自定义派发权限"), 
+			            		React.createElement("th", null, "系统权限"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 				              )
 				          	), 

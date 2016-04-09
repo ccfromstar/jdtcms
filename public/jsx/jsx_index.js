@@ -10,9 +10,11 @@ var R_content = React.createClass({
 		window.sessionStorage.removeItem("startDate");
 		window.location = 'booking.html';
 	},
-	readDoc:function(id){
+	readDoc:function(id,openid,e){
+		e.preventDefault();
 		window.sessionStorage.setItem("readdocid",id);
-		window.location = 'booking_read.html';
+		window.sessionStorage.setItem("openid",openid);
+		window.location = 'wx_user_read.html';
 	},
 	delDoc:function(id,e){
 		var o = this;
@@ -235,10 +237,13 @@ var R_content = React.createClass({
 				  <td>{c.country}</td>
 				  <td className="wx_user_remark">{c.remark}</td>
 				  <td>{_subtime}</td>
+				  <td>{c.name}</td>
+				  <td>{c.score_unused}</td>
+				  <td>{c.score_total}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
-	                    
+	                    <button onClick={o.readDoc.bind(o,c.id,c.openid)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-search"></span> 查看详情</button>
 	                  </div>
 	                </div>
 	              </td>
@@ -300,6 +305,9 @@ var R_content = React.createClass({
 				              	<th>国家</th>
 				              	<th>备注</th>
 				              	<th>首次关注时间</th>
+				              	<th>所属客服</th>
+				              	<th>未兑换的积分</th>
+				              	<th>总积分</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

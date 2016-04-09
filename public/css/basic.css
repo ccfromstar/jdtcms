@@ -16,7 +16,7 @@ ul {
 }
 
 .admin-main {
-	background: #f3f3f3;
+	/*background: #f3f3f3;*/
 }
 
 .admin-menu {
@@ -375,6 +375,9 @@ gallery.html css
 	height: 30px;
 	width: 30px;
 }
+.wx_user_header_img_large{
+	width: 90px;
+}
 .am-table>tbody>tr>td, .am-table>tbody>tr>th, .am-table>tfoot>tr>td, .am-table>tfoot>tr>th, .am-table>thead>tr>td, .am-table>thead>tr>th{
 	padding:0 !important;
 	vertical-align: middle;
@@ -388,9 +391,15 @@ gallery.html css
 	overflow: hidden;
 }
 
-.am-form input[type=number], .am-form input[type=search], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form select, .am-form textarea, .am-form-field{
+.am-form input[type=number], .am-form input[type=search], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form textarea, .am-form-field{
 	font-size: 1.2rem;
 	width: auto !important;
+}
+
+.am-form select {
+	font-size: 1.2rem;
+	width: auto !important;
+	padding-right: 20px;
 }
 
 #post{
@@ -423,4 +432,11 @@ gallery.html css
 
 #thumbs{
 	margin-left: 1.5rem;
+}
+
+.settings_input{
+	width: 100px !important;
+	display:inline-block !important;
+	margin-right: 10px !important;
+	margin-left: 10px !important;
 }

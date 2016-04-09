@@ -19,7 +19,7 @@ var R_footer = React.createClass({displayName: "R_footer",
  * */
 var R_header = React.createClass({displayName: "R_header",
 	componentDidMount:function(){
-		$('#cname').html(window.sessionStorage.getItem('cname')+"（"+window.sessionStorage.getItem('crole')+"）");
+		$('#cname').html(window.sessionStorage.getItem('cname'));
 	},
 	exit:function(e){
 		e.preventDefault();
@@ -67,7 +67,7 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 			      	React.createElement("li", null, React.createElement("a", {href: "index.html"}, React.createElement("span", {className: "am-icon-user-plus"}), " 关注者查询")), 
 			      	React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("span", {className: "am-icon-clipboard"}), " 奖罚统计")), 
 			      	React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("span", {className: "am-icon-search"}), " 员工业绩查询")), 
-			       	React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("span", {className: "am-icon-cog"}), " 系统设定")), 
+			       	React.createElement("li", null, React.createElement("a", {href: "settings.html"}, React.createElement("span", {className: "am-icon-cog"}), " 系统设定")), 
 					React.createElement("li", null, React.createElement("a", {href: "user.html"}, React.createElement("span", {className: "am-icon-user"}), " 管理员帐号管理")), 
 					React.createElement("li", {className: "admin-parent"}, 
 						React.createElement("a", {href: "#"}, React.createElement("span", {className: "am-icon-wechat"}), " 服务号管理"), 

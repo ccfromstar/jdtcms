@@ -10,9 +10,11 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.removeItem("startDate");
 		window.location = 'booking.html';
 	},
-	readDoc:function(id){
+	readDoc:function(id,openid,e){
+		e.preventDefault();
 		window.sessionStorage.setItem("readdocid",id);
-		window.location = 'booking_read.html';
+		window.sessionStorage.setItem("openid",openid);
+		window.location = 'wx_user_read.html';
 	},
 	delDoc:function(id,e){
 		var o = this;
@@ -235,10 +237,13 @@ var R_content = React.createClass({displayName: "R_content",
 				  React.createElement("td", null, c.country), 
 				  React.createElement("td", {className: "wx_user_remark"}, c.remark), 
 				  React.createElement("td", null, _subtime), 
+				  React.createElement("td", null, c.name), 
+				  React.createElement("td", null, c.score_unused), 
+				  React.createElement("td", null, c.score_total), 
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
-	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
-	                    
+	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
+	                    React.createElement("button", {onClick: o.readDoc.bind(o,c.id,c.openid), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-search"}), " 查看详情")
 	                  )
 	                )
 	              )
@@ -300,6 +305,9 @@ var R_content = React.createClass({displayName: "R_content",
 				              	React.createElement("th", null, "国家"), 
 				              	React.createElement("th", null, "备注"), 
 				              	React.createElement("th", null, "首次关注时间"), 
+				              	React.createElement("th", null, "所属客服"), 
+				              	React.createElement("th", null, "未兑换的积分"), 
+				              	React.createElement("th", null, "总积分"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 				              )
 				          	), 

@@ -10,12 +10,16 @@ var R_content = React.createClass({
 		var username = $('#username').val();
 		var password = $('#password').val();
 		var name = $('#name').val();
-		var role = jqradio('role');
+		var role_basic = jqradio('role_basic');
+		var role_manage = jqradio('role_manage');
+		var role_send = jqradio('role_send');
+		var role_custom = jqradio('role_custom');
+		var role_option = jqradio('role_option');
 		
 		var mode = window.sessionStorage.getItem('mode');
 		
 		if (!username) {
-			$('.errorinfo').html('<p>手机号不能为空</p>').removeClass("none");
+			$('.errorinfo').html('<p>用户名不能为空</p>').removeClass("none");
 			setTimeout(function() {
 				$('.errorinfo').addClass("none");
 			}, 2000);
@@ -35,23 +39,20 @@ var R_content = React.createClass({
 			}, 2000);
 			return false;
 		}
-		if (!role) {
-			$('.errorinfo').html('<p>权限不能为空</p>').removeClass("none");
-			setTimeout(function() {
-				$('.errorinfo').addClass("none");
-			}, 2000);
-			return false;
-		}
 		
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/createUser",
+			url: hosts + "/user/createUser",
 			data: {
 				mode:mode,
 				username:username,
 				password:password,
 				name:name,
-				role:role,
+				role_basic:role_basic,
+				role_manage:role_manage,
+				role_send:role_send,
+				role_custom:role_custom,
+				role_option:role_option,
 				editid: window.sessionStorage.getItem("editid")
 			},
 			success: function(data) {
@@ -62,7 +63,7 @@ var R_content = React.createClass({
 						window.location = 'user.html';
 					}, 1000);
 				}else if(data == "400"){
-					$('.errorinfo').html('<p>手机号码重复</p>').removeClass("none");
+					$('.errorinfo').html('<p>用户名重复</p>').removeClass("none");
 					setTimeout(function() {
 						$('.errorinfo').addClass("none");
 					}, 2000);
@@ -80,7 +81,7 @@ var R_content = React.createClass({
 			var editid = window.sessionStorage.getItem("editid");
 			$.ajax({
 				type: "post",
-				url: hosts + "/service/getUserById",
+				url: hosts + "/user/getUserById",
 				data: {
 					id:editid
 				},
@@ -88,15 +89,62 @@ var R_content = React.createClass({
 					$('#username').val(data[0].username);
 					$('#password').val(data[0].password);
 					$('#name').val(data[0].name);
-					if(data[0].role == "业务员"){
-						$("#role_div").find("label").eq(0).addClass("am-active");
-						$("#role_div").find("input").eq(0).attr("checked","checked");
-					}else if(data[0].role == "管理员"){
-						$("#role_div").find("label").eq(1).addClass("am-active");
-						$("#role_div").find("input").eq(1).attr("checked","checked");
+					if(data[0].role_basic == 1){
+						$("#role_basic_div").find("label").eq(0).addClass("am-active");
+						$("#role_basic_div").find("input").eq(0).attr("checked","checked");
+					}else if(data[0].role_basic == 0){
+						$("#role_basic_div").find("label").eq(1).addClass("am-active");
+						$("#role_basic_div").find("input").eq(1).attr("checked","checked");
+					}
+
+					if(data[0].role_manage == 1){
+						$("#role_manage_div").find("label").eq(0).addClass("am-active");
+						$("#role_manage_div").find("input").eq(0).attr("checked","checked");
+					}else if(data[0].role_manage == 0){
+						$("#role_manage_div").find("label").eq(1).addClass("am-active");
+						$("#role_manage_div").find("input").eq(1).attr("checked","checked");
+					}
+
+					if(data[0].role_send == 1){
+						$("#role_send_div").find("label").eq(0).addClass("am-active");
+						$("#role_send_div").find("input").eq(0).attr("checked","checked");
+					}else if(data[0].role_send == 0){
+						$("#role_send_div").find("label").eq(1).addClass("am-active");
+						$("#role_send_div").find("input").eq(1).attr("checked","checked");
+					}
+
+					if(data[0].role_custom == 1){
+						$("#role_custom_div").find("label").eq(0).addClass("am-active");
+						$("#role_custom_div").find("input").eq(0).attr("checked","checked");
+					}else if(data[0].role_custom == 0){
+						$("#role_custom_div").find("label").eq(1).addClass("am-active");
+						$("#role_custom_div").find("input").eq(1).attr("checked","checked");
+					}
+
+					if(data[0].role_option == 1){
+						$("#role_option_div").find("label").eq(0).addClass("am-active");
+						$("#role_option_div").find("input").eq(0).attr("checked","checked");
+					}else if(data[0].role_option == 0){
+						$("#role_option_div").find("label").eq(1).addClass("am-active");
+						$("#role_option_div").find("input").eq(1).attr("checked","checked");
 					}
 				}
 			});
+		}else{
+			$("#role_basic_div").find("label").eq(0).addClass("am-active");
+			$("#role_basic_div").find("input").eq(0).attr("checked","checked");
+
+			$("#role_manage_div").find("label").eq(1).addClass("am-active");
+			$("#role_manage_div").find("input").eq(1).attr("checked","checked");
+
+			$("#role_send_div").find("label").eq(1).addClass("am-active");
+			$("#role_send_div").find("input").eq(1).attr("checked","checked");
+
+			$("#role_custom_div").find("label").eq(1).addClass("am-active");
+			$("#role_custom_div").find("input").eq(1).attr("checked","checked");
+
+			$("#role_option_div").find("label").eq(1).addClass("am-active");
+			$("#role_option_div").find("input").eq(1).attr("checked","checked");
 		}
 	},
 	render:function(){
@@ -111,7 +159,7 @@ var R_content = React.createClass({
 				   
 				    <div className="am-g am-margin-top">
 				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
-				            手机号
+				            用户名
 				        </div>
 				        <div className="am-u-sm-8 am-u-md-4">
 				            <input type="text" id="username" className="am-input-sm" />
@@ -141,21 +189,99 @@ var R_content = React.createClass({
 				    
 				    <div className="am-g am-margin-top">
 				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
-				            权限
+				            基础权限
 				        </div>
 				        <div className="am-u-sm-8 am-u-md-4">
-				        	<div className="am-btn-group" id="role_div" data-am-button>
+				        	<div className="am-btn-group" id="role_basic_div" data-am-button>
 					            <label className="am-btn am-btn-default am-btn-xs">
-					              <input type="radio" name="role" value="业务员" >业务员</input>
+					              <input type="radio" name="role_basic" value="1" >开</input>
 					            </label>
 					            <label className="am-btn am-btn-default am-btn-xs">
-					              <input type="radio" name="role" value="管理员" >管理员</input>
+					              <input type="radio" name="role_basic" value="0" >关</input>
 					            </label>
 					        </div>    
 				        </div>
-				        <div className="am-hide-sm-only am-u-md-6">*必填</div>
+				        <div className="am-hide-sm-only am-u-md-6"></div>
 				    </div>
-				          
+
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				            管理权限
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				        	<div className="am-btn-group" id="role_manage_div" data-am-button>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_manage" value="1" >开</input>
+					            </label>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_manage" value="0" >关</input>
+					            </label>
+					        </div>    
+				        </div>
+				        <div className="am-hide-sm-only am-u-md-6"></div>
+				    </div>
+
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				            派发权限
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				        	<div className="am-btn-group" id="role_send_div" data-am-button>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_send" value="1" >开</input>
+					            </label>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_send" value="0" >关</input>
+					            </label>
+					        </div>    
+				        </div>
+				        <div className="am-hide-sm-only am-u-md-6"></div>
+				    </div>
+
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				            自定义派发权限
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				        	<div className="am-btn-group" id="role_custom_div" data-am-button>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_custom" value="1" >开</input>
+					            </label>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_custom" value="0" >关</input>
+					            </label>
+					        </div>    
+				        </div>
+				        <div className="am-hide-sm-only am-u-md-6"></div>
+				    </div>
+
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				            系统权限
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				        	<div className="am-btn-group" id="role_option_div" data-am-button>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_option" value="1" >开</input>
+					            </label>
+					            <label className="am-btn am-btn-default am-btn-xs">
+					              <input type="radio" name="role_option" value="0" >关</input>
+					            </label>
+					        </div>    
+				        </div>
+				        <div className="am-hide-sm-only am-u-md-6"></div>
+				    </div>
+				  	
+				  	<div className="am-panel am-panel-default admin-sidebar-panel">
+				        <div className="am-panel-bd">
+				          <p><span className="am-icon-bookmark"></span> 说明</p>
+				          <p>基础权限：可登录管理系统，修改自身帐号密码，仅可查询自己所辖关注者基本信息及行为记录或激活建定通帐号。</p>
+						  <p>管理权限：可查询所有关注者基本信息及行为记录，为关注者分配客服。</p>	
+						  <p>派发权限：可派发新手红包，批准关注者积分兑换红包请求。</p>
+						  <p>自定义派发权限：可自定义增减关注者积分、建定通使用天数、红包金额。</p>
+						  <p>系统权限：可进入“系统参数”页面定义系统各关键参数，管理所有管理帐号（添加帐号、停权帐号、修改密码、增删权限），也可进入“服务号管理”页面发送服务号软文，向关注者群发信息。</p>
+				        </div>
+				    </div>        
 				</div>
 				
 				<div className="am-margin">

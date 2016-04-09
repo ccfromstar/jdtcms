@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<title></title>
+	</head>
+
+	<body>
+		<div id="template-dom">
+			<div class="user-profile">
+				<div class="user-avatar">
+					<img>
+				<div>
+			<div>
+		</div>
+
+		<script> 
+			// your lib code here,should exports a `render` function
+			function render(dom,obj){
+				dom.setAttribute('className', obj.className);
+				dom.querySelector('img').setAttribute("src", obj.user.avatar);  
+				dom.querySelector('.user-profile').appendChild(document.createTextNode(obj.user.name));   
+			}
+		</script>
+		<script>
+			var m = {
+				className:"user",
+				user:{
+					name:"wscn",
+					avatar:"http://notfound.com/img/notfound.png"
+				}
+			};
+			render(document.getElementById('template-dom'),m);
+		</script>
+	</body>
+</html>

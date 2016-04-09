@@ -9,7 +9,16 @@ User = function(action,req,res){
 	  		break;
 		case "getUser":
 	  		getUser(req,res);
-	  	break;
+	  		break;
+	  	case "createUser":
+	  		createUser(req,res);
+	  		break;
+	  	case "delUser":
+	  		delUser(req,res);
+	  		break;
+	  	case "getUserById":
+	  		getUserById(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -32,6 +41,68 @@ function checkLogin(req,res){
 				res.send("400");
 			}
 		});
+}
+
+function getUserById(req,res){
+		var id = req.param("id");
+		var sql = "select * from user where id = " + id;
+		debug(sql);
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
+}
+
+function delUser(req,res){
+		var id = req.param("id");
+		var sql = "delete from user where id = " + id;
+		debug(sql);
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			if(result.affectedRows == 1){
+				res.send("300");
+			}
+		});
+}
+
+function createUser(req,res){
+		var mode = req.param("mode");
+		var username = req.param("username");
+		var password = req.param("password");
+		var name = req.param("name");
+		var role_basic = req.param("role_basic");
+		var role_manage = req.param("role_manage");
+		var role_send = req.param("role_send");
+		var role_custom = req.param("role_custom");
+		var role_option = req.param("role_option");
+		var editid = req.param("editid");
+		/*编辑模式*/
+		if(mode == "edit"){
+			var sql = "update user set ";
+			sql += " username = '"+username+"',";
+			sql += " password = '"+password+"',";
+			sql += " name = '"+name+"',";
+			sql += " role_basic = "+role_basic+",";
+			sql += " role_manage = "+role_manage+",";
+			sql += " role_send = "+role_send+",";
+			sql += " role_custom = "+role_custom+",";
+			sql += " role_option = "+role_option;
+			sql += " where id = "+editid;
+			mysql.query(sql, function(err, result) {
+				if (err) return console.error(err.stack);
+				if(result.affectedRows == 1){
+					res.send("300");
+				}
+			});
+		}else{
+			var sql = "insert into user (username,password,name,role_basic,role_manage,role_send,role_custom,role_option) values ('"+username+"','"+password+"','"+name+"',"+role_basic+","+role_manage+","+role_send+","+role_custom+","+role_option+")";
+			mysql.query(sql, function(err, result) {
+				if (err) return console.error(err.stack);
+				if(result.affectedRows == 1){
+					res.send("300");
+				}
+			});
+		}
 }
 
 function getUser(req,res){
