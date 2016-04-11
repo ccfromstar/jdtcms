@@ -36,6 +36,9 @@ WxUser = function(action,req,res){
 	  	case "getScore":
 	  		getScore(req,res);
 	  		break;
+	  	case "setRemark":
+	  		setRemark(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -318,6 +321,37 @@ function setUser(req,res){
 				res.json(rows[0]);
 			});
 		});
+}
+
+function setRemark(req,res){
+	var appId = settings.AppID;
+	console.log(appId);
+    var appSecret = settings.AppSecret;
+    //1.获取access_token
+    var url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
+    	request(url,function(err,response,body){
+            if(!err && response.statusCode == 200){
+            	var o = JSON.parse(body);
+                var access_token = o.access_token;
+                var remark = req.param("remark");
+				var openid = req.param("openid");
+				console.log(access_token);
+				var url = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token="+access_token;
+				request({
+				    url: url,
+				    method: 'POST',
+				    form: {
+				        openid: openid,
+				        remark: remark
+				    }
+				}, function(err, response, body) {
+				    if (!err && response.statusCode == 200) {
+				    	console.log(body);
+				        res.send("300");
+				    }
+				});
+            }
+        });
 }
 
 function getUser(req,res){

@@ -440,3 +440,9 @@ gallery.html css
 	margin-right: 10px !important;
 	margin-left: 10px !important;
 }
+
+.wx_user_input{
+	width: 200px !important;
+	display:inline-block !important;
+	margin-right: 10px !important;
+}

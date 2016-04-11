@@ -52,37 +52,7 @@ var R_content = React.createClass({displayName: "R_content",
 		if(e){
 			e.preventDefault();
 		}
-		/*昵称*/
-		var key = $("#key").val();
-		/*分组*/
-		var groupid = $("#wx_group").val();
-		groupid = (groupid=='-')?null:groupid;
-		window.sessionStorage.setItem("indexPage",page);
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		var role = window.sessionStorage.getItem("crole");
-		indexPage = indexPage?indexPage:1;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/getUserByKey",
-			data: {
-				key:key,
-				indexPage:indexPage,
-				cid:id,
-				role:role,
-				groupid:groupid
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-				$modal.modal('close');
-			}
-		});
+		this.getRecord(page);
 	},
 	exportXls:function(){
 		var id = window.sessionStorage.getItem('cid');
@@ -170,15 +140,16 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},	
-	componentDidMount:function(){
+	getRecord:function(page){
 		var o = this;
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
+		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
 		var role = window.sessionStorage.getItem("crole");
-		/*获取用户列表*/
+		/*获取列表*/
 		$.ajax({
 			type: "post",
 			url: hosts + "/wx_record/getRecord",
@@ -196,21 +167,9 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
-		/*获取分组*/
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/getWxGroup",
-			data: {
-				
-			},
-			success: function(data) {
-				var option = "<option value='-'>分组</option>";
-				for(var i in data){
-					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
-				}
-				$("#wx_group").html(option);
-			}
-		});
+	},
+	componentDidMount:function(){
+		this.getRecord();
 	},
 	render:function(){
 		var o = this;

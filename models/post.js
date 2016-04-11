@@ -127,6 +127,17 @@ function setPost(req,res){
 				res.send("400");
 			}else{
 				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),4,'',"+id+")");
+				 /*获取系统设定*/
+		          var sql_settings = "select * from settings";
+		          mysql.query(sql_settings, function(err, settings) {
+		              if (err) return console.error(err.stack);
+		              /*记录微信用户积分行为*/
+		              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_like+",4,"+id+")";
+		              setLog(sql_score);
+		              /*给用户增加积分*/
+		              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_like+",score_total = score_total + "+settings[0].score_like+" where openid = '" +openid+"'";
+		              setLog(sql_wx_user);
+		          });
 				/*文章点赞数+1*/
 				var sql2 = "update post set like_count = like_count + 1 where id = "+id;
 					mysql.query(sql2, function(err, rows) {
@@ -146,8 +157,28 @@ function shareToFriend(req,res){
 			if(rows[0]){
 				res.send("400");
 			}else{
-				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
-				res.send("300");
+				/*判断用户是否关注了公众号*/
+				var sql2 = "select id from wx_user where openid = '"+openid+"'";
+				mysql.query(sql2, function(err, rows2) {
+					if (err) return console.error(err.stack);
+					if(rows2[0]){
+						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
+						/*获取系统设定*/
+				          var sql_settings = "select * from settings";
+				          mysql.query(sql_settings, function(err, settings) {
+				              if (err) return console.error(err.stack);
+				              /*记录微信用户积分行为*/
+				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",5,"+id+")";
+				              setLog(sql_score);
+				              /*给用户增加积分*/
+				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
+				              setLog(sql_wx_user);
+				          });
+						res.send("300");	
+					}else{
+						res.send("500");
+					}
+				});	
 			}
 		});	
 }
@@ -161,8 +192,28 @@ function shareToCricle(req,res){
 			if(rows[0]){
 				res.send("400");
 			}else{
-				setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
-				res.send("300");
+				/*判断用户是否关注了公众号*/
+				var sql2 = "select id from wx_user where openid = '"+openid+"'";
+				mysql.query(sql2, function(err, rows2) {
+					if (err) return console.error(err.stack);
+					if(rows2[0]){
+						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
+						/*获取系统设定*/
+				          var sql_settings = "select * from settings";
+				          mysql.query(sql_settings, function(err, settings) {
+				              if (err) return console.error(err.stack);
+				              /*记录微信用户积分行为*/
+				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",6,"+id+")";
+				              setLog(sql_score);
+				              /*给用户增加积分*/
+				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
+				              setLog(sql_wx_user);
+				          });
+						res.send("300");	
+					}else{
+						res.send("500");
+					}
+				});	
 			}
 		});	
 }

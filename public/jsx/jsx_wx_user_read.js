@@ -75,6 +75,27 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	setRemark:function(e){
+		/*修改用户备注*/
+		e.preventDefault();
+		var _remark = $("#input_remark").val();
+		var openid = window.sessionStorage.getItem("openid");
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/setRemark",
+			data: {
+				remark:_remark,
+				openid:openid
+			},
+			success: function(data) {
+				$('.successinfo').html('<p>备注修改成功</p>').removeClass("none");
+				$("#remark").html(_remark);
+				setTimeout(function() {
+					$('.successinfo').addClass("none");
+				}, 2000);
+			}
+		});
+	},
 	toPage:function(page,e){
 		var o = this;
 		if(e){
@@ -106,10 +127,18 @@ var R_content = React.createClass({
 	render:function(){
 		var o = this;
 		var list = this.state.data.map(function(c){
+		var cname = c.name;
+		if(c.type_id == 3 || c.type_id == 4  || c.type_id == 5  || c.type_id == 6){
+			cname += "《"+c.title+"》";
+		}
+		var cscore = c.score + "";
+		if(cscore.indexOf("-")==-1){
+			cscore = "+" + cscore;
+		}
 		return(
 				<tr>
-				  <td>{c.name}</td>
-				  <td>{c.score}</td>
+				  <td>{cname}</td>
+				  <td>{cscore}</td>
 				  <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 	            </tr>
 			);
@@ -220,7 +249,10 @@ var R_content = React.createClass({
 					            <div className="am-u-sm-4 am-u-md-2 am-text-left">
 					              备注
 					            </div>
-					            <div id="remark" className="am-u-sm-8 am-u-md-10">
+					            <div id="remark" className="am-u-sm-8 am-u-md-4"></div>
+					            <div className="am-hide-sm-only am-u-md-6">
+									<input type="text" id="input_remark" className="am-input-sm wx_user_input" />
+									<button type="button" onClick={this.setRemark} className="btn-c am-btn am-btn-primary am-btn-xs">确定</button>
 					            </div>
 					        </div>
 
