@@ -117,6 +117,21 @@ function getPostById(req,res){
 		});	
 }
 
+function GetDateStr(time,AddDayCount) { 
+  var dd = time; 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+}
+
 function setPost(req,res){
 		var id = req.param("id");
 		var openid = req.param("openid");
@@ -137,6 +152,17 @@ function setPost(req,res){
 		              /*给用户增加积分*/
 		              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_like+",score_total = score_total + "+settings[0].score_like+" where openid = '" +openid+"'";
 		              setLog(sql_wx_user);
+		              /*给用户的建定通账户增加使用天数*/
+		              var sql_admin = "select * from admin where username ='"+openid+"'";
+		              mysql.query(sql_admin, function(err, admin) {
+		                if (err) return console.error(err.stack);
+		                if(admin[0]){
+		                    var d = admin[0].limited + "";
+		                    var limited = GetDateStr(new Date(d),settings[0].day_like);
+		                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+		                    setLog(sql_adday);
+		                }
+		              });
 		          });
 				/*文章点赞数+1*/
 				var sql2 = "update post set like_count = like_count + 1 where id = "+id;
@@ -173,6 +199,17 @@ function shareToFriend(req,res){
 				              /*给用户增加积分*/
 				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
 				              setLog(sql_wx_user);
+				              /*给用户的建定通账户增加使用天数*/
+				              var sql_admin = "select * from admin where username ='"+openid+"'";
+				              mysql.query(sql_admin, function(err, admin) {
+				                if (err) return console.error(err.stack);
+				                if(admin[0]){
+				                    var d = admin[0].limited + "";
+				                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
+				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+				                    setLog(sql_adday);
+				                }
+				              });
 				          });
 						res.send("300");	
 					}else{
@@ -208,6 +245,17 @@ function shareToCricle(req,res){
 				              /*给用户增加积分*/
 				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
 				              setLog(sql_wx_user);
+				              /*给用户的建定通账户增加使用天数*/
+				              var sql_admin = "select * from admin where username ='"+openid+"'";
+				              mysql.query(sql_admin, function(err, admin) {
+				                if (err) return console.error(err.stack);
+				                if(admin[0]){
+				                    var d = admin[0].limited + "";
+				                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
+				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+				                    setLog(sql_adday);
+				                }
+				              });
 				          });
 						res.send("300");	
 					}else{

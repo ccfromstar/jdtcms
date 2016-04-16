@@ -16,19 +16,9 @@
 		<script type="text/javascript" src="js/check.js"></script>
 		<script src="build/react.js"></script>
 		<script src="build/JSXTransformer.js"></script>
-		<!--<script type="text/javascript" src="js/basic.js"></script>-->
+		<script type="text/javascript" src="js/basic.js"></script>
 		<script type="text/javascript" src="res/jsx_main.js"></script>
-		<script type="text/javascript" src="res/jsx_userform.js"></script>
-		<script type="text/javascript">
-			window.addEventListener('message',function(e){
-	          	var fname=e.data;
-	          	$('#supplyfile').val(fname);
-		       	$(".loadinfo").addClass("none");
-		       	$(".successinfo").html("<p>文件上传成功</p>").removeClass("none");
-		       	setTimeout(function() { $(".successinfo").addClass("none");}, 2000);
-		       	$("#supplyfile_div").html('<span class="am-icon-file-o"></span> <a target="_blank" href="'+hosts+'/files/'+fname+'">供应商确认单</a>');
-		    },false);
-		</script>
+		<script type="text/javascript" src="res/jsx_jdtuser.js"></script>
 		<script type="text/jsx">
 			React.render(
 				<div>
@@ -36,6 +26,7 @@
 					<R_main>
 						<R_sidebar />
 						<R_content />
+						<R_loading />
 					</R_main>
 					<R_menu />
 					<R_footer />

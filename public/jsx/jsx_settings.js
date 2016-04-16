@@ -12,6 +12,10 @@ var R_content = React.createClass({
 				
 			},
 			success: function(data) {
+				$("#day_initial").val(data[0].day_initial);
+				$("#day_read").val(data[0].day_read);
+				$("#day_like").val(data[0].day_like);
+				$("#day_transpond").val(data[0].day_transpond);
 				$("#score_focus").val(data[0].score_focus);
 				$("#score_read").val(data[0].score_read);
 				$("#score_like").val(data[0].score_like);
@@ -27,6 +31,11 @@ var R_content = React.createClass({
 	UpdateDoc:function(e){
 		e.preventDefault();
 
+		var day_initial = $("#day_initial").val();
+		var day_read = $("#day_read").val();
+		var day_like = $("#day_like").val();
+		var day_transpond = $("#day_transpond").val();
+
 		var score_focus = $("#score_focus").val();
 		var score_read = $("#score_read").val();
 		var score_like = $("#score_like").val();
@@ -37,7 +46,7 @@ var R_content = React.createClass({
 		var score_admin_like = $("#score_admin_like").val();
 		var score_admin_transpond = $("#score_admin_transpond").val();
 
-		if(isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
+		if(isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
 			setTimeout(function() {
 				$('.errorinfo').addClass("none");
@@ -51,6 +60,10 @@ var R_content = React.createClass({
 			type: "post",
 			url: hosts + "/settings/updateSettings",
 			data: {
+				day_initial:day_initial,
+				day_read:day_read,
+				day_like:day_like,
+				day_transpond:day_transpond,
 				score_focus:score_focus,
 				score_read:score_read,
 				score_like:score_like,
@@ -58,7 +71,7 @@ var R_content = React.createClass({
 				score_admin_focus:score_admin_focus,
 				score_admin_read:score_admin_read,
 				score_admin_like:score_admin_like,
-				score_admin_transpond:score_admin_transpond,
+				score_admin_transpond:score_admin_transpond
 			},
 			success: function(data) {
 				that.setSettings();
@@ -78,18 +91,33 @@ var R_content = React.createClass({
 				</div>
 
 				<div className="am-form">
-
+					<div className="am-panel am-panel-default admin-sidebar-panel">
+				        <div className="am-panel-bd">
+				          <p><span className="am-icon-bookmark"></span> 基础参数：</p>
+				          <p>首次激活建定通帐号的初始使用天数
+				       		<input type="text" id="day_initial" className="am-input-sm settings_input" /></p>
+						</div>
+				    </div>    
 				    <div className="am-panel am-panel-default admin-sidebar-panel">
 				        <div className="am-panel-bd">
 				          <p><span className="am-icon-bookmark"></span> 关注者各类得益行为的数额：</p>
 				          <p>首次关注获得的积分
 				       		<input type="text" id="score_focus" className="am-input-sm settings_input" /></p>
 						  <p>阅读软文获得的积分
-				       		<input type="text" id="score_read" className="am-input-sm settings_input" /></p>	
+				       		<input type="text" id="score_read" className="am-input-sm settings_input" />
+				       		建定通使用天数
+				       		<input type="text" id="day_read" className="am-input-sm settings_input" />
+				       		</p>	
 						  <p>点赞软文获得的积分
-				       		<input type="text" id="score_like" className="am-input-sm settings_input" /></p>
+				       		<input type="text" id="score_like" className="am-input-sm settings_input" />
+				       		建定通使用天数
+				       		<input type="text" id="day_like" className="am-input-sm settings_input" />
+				       		</p>	
 						  <p>转发软文获得的积分
-				       		<input type="text" id="score_transpond" className="am-input-sm settings_input" /></p>
+				       		<input type="text" id="score_transpond" className="am-input-sm settings_input" />
+				       		建定通使用天数
+				       		<input type="text" id="day_transpond" className="am-input-sm settings_input" />
+				       		</p>	
 						</div>
 				    </div>    
 				    <div className="am-panel am-panel-default admin-sidebar-panel">

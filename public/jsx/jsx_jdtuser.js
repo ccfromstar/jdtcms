@@ -8,7 +8,7 @@ var R_content = React.createClass({
 		window.sessionStorage.setItem("mode","new");
 		window.sessionStorage.removeItem("editid");
 		window.sessionStorage.removeItem("startDate");
-		window.location = 'booking.html';
+		window.location = 'userform.html';
 	},
 	readDoc:function(id){
 		window.sessionStorage.setItem("readdocid",id);
@@ -24,15 +24,14 @@ var R_content = React.createClass({
 		var o = this;
 		e.preventDefault();
 		window.sessionStorage.setItem("editid",id);
-		window.sessionStorage.setItem("startDate",startDate);
 		window.sessionStorage.setItem("mode","edit");
-		window.location = 'booking.html';
+		window.location = 'userform.html';
 	},
 	delsql:function(){
 		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/service/delBooking",
+			url: hosts + "/user/delUser",
 			data: {
 				id:window.sessionStorage.getItem("delid")
 			},
@@ -47,116 +46,82 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	ActiveDoc:function(id,e){
+		e.preventDefault();
+		var o = this;
+		$.ajax({
+			type: "post",
+			url: hosts + "/jdtuser/activeUser",
+			data: {
+				id:id
+			},
+			success: function(data) {
+				if(data == "300"){
+					o.toPage(window.sessionStorage.getItem("indexPage"));
+					$('.successinfo').html('<p>激活成功</p>').removeClass("none");
+					setTimeout(function() {
+						$('.successinfo').addClass("none");
+					}, 2000);
+				}
+			}
+		});
+	},
+	disActiveDoc:function(id,e){
+		e.preventDefault();
+		var o = this;
+		$.ajax({
+			type: "post",
+			url: hosts + "/jdtuser/disactiveUser",
+			data: {
+				id:id
+			},
+			success: function(data) {
+				if(data == "300"){
+					o.toPage(window.sessionStorage.getItem("indexPage"));
+					$('.successinfo').html('<p>停权成功</p>').removeClass("none");
+					setTimeout(function() {
+						$('.successinfo').addClass("none");
+					}, 2000);
+				}
+			}
+		});
+	},
 	toPage:function(page,e){
 		var o = this;
 		if(e){
 			e.preventDefault();
 		}
-		this.getRecord(page);
-	},
-	exportXls:function(){
-		var id = window.sessionStorage.getItem('cid');
-		var role = window.sessionStorage.getItem("crole");
-		$.ajax({
-			type: "post",
-			url: hosts + "/service/exportBooking",
-			data: {
-				cid:id,
-				role:role
-			},
-			success: function(data) {
-				window.open(hosts + "/excelop/temp/"+data);
-				$('.loadinfo').html("<a href='"+hosts + "/excelop/temp/"+data+"'>如果没有自动弹出下载报表，说明您的浏览器禁止了弹出框，您可以点击这里下载报表(10秒后自动关闭)</a>").removeClass("none");
-				setTimeout(function() {
-					$('.loadinfo').addClass("none");
-				}, 10000);
-			}
-		});
-	},
-	search:function(){
-		var o = this;
-		/*昵称*/
-		var key = $("#key").val();
-		/*分组*/
-		var groupid = $("#wx_group").val();
-		groupid = (groupid=='-')?null:groupid;
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/getUserByKey",
-			data: {
-				key:key,
-				indexPage:indexPage,
-				cid:id,
-				role:role,
-				groupid:groupid
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-				$modal.modal('close');
-			}
-		});
-	},
-	UpdateWxUser:function(){
-		$('.loadinfo').html('<p>更新中...</p>').removeClass("none");
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/updateWxUser",
-			data: {
-
-			},
-			success: function(data) {
-				if(data == "200"){
-					$('.loadinfo').addClass("none");
-					$('.successinfo').html('<p>关注者列表更新成功</p>').removeClass("none");
-					window.location = "index.html";
-				}
-			}
-		});
-	},	
-	UpdateWxGroup:function(){
-		$('.loadinfo').html('<p>更新中...</p>').removeClass("none");
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/updateWxGroup",
-			data: {
-
-			},
-			success: function(data) {
-				if(data == "200"){
-					$('.loadinfo').addClass("none");
-					$('.successinfo').html('<p>分组更新成功</p>').removeClass("none");
-					window.location = "index.html";
-				}
-			}
-		});
-	},	
-	getRecord:function(page){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
-		/*获取列表*/
 		$.ajax({
 			type: "post",
-			url: hosts + "/wx_record/getRecord",
+			url: hosts + "/jdtuser/getUser",
 			data: {
-				indexPage:indexPage,
-				cid:id,
-				role:role
+				indexPage:indexPage
+			},
+			success: function(data) {
+				o.setState({data:data.record});
+				o.setState({total:data.total});
+				o.setState({totalpage:data.totalpage});
+				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
+				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
+			}
+		});
+	},
+	componentDidMount:function(){
+		var o = this;
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		var indexPage = window.sessionStorage.getItem("indexPage");
+		var id = window.sessionStorage.getItem('cid');
+		indexPage = indexPage?indexPage:1;
+		$.ajax({
+			type: "post",
+			url: hosts + "/jdtuser/getUser",
+			data: {
+				indexPage:indexPage
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -168,33 +133,55 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	componentDidMount:function(){
-		this.getRecord();
-	},
 	render:function(){
 		var o = this;
 		var list = this.state.data.map(function(c){
-		var _subtime = new Date(c.operation_time).Format("yyyy-MM-dd hh:mm:ss");
-		var cname = c.name;
-		if(c.type_id == 3 || c.type_id == 4  || c.type_id == 5  || c.type_id == 6){
-			cname += "《"+c.title+"》";
-		}
-		return(
-				<tr>
-				  <td>{c.wx_openid}</td>
-				  <td>{c.nickname?c.nickname:"未关注者"}</td>
-				  <td>{_subtime}</td>
-				  <td>{cname}</td>
-				  <td>{c.remark}</td>
-	              <td>
-	                <div className="am-hide-sm-only am-btn-toolbar">
-	                  <div className="am-btn-group am-btn-group-xs">
-	                    <button onClick={o.readDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-search"></span> 查看详情</button>
-	                  </div>
-	                </div>
-	              </td>
-	            </tr>
-			);
+			var limited = c.limited?new Date(c.limited).Format("yyyy-MM-dd hh:mm:ss"):"";
+			if(c.state_id == 0){
+				return(
+					<tr>
+		              <td>{c.name}</td>
+		              <td>{c.mobile}</td>
+		              <td>{c.company}</td>
+		              <td>{c.address}</td>
+		              <td>{c.job}</td>
+		              <td>{c.type}</td>
+		              <td>{limited}</td>
+		              <td>{c.username}</td>
+		              <td>{c.password}</td>
+		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
+		              <td>
+		                <div className="am-hide-sm-only am-btn-toolbar">
+		                  <div className="am-btn-group am-btn-group-xs">
+		                    <button onClick={o.ActiveDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-bell"></span> 激活</button>
+		                  </div>
+		                </div>
+		              </td>
+		            </tr>
+				);
+			}else{
+				return(
+					<tr>
+		              <td>{c.name}</td>
+		              <td>{c.mobile}</td>
+		              <td>{c.company}</td>
+		              <td>{c.address}</td>
+		              <td>{c.job}</td>
+		              <td>{c.type}</td>
+		              <td>{limited}</td>
+		              <td>{c.username}</td>
+		              <td>{c.password}</td>
+		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
+		              <td>
+		                <div className="am-hide-sm-only am-btn-toolbar">
+		                  <div className="am-btn-group am-btn-group-xs">
+		                  	<button onClick={o.disActiveDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-ban"></span> 停权</button>
+		                  </div>
+		                </div>
+		              </td>
+		            </tr>
+				);
+			}
 		});
 		var pager=[];
 		var iPa = Number(window.sessionStorage.getItem("indexPage"));
@@ -212,19 +199,14 @@ var R_content = React.createClass({
 			<div className="admin-content">
 			
 			    <div className="am-cf am-padding">
-			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">关注者行为查询</strong> / <small>列表</small></div>
+			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">建定通账户管理</strong> / <small>列表</small></div>
 				</div>
 			    <div className="am-g">
-			      <div className="am-u-sm-12 am-u-md-9">
+			      <div className="am-u-sm-12 am-u-md-12">
 			        <div className="am-btn-toolbar">
 			          <div className="am-btn-group am-btn-group-xs">
-			            
+			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default none"><span className="am-icon-plus"></span> 新增</button>
 			          </div>
-			        </div>
-			      </div>
-			      <div className="am-u-sm-12 am-u-md-3">
-			        <div className="am-input-group am-input-group-sm">
-			          
 			        </div>
 			      </div>
 			    </div>
@@ -234,12 +216,17 @@ var R_content = React.createClass({
 				        <form className="am-form">
 				          <table className="am-table am-table-striped am-table-hover table-main">
 				            <thead>
-				              <tr>
-				              	<th>openid</th>
-				              	<th>昵称</th>
-				              	<th>操作时间</th>
-				              	<th>行为分类</th>
-				              	<th>记录备注</th>
+				              <tr> 
+				                <th>姓名</th>
+			            		<th>手机</th>
+			            		<th>所属公司</th>
+			            		<th>地址</th>
+			            		<th>职务</th>
+			            		<th>帐户类型</th>
+			            		<th>账号有效期</th>
+			            		<th>账号</th>
+			            		<th>密码</th>
+			            		<th>激活状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

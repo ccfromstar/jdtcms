@@ -23,11 +23,13 @@ ON a.post_id = d.id;
 DROP VIEW IF EXISTS `view_score_user_type_post`;
 CREATE VIEW view_score_user_type_post
 AS
-SELECT a.*,b.nickname,c.name,d.title
+SELECT a.*,b.nickname,c.name,d.title,e.name as kefu,b.user_id
 FROM wx_user_score a
 LEFT JOIN wx_user b
 ON a.wx_openid = b.openid
 LEFT JOIN wx_oper_type c
 ON a.type_id = c.id
 LEFT JOIN post d
-ON a.post_id = d.id;
+ON a.post_id = d.id
+LEFT JOIN user e
+ON b.user_id = e.id;

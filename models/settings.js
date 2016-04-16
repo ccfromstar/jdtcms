@@ -32,8 +32,16 @@ function updateSettings(req,res){
 	var score_admin_read = req.param("score_admin_read");
 	var score_admin_like = req.param("score_admin_like");
 	var score_admin_transpond = req.param("score_admin_transpond");
+	var day_initial = req.param("day_initial");
+	var day_read = req.param("day_read");
+	var day_like = req.param("day_like");
+	var day_transpond = req.param("day_transpond");
 
 			var sql = "update settings set ";
+			sql += " day_initial = "+day_initial+",";
+			sql += " day_read = "+day_read+",";
+			sql += " day_like = "+day_like+",";
+			sql += " day_transpond = "+day_transpond+",";
 			sql += " score_focus = "+score_focus+",";
 			sql += " score_read = "+score_read+",";
 			sql += " score_like = "+score_like+",";

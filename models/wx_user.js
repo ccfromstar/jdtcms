@@ -36,8 +36,14 @@ WxUser = function(action,req,res){
 	  	case "getScore":
 	  		getScore(req,res);
 	  		break;
+	  	case "getParentScore":
+	  		getParentScore(req,res);
+	  		break;
 	  	case "setRemark":
 	  		setRemark(req,res);
+	  		break;
+	  	case "createAdmin":
+	  		createAdmin(req,res);
 	  		break;
 		default:
 	  		//do something
@@ -335,19 +341,26 @@ function setRemark(req,res){
                 var access_token = o.access_token;
                 var remark = req.param("remark");
 				var openid = req.param("openid");
+				var formData = {
+					openid:openid,
+					remark:remark
+				};
+				formData = JSON.stringify(formData);
 				console.log(access_token);
 				var url = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token="+access_token;
 				request({
 				    url: url,
 				    method: 'POST',
-				    form: {
-				        openid: openid,
-				        remark: remark
-				    }
+				    body: formData
 				}, function(err, response, body) {
 				    if (!err && response.statusCode == 200) {
 				    	console.log(body);
-				        res.send("300");
+				    	/*修改wx_user*/
+				    	var sql_update = "update wx_user set remark = '"+remark+"' where openid = '"+openid+"'";
+				    	mysql.query(sql_update, function(err, rows) {
+							if (err) return console.error(err.stack);
+							res.send("300");
+						});
 				    }
 				});
             }
@@ -441,12 +454,122 @@ function getScore(req,res){
 	});
 }
 
+function GetDateStr(time,AddDayCount) { 
+	var dd = new Date(time); 
+	dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+	var y = dd.getFullYear(); 
+	//var m = dd.getMonth()+1;//获取当前月份的日期 
+	//var d = dd.getDate(); 
+	var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+	var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+	return y+"-"+m+"-"+d; 
+} 
+
+function getParentScore(req,res){
+	var page = parseInt(req.param("indexPage"));
+	var user_id = req.param("user_id");
+	var start_time = req.param("start_time");
+	var end_time = req.param("end_time");
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT;
+	var change = "";
+	if(user_id != "-"){
+		change += " and user_id = "+user_id;
+	}
+	if(start_time != ""){
+		change += " and time >= '"+start_time+"'";
+	}
+	if(end_time != ""){
+		change += " and time <= '"+GetDateStr(end_time,1)+"'";
+	}
+	var sql1 = "select * from view_score_user_type_post where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_score_user_type_post where 1=1 "+change;
+	var sql3 = "select * from settings";
+	console.log(sql1);
+	async.waterfall([function(callback) {
+		mysql.query(sql1, function(err, result) {
+		    if (err) return console.error(err.stack);
+		    callback(null, result);
+		});
+	}, function(result, callback) {
+		mysql.query(sql2, function(err, rows) {
+		    if (err) return console.error(err.stack);
+		    callback(err, rows,result);
+		});
+	}, function(rows,result, callback) {
+		mysql.query(sql3, function(err, settings) {
+		    if (err) return console.error(err.stack);
+		    callback(err, rows,result,settings);
+		});
+	}], function(err,rows,result,settings) {
+		if(err){
+		    console.log(err);
+		}else{	
+			console.log(settings);
+		    var total = rows[0].count;
+		    var totalpage = Math.ceil(total/limit);
+            var isFirstPage = page == 1 ;
+            var isLastPage = ((page -1) * limit + result.length) == total;
+            var total_score = 0; /*提成积分总计*/
+            /*计算提成积分*/
+            for(var i in result){
+            	if(result[i].type_id == 1){
+            		result[i].score_1 = settings[0].score_admin_focus;
+            		total_score += settings[0].score_admin_focus;
+            	}else if(result[i].type_id == 3){
+            		result[i].score_1 = settings[0].score_admin_read;
+            		total_score += settings[0].score_admin_read;
+            	}else if(result[i].type_id == 4){
+            		result[i].score_1 = settings[0].score_admin_like;
+            		total_score += settings[0].score_admin_like;
+            	}else if(result[i].type_id == 5 || result[i].type_id == 6){
+            		result[i].score_1 = settings[0].score_admin_transpond;
+            		total_score += settings[0].score_admin_transpond;
+            	}
+            }
+		   	var ret = {
+		    	total:total,
+		    	totalpage:totalpage,
+		    	isFirstPage:isFirstPage,
+		    	isLastPage:isLastPage,
+				record:result,
+				total_score:total_score
+			};
+			res.json(ret);
+		}
+	});
+}
+
 /*获取wx_group*/
 function getWxGroup(req,res){
 	var sql = "select * from wx_group where group_id != 1";
 	mysql.query(sql, function(err, result) {
 		if (err) return console.error(err.stack);
 		res.json(result);
+	});
+}
+
+/*申请建定通账号*/
+function createAdmin(req,res){
+	var name = req.param("name");
+	var mobile = req.param("mobile");
+	var company = req.param("company");
+	var address = req.param("address");
+	var job = req.param("job");
+	var openid = req.param("openid");
+	var sql1 = "select id from admin where username = '"+openid+"'";
+	var sql2 = "insert into admin (name,mobile,company,address,job,username,password) values('"+name+"','"+mobile+"','"+company+"','"+address+"','"+job+"','"+openid+"','"+openid+"')";
+	mysql.query(sql1, function(err, result) {
+		if (err) return console.error(err.stack);
+		if(result[0]){
+			res.send("400");
+		}else{
+			mysql.query(sql2, function(err, rows) {
+		        if (err) return console.error(err.stack);
+		        res.send("300");
+		    });
+		}
 	});
 }
 

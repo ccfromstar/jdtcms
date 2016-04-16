@@ -396,7 +396,7 @@ gallery.html css
 	width: auto !important;
 }
 
-.am-form select {
+.am-form select,.am-g select {
 	font-size: 1.2rem;
 	width: auto !important;
 	padding-right: 20px;
@@ -443,6 +443,19 @@ gallery.html css
 
 .wx_user_input{
 	width: 200px !important;
+	display:inline-block !important;
+	margin-right: 10px !important;
+}
+
+.btn-search{
+	float: none !important;
+}
+
+.sel_user{
+	margin-right: 10px;
+}
+
+.date_sel{
 	display:inline-block !important;
 	margin-right: 10px !important;
 }

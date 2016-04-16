@@ -12,10 +12,16 @@ var fs = require("fs");
 var formidable = require('formidable');
 var request = require("request");
 var crypto = require("crypto");
+var Jdtuser = require('../models/jdtuser');
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	var user = new User(req.params.sql,req,res);
+}
+
+exports.jdtuserdo = function(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  var jdtuser = new Jdtuser(req.params.sql,req,res);
 }
 
 exports.wx_userdo = function(req, res) {
@@ -36,6 +42,21 @@ exports.wx_recorddo = function(req, res) {
 exports.settingsdo = function(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   var settings = new Settings(req.params.sql,req,res);
+}
+
+function GetDateStr(time,AddDayCount) { 
+  var dd = time; 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
 }
 
 exports.getopenid = function(req, res) {
@@ -69,6 +90,17 @@ exports.getopenid = function(req, res) {
               /*给用户增加积分*/
               var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_read+",score_total = score_total + "+settings[0].score_read+" where openid = '" +openid+"'";
               setLog(sql_wx_user);
+              /*给用户的建定通账户增加使用天数*/
+              var sql_admin = "select * from admin where username ='"+openid+"'";
+              mysql.query(sql_admin, function(err, admin) {
+                if (err) return console.error(err.stack);
+                if(admin[0]){
+                    var d = admin[0].limited + "";
+                    var limited = GetDateStr(new Date(d),settings[0].day_read);
+                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+                    setLog(sql_adday);
+                }
+              });
           });
 					/*文章的阅读数+1*/
 					var sql2 = "update post set read_count = read_count + 1 where id = "+id;
@@ -83,6 +115,25 @@ exports.getopenid = function(req, res) {
 }
 
 var strat_time = new Date();
+
+exports.reg = function (req, res) {
+    var code = req.query.code;
+    var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+    request(url,function(err,response,body){
+        if(!err && response.statusCode == 200){
+            if(JSON.parse(body).errcode != null){
+                console.log(body);
+                res.redirect(req.url);
+                return false;
+            }
+            console.log(body);
+            var openid = JSON.parse(body).openid; 
+            res.render("reg",{openid:openid});
+        }
+    });
+}
 
 exports.weixin_js = function (req, res) {
 	var id = req.query.id;
