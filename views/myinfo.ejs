@@ -29,6 +29,93 @@
 				font-size: 14px;
 			}
 		</style>
+		<script>
+			loadrecord();
+			/*积分兑换*/
+			function changeScore(){
+				var score_unused = $("#score_unused").html();
+				var val = jqradio("changeType");
+				if(!val){
+					alert("请选择您要兑换的金额！");
+					return false;
+				}
+				var arr = val.split("@");
+				if(Number(arr[1]) > Number(score_unused)){
+					alert("对不起，积分不够兑换！");
+					return false;
+				}
+				$.ajax({
+					type: "post",
+					url: hosts + "/redpacket/changeRecord",
+					data: {
+						money:arr[0],
+						score:arr[1],
+						openid:"<%=openid%>"
+					},
+					success: function(data) {
+						if(data == "300"){
+							alert("兑换成功！");
+							var _score = Number(score_unused) - Number(arr[1]);
+							$("#score_unused").html(_score);
+							//update record list
+							loadrecord();
+						}
+					}
+				});
+			}
+			
+			function loadrecord(){
+				$.ajax({
+					type: "post",
+					url: hosts + "/redpacket/getchangeRecord",
+					data: {
+						openid:"<%=openid%>"
+					},
+					success: function(data) {
+						var list = "-- 暂无 --";
+						if(data[0]){
+							list = "<table class='table-myinfo am-table am-table-bordered am-table-radius am-table-striped'>";
+							list += "<tr><th>金额</th><th>时间</th><th>状态</th></tr>";
+							for(var i in data){
+								list += "<tr>";
+								list += "<td>"+data[i].money+"元</td>";
+								list += "<td>"+new Date(data[i].time).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
+								list += "<td>"+data[i].name+"</td>";
+								list += "</tr>";
+							}
+							list += "</table>";
+						}
+						$("#recordlist").html(list);
+					}
+				});
+			}
+			
+			function jqradio(name){
+			    return $(':checked[name="' + name + '"]').val();
+			}
+			
+			Date.prototype.Format = function(fmt) {
+					var d = this;
+					var o = {
+						"M+": d.getMonth() + 1, //月份
+						"d+": d.getDate(), //日
+						"h+": d.getHours(), //小时
+						"m+": d.getMinutes(), //分
+						"s+": d.getSeconds(), //秒
+						"q+": Math.floor((d.getMonth() + 3) / 3), //季度
+						"S" : d.getMilliseconds() //毫秒
+					};
+					if (/(y+)/.test(fmt)) {
+						fmt = fmt.replace(RegExp.$1, (d.getFullYear() + "").substr(4 - RegExp.$1.length));
+					}
+					for (var k in o) {
+						if (new RegExp("(" + k + ")").test(fmt)) {
+							fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						}
+					}
+					return fmt;
+			}
+		</script>
 	</head>
 
 	<body class="am-with-fixed-navbar">
@@ -38,16 +125,43 @@
     		<a href="#title-link">我的信息</a>
   		</h1>
 		</header>
-		<table class="am-table am-table-bordered am-table-radius am-table-striped">
-    		<tr>
-    			<td>可兑换积分</td>
-    			<td><%=score_unused%></td>
-    		</tr>
-    		<tr>
-    			<td>建定通账号到期日期</td>
-    			<td><%=limited%></td>
-    		</tr>
+		<table class="table-myinfo am-table am-table-bordered am-table-radius am-table-striped">
+			<tr>
+				<td>可兑换积分</td>
+				<td id="score_unused">
+					<%=score_unused%>
+				</td>
+			</tr>
+			<tr>
+				<td>建定通账号到期日期</td>
+				<td>
+					<%=limited%>
+				</td>
+			</tr>
 		</table>
+		<div class="am-panel am-panel-default admin-sidebar-panel">
+			<div class="am-panel-bd">
+				<p><span class="am-icon-envelope"></span> 积分兑换现金红包</p>
+				<p>
+					<%for(var i in redpacket){%>
+						<div>
+							<label class="am-radio">
+								<input type="radio" name="changeType" value="<%=redpacket[i].money%>@<%=redpacket[i].score%>" id="changeType<%=i%>" data-am-ucheck />
+								<%=redpacket[i].money%>元现金红包-<%=redpacket[i].score%>积分
+							</label>
+						</div>
+					<%}%>
+					<button type="button" onclick="changeScore()" class="am-btn am-btn-default">确认兑换</button>
+			    </p>
+			</div>
+			<div class="am-panel-bd">
+				<p><span class="am-icon-table"></span> 兑换记录</p>
+				<p id="recordlist">
+					
+				</p>
+			</div>
+		</div>
+
 	</body>
 
 </html>

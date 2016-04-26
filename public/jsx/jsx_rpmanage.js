@@ -46,6 +46,52 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	backDoc:function(id,openid,score,money,e){
+		var o = this;
+		e.preventDefault();
+		$.ajax({
+			type: "post",
+			url: hosts + "/redpacket/backRecord",
+			data: {
+				id:id,
+				openid:openid,
+				score:score,
+				money:money
+			},
+			success: function(data) {
+				if(data == "300"){
+					o.toPage(window.sessionStorage.getItem("indexPage"));
+					$('.successinfo').html('<p>退回成功</p>').removeClass("none");
+					setTimeout(function() {
+						$('.successinfo').addClass("none");
+					}, 2000);
+				}
+			}
+		});
+	},
+	sendDoc:function(id,openid,money,order_no,e){
+		var o = this;
+		e.preventDefault();
+		$.ajax({
+			type: "post",
+			url: hosts + "/redpacket/sendRecord",
+			data: {
+				id:id,
+				openid:openid,
+				money:money,
+				order_no:order_no
+			},
+			success: function(data) {
+				if(data == "300"){
+					o.toPage(window.sessionStorage.getItem("indexPage"));
+					$('.successinfo').html('<p>发放成功</p>').removeClass("none");
+					setTimeout(function() {
+						$('.successinfo').addClass("none");
+					}, 2000);
+				}
+			}
+		});
+	},
 	toPage:function(page,e){
 		var o = this;
 		if(e){
@@ -58,7 +104,7 @@ var R_content = React.createClass({
 		indexPage = indexPage?indexPage:1;
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/getRecord",
+			url: hosts + "/redpacket/getAllgetchangeRecord",
 			data: {
 				indexPage:indexPage
 			},
@@ -81,7 +127,7 @@ var R_content = React.createClass({
 		
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/getRecord",
+			url: hosts + "/redpacket/getAllgetchangeRecord",
 			data: {
 				indexPage:indexPage
 			},
@@ -98,20 +144,41 @@ var R_content = React.createClass({
 	render:function(){
 		var o = this;
 		var list = this.state.data.map(function(c){
-		return(
-				<tr>
-	              <td>{c.money+"元"}</td>
-	              <td>{c.score}</td>
-	              <td>
-	                <div className="am-hide-sm-only am-btn-toolbar">
-	                  <div className="am-btn-group am-btn-group-xs">
-	                    <button onClick={o.editDoc.bind(o,c.id,c.startDate)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-pencil-square-o"></span> 编辑</button>
-	                    <button onClick={o.delDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-trash-o"></span> 删除</button>
-	                  </div>
-	                </div>
-	              </td>
-	            </tr>
-			);
+		if(c.status_id == 1){
+			return(
+					<tr>
+		              <td>{c.openid}</td>
+		              <td>{c.score}</td>
+		              <td>{c.money+"元"}</td>
+		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
+		              <td>{c.name}</td>
+		              <td>
+		                <div className="am-hide-sm-only am-btn-toolbar">
+		                  <div className="am-btn-group am-btn-group-xs">
+		                    <button onClick={o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-gavel"></span> 发放</button>
+		                    <button onClick={o.backDoc.bind(o,c.id,c.openid,c.score,c.money)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-reply"></span> 退回</button>
+		                  </div>
+		                </div>
+		              </td>
+		            </tr>
+			);	
+		}else{
+			return(
+					<tr>
+		              <td>{c.openid}</td>
+		              <td>{c.score}</td>
+		              <td>{c.money+"元"}</td>
+		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
+		              <td>{c.name}</td>
+		              <td>
+		                <div className="am-hide-sm-only am-btn-toolbar">
+		                  <div className="am-btn-group am-btn-group-xs">
+		                    </div>
+		                </div>
+		              </td>
+		            </tr>
+			);	
+		}
 		});
 		var pager=[];
 		var iPa = Number(window.sessionStorage.getItem("indexPage"));
@@ -129,13 +196,13 @@ var R_content = React.createClass({
 			<div className="admin-content">
 			
 			    <div className="am-cf am-padding">
-			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">红包设定</strong> / <small>列表</small></div>
+			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">红包发放</strong> / <small>列表</small></div>
 				</div>
 			    <div className="am-g">
 			      <div className="am-u-sm-12 am-u-md-12">
 			        <div className="am-btn-toolbar">
 			          <div className="am-btn-group am-btn-group-xs">
-			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default"><span className="am-icon-plus"></span> 新增</button>
+			            
 			          </div>
 			        </div>
 			      </div>
@@ -147,8 +214,11 @@ var R_content = React.createClass({
 				          <table className="am-table am-table-striped am-table-hover table-main">
 				            <thead>
 				              <tr>
-				                <th>红包金额</th>
-				                <th>所需积分</th>
+				                <th>兑换人openid</th>
+				                <th>兑换积分</th>
+				                <th>兑换金额</th>
+				                <th>兑换时间</th>
+				                <th>状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

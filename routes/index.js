@@ -168,7 +168,12 @@ exports.myinfo = function (req, res) {
                 	d = rows2[0].limited;
                 	d = d?d.Format("yyyy-MM-dd hh:mm:ss"):"未激活";
                 }
-                res.render("myinfo",{score_unused:rows1[0].score_unused,limited:d});
+                /*得到所有的红包的分类*/
+               	var sql3 = "select * from redpacket";
+               	mysql.query(sql3, function(err, rows3) {
+                	if (err) return console.error(err.stack);
+                	res.render("myinfo",{openid:openid,score_unused:rows1[0].score_unused,limited:d,redpacket:rows3});
+                });
               });
             });
         }

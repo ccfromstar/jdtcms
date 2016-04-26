@@ -68,9 +68,20 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 			      	React.createElement("li", null, React.createElement("a", {href: "#"}, React.createElement("span", {className: "am-icon-clipboard"}), " 奖罚统计")), 
 			      	React.createElement("li", null, React.createElement("a", {href: "query.html"}, React.createElement("span", {className: "am-icon-search"}), " 员工业绩查询")), 
 			       	React.createElement("li", null, React.createElement("a", {href: "settings.html"}, React.createElement("span", {className: "am-icon-cog"}), " 系统设定")), 
-			       	React.createElement("li", null, React.createElement("a", {href: "redpacket.html"}, React.createElement("span", {className: "am-icon-envelope"}), " 红包管理")), 
-					React.createElement("li", null, React.createElement("a", {href: "user.html"}, React.createElement("span", {className: "am-icon-user"}), " 管理员帐号管理")), 
-					React.createElement("li", null, React.createElement("a", {href: "jdtuser.html"}, React.createElement("span", {className: "am-icon-windows"}), " 建定通账户管理")), 
+			       	React.createElement("li", null, 
+			       		React.createElement("a", {href: "rpmanage.html"}, React.createElement("span", {className: "am-icon-envelope"}), " 红包管理"), 
+			       		React.createElement("ul", {className: "am-list am-collapse admin-sidebar-sub am-in", id: "collapse-nav"}, 
+				            React.createElement("li", null, React.createElement("a", {href: "rpmanage.html"}, React.createElement("span", {className: "am-icon-table"}), " 红包发放")), 
+				            React.createElement("li", null, React.createElement("a", {href: "redpacket.html"}, React.createElement("span", {className: "am-icon-pencil-square-o"}), " 设定"))
+				        )
+			       	), 
+					React.createElement("li", null, 
+						React.createElement("a", {href: "user.html"}, React.createElement("span", {className: "am-icon-user"}), " 帐号管理"), 
+						React.createElement("ul", {className: "am-list am-collapse admin-sidebar-sub am-in", id: "collapse-nav"}, 
+				            React.createElement("li", null, React.createElement("a", {href: "user.html"}, React.createElement("span", {className: "am-icon-meh-o"}), " 管理员帐号")), 
+				            React.createElement("li", null, React.createElement("a", {href: "jdtuser.html"}, React.createElement("span", {className: "am-icon-windows"}), " 建定通账户"))
+				        )
+					), 
 					React.createElement("li", {className: "admin-parent"}, 
 						React.createElement("a", {href: "post.html"}, React.createElement("span", {className: "am-icon-wechat"}), " 服务号软文管理")
 					)

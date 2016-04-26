@@ -68,9 +68,20 @@ var R_sidebar = React.createClass({
 			      	<li><a href="#"><span className="am-icon-clipboard"></span>	奖罚统计</a></li>
 			      	<li><a href="query.html"><span className="am-icon-search"></span> 员工业绩查询</a></li>
 			       	<li><a href="settings.html"><span className="am-icon-cog"></span> 系统设定</a></li>
-			       	<li><a href="redpacket.html"><span className="am-icon-envelope"></span> 红包管理</a></li>
-					<li><a href="user.html"><span className="am-icon-user"></span> 管理员帐号管理</a></li>
-					<li><a href="jdtuser.html"><span className="am-icon-windows"></span> 建定通账户管理</a></li>
+			       	<li>
+			       		<a href="rpmanage.html"><span className="am-icon-envelope"></span> 红包管理</a>
+			       		<ul className="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+				            <li><a href="rpmanage.html"><span className="am-icon-table"></span> 红包发放</a></li>
+				            <li><a href="redpacket.html"><span className="am-icon-pencil-square-o"></span> 设定</a></li>
+				        </ul>
+			       	</li>
+					<li>
+						<a href="user.html"><span className="am-icon-user"></span> 帐号管理</a>
+						<ul className="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+				            <li><a href="user.html"><span className="am-icon-meh-o"></span> 管理员帐号</a></li>
+				            <li><a href="jdtuser.html"><span className="am-icon-windows"></span> 建定通账户</a></li>
+				        </ul>
+					</li>
 					<li className="admin-parent">
 						<a href="post.html"><span className="am-icon-wechat"></span> 服务号软文管理</a>
 					</li>

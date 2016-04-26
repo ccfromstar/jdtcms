@@ -381,6 +381,7 @@ gallery.html css
 .am-table>tbody>tr>td, .am-table>tbody>tr>th, .am-table>tfoot>tr>td, .am-table>tfoot>tr>th, .am-table>thead>tr>td, .am-table>thead>tr>th{
 	padding:0 !important;
 	vertical-align: middle;
+	line-height:2 !important;
 }
 .am-pagination>li>a, .am-pagination>li>span{
 	padding:0 3px !important;
@@ -394,6 +395,10 @@ gallery.html css
 .am-form input[type=number], .am-form input[type=search], .am-form input[type=datetime], .am-form input[type=datetime-local], .am-form input[type=date], .am-form input[type=month], .am-form input[type=time], .am-form input[type=week], .am-form input[type=email], .am-form input[type=url], .am-form input[type=tel], .am-form input[type=color], .am-form textarea, .am-form-field{
 	font-size: 1.2rem;
 	width: auto !important;
+}
+
+.table-myinfo td,.table-myinfo th{
+	text-indent: 5px;
 }
 
 .am-form select,.am-g select {
