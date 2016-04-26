@@ -126,7 +126,7 @@ function changeRecord(req,res){
 
 function getchangeRecord(req,res){
 	var openid = req.param("openid");
-	var sql1 = "select * from view_redpacket_record_status where openid = '"+openid+"'";
+	var sql1 = "select * from view_redpacket_record_status where openid = '"+openid+"' order by id desc";
 	mysql.query(sql1, function(err, rows) {
 		if (err) return console.error(err.stack);
 		res.json(rows);
