@@ -551,7 +551,7 @@ function getParentScore(req,res){
 		change += " and time <= '"+GetDateStr(end_time,1)+"'";
 	}
 	var sql1 = "select * from view_score_user_type_post where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
-	var sql2 = "select count(*) as count from view_score_user_type_post where 1=1 "+change;
+	var sql2 = "select type_id from view_score_user_type_post where 1=1 "+change;
 	var sql3 = "select * from settings";
 	console.log(sql1);
 	async.waterfall([function(callback) {
@@ -573,8 +573,12 @@ function getParentScore(req,res){
 		if(err){
 		    console.log(err);
 		}else{	
-			console.log(settings);
-		    var total = rows[0].count;
+			console.log(rows);
+			var count = 0;
+			for(var i in rows){
+				count += 1;
+			}
+		    var total = count;
 		    var totalpage = Math.ceil(total/limit);
             var isFirstPage = page == 1 ;
             var isLastPage = ((page -1) * limit + result.length) == total;
@@ -583,15 +587,30 @@ function getParentScore(req,res){
             for(var i in result){
             	if(result[i].type_id == 1){
             		result[i].score_1 = settings[0].score_admin_focus;
-            		total_score += settings[0].score_admin_focus;
+            		//total_score += settings[0].score_admin_focus;
             	}else if(result[i].type_id == 3){
             		result[i].score_1 = settings[0].score_admin_read;
-            		total_score += settings[0].score_admin_read;
+            		//total_score += settings[0].score_admin_read;
             	}else if(result[i].type_id == 4){
             		result[i].score_1 = settings[0].score_admin_like;
-            		total_score += settings[0].score_admin_like;
+            		//total_score += settings[0].score_admin_like;
             	}else if(result[i].type_id == 5 || result[i].type_id == 6){
             		result[i].score_1 = settings[0].score_admin_transpond;
+            		//total_score += settings[0].score_admin_transpond;
+            	}
+            }
+            for(var i in rows){
+            	if(rows[i].type_id == 1){
+            		//result[i].score_1 = settings[0].score_admin_focus;
+            		total_score += settings[0].score_admin_focus;
+            	}else if(rows[i].type_id == 3){
+            		//result[i].score_1 = settings[0].score_admin_read;
+            		total_score += settings[0].score_admin_read;
+            	}else if(rows[i].type_id == 4){
+            		//result[i].score_1 = settings[0].score_admin_like;
+            		total_score += settings[0].score_admin_like;
+            	}else if(rows[i].type_id == 5 || rows[i].type_id == 6){
+            		//result[i].score_1 = settings[0].score_admin_transpond;
             		total_score += settings[0].score_admin_transpond;
             	}
             }
