@@ -10,9 +10,11 @@ var R_content = React.createClass({
 		window.sessionStorage.removeItem("startDate");
 		window.location = 'booking.html';
 	},
-	readDoc:function(id){
+	readDoc:function(id,openid,e){
+		e.preventDefault();
 		window.sessionStorage.setItem("readdocid",id);
-		window.location = 'booking_read.html';
+		window.sessionStorage.setItem("openid",openid);
+		window.location = 'wx_record_read.html';
 	},
 	delDoc:function(id,e){
 		var o = this;
@@ -189,7 +191,7 @@ var R_content = React.createClass({
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
-	                    <button onClick={o.readDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-search"></span> 查看详情</button>
+	                    <button onClick={o.readDoc.bind(o,c.id,c.wx_openid)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-search"></span> 查看详情</button>
 	                  </div>
 	                </div>
 	              </td>

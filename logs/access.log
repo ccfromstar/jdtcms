@@ -1,0 +1,1048 @@
+[2016-04-21 14:54:21.668] [ERROR] console - Error: ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO)
+    at Handshake.Sequence._packetToError (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:30:14)
+    at Handshake.ErrorPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Handshake.js:99:18)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+    at Protocol.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:37:16)
+    at Socket.<anonymous> (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:75:28)
+    at Socket.EventEmitter.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:746:14)
+    at Socket.EventEmitter.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:408:10)
+    --------------------
+    at Protocol._enqueue (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:110:48)
+    at Protocol.handshake (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:42:41)
+    at PoolConnection.Connection.connect (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:101:18)
+    at Pool.getConnection (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:42:23)
+    at Pool.query (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:185:8)
+    at getWxGroup (D:\git\jdtcms\models\wx_user.js:614:8)
+    at new WxUser (D:\git\jdtcms\models\wx_user.js:25:6)
+    at exports.wx_userdo (D:\git\jdtcms\routes\index.js:35:16)
+    at callbacks (D:\git\jdtcms\node_modules\express\lib\router\index.js:164:37)
+    at param (D:\git\jdtcms\node_modules\express\lib\router\index.js:138:11)
+[2016-04-21 14:54:27.759] [ERROR] console - Error: ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO)
+    at Handshake.Sequence._packetToError (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:30:14)
+    at Handshake.ErrorPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Handshake.js:99:18)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+    at Protocol.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:37:16)
+    at Socket.<anonymous> (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:75:28)
+    at Socket.EventEmitter.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:746:14)
+    at Socket.EventEmitter.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:408:10)
+    --------------------
+    at Protocol._enqueue (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:110:48)
+    at Protocol.handshake (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:42:41)
+    at PoolConnection.Connection.connect (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:101:18)
+    at Pool.getConnection (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:42:23)
+    at Pool.query (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:185:8)
+    at checkLogin (D:\git\jdtcms\models\user.js:32:9)
+    at new User (D:\git\jdtcms\models\user.js:8:6)
+    at exports.userdo (D:\git\jdtcms\routes\index.js:20:13)
+    at callbacks (D:\git\jdtcms\node_modules\express\lib\router\index.js:164:37)
+    at param (D:\git\jdtcms\node_modules\express\lib\router\index.js:138:11)
+[2016-04-21 14:56:27.783] [ERROR] console - Error: ER_ACCESS_DENIED_ERROR: Access denied for user ''@'localhost' (using password: NO)
+    at Handshake.Sequence._packetToError (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:30:14)
+    at Handshake.ErrorPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Handshake.js:99:18)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+    at Protocol.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:37:16)
+    at Socket.<anonymous> (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:75:28)
+    at Socket.EventEmitter.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:746:14)
+    at Socket.EventEmitter.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:408:10)
+    --------------------
+    at Protocol._enqueue (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:110:48)
+    at Protocol.handshake (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:42:41)
+    at PoolConnection.Connection.connect (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:101:18)
+    at Pool.getConnection (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:42:23)
+    at Pool.query (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:185:8)
+    at checkLogin (D:\git\jdtcms\models\user.js:32:9)
+    at new User (D:\git\jdtcms\models\user.js:8:6)
+    at exports.userdo (D:\git\jdtcms\routes\index.js:20:13)
+    at callbacks (D:\git\jdtcms\node_modules\express\lib\router\index.js:164:37)
+    at param (D:\git\jdtcms\node_modules\express\lib\router\index.js:138:11)
+[2016-04-21 14:57:02.124] [INFO] console - 8089 start
+[2016-04-21 14:57:12.837] [INFO] console - 正在获取第12个用户的信息，共有1183个用户...
+[2016-04-21 14:57:12.906] [INFO] console - 正在写入第12条数据，共有1183条...
+[2016-04-21 14:57:14.150] [INFO] console - 正在获取第175个用户的信息，共有1183个用户...
+[2016-04-21 14:57:14.226] [INFO] console - 正在写入第175条数据，共有1183条...
+[2016-04-21 14:57:14.383] [INFO] console - 正在获取第792个用户的信息，共有1183个用户...
+[2016-04-21 14:57:14.454] [INFO] console - 正在写入第792条数据，共有1183条...
+[2016-04-21 14:57:14.592] [INFO] console - 正在获取第1140个用户的信息，共有1183个用户...
+[2016-04-21 14:57:14.657] [INFO] console - 正在写入第1140条数据，共有1183条...
+[2016-04-21 14:57:57.713] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 and time >= '2016-04-22' order by time desc limit 0,20
+[2016-04-21 14:57:57.942] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-21 14:58:01.067] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 and time >= '2016-04-14' order by time desc limit 0,20
+[2016-04-21 14:58:01.300] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-21 15:48:57.961] [INFO] console - 8089 start
+[2016-04-21 15:49:21.412] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-21 15:51:20.606] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-21 15:56:46.184] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-21 16:12:37.028] [INFO] console - 8089 start
+[2016-04-21 16:12:40.621] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-21 16:14:39.767] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-22 11:05:34.396] [INFO] console - 8089 start
+[2016-04-22 11:05:42.266] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-22 11:07:38.279] [INFO] console - <xml>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<return_msg><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></return_msg>
+<result_code><![CDATA[FAIL]]></result_code>
+<err_code><![CDATA[CA_ERROR]]></err_code>
+<err_code_des><![CDATA[CA证书出错，请登录微信支付商户平台下载证书]]></err_code_des>
+<mch_billno><![CDATA[1232871002201604211234567890]]></mch_billno>
+<mch_id>1232871002</mch_id>
+<wxappid><![CDATA[wx50581eac2142a492]]></wxappid>
+<re_openid><![CDATA[oh822jvVXPrv6lILL5sZBkF8tLyM]]></re_openid>
+<total_amount>100</total_amount>
+</xml>
+[2016-04-22 11:35:11.848] [INFO] console - 8089 start
+[2016-04-22 11:35:19.749] [INFO] normal - Error: Cannot find module 'when'
+    at Function.Module._resolveFilename (module.js:338:15)
+    at Function.Module._load (module.js:280:25)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:6:12)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+[2016-04-22 11:36:22.202] [INFO] console - 8089 start
+[2016-04-22 11:36:24.731] [INFO] normal - Error: Cannot find module 'lodash'
+    at Function.Module._resolveFilename (module.js:338:15)
+    at Function.Module._load (module.js:280:25)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:7:9)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+[2016-04-22 11:37:55.380] [INFO] console - 8089 start
+[2016-04-22 11:38:00.197] [INFO] normal - Error: Cannot find module 'qs'
+    at Function.Module._resolveFilename (module.js:338:15)
+    at Function.Module._load (module.js:280:25)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:3:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+[2016-04-22 11:38:19.097] [INFO] console - 8089 start
+[2016-04-22 14:19:16.938] [INFO] console - 8089 start
+[2016-04-22 14:19:36.735] [INFO] console - 8089 start
+[2016-04-22 14:20:51.492] [INFO] console - 8089 start
+[2016-04-22 15:33:02.675] [INFO] console - 8089 start
+[2016-04-22 15:33:08.539] [INFO] normal - Error: ENOENT, no such file or directory 'D:\git\jdtcms\routes\pem\rsa_private_key.pem'
+    at Object.fs.openSync (fs.js:427:18)
+    at Object.fs.readFileSync (fs.js:284:15)
+    at Object.Pingpp.setPrivateKeyPath (D:\git\jdtcms\node_modules\pingpp\lib\pingpp.js:138:27)
+    at exports.sendredpack (D:\git\jdtcms\routes\index.js:299:9)
+    at callbacks (D:\git\jdtcms\node_modules\express\lib\router\index.js:164:37)
+    at param (D:\git\jdtcms\node_modules\express\lib\router\index.js:138:11)
+    at pass (D:\git\jdtcms\node_modules\express\lib\router\index.js:145:5)
+    at Router._dispatch (D:\git\jdtcms\node_modules\express\lib\router\index.js:173:5)
+    at Object.router (D:\git\jdtcms\node_modules\express\lib\router\index.js:33:10)
+    at next (D:\git\jdtcms\node_modules\express\node_modules\connect\lib\proto.js:193:15)
+[2016-04-22 15:33:49.047] [INFO] console - 8089 start
+[2016-04-22 15:53:52.246] [INFO] console - 8089 start
+[2016-04-22 16:02:48.257] [INFO] console - 8089 start
+[2016-04-22 16:04:40.761] [INFO] console - 8089 start
+[2016-04-22 16:12:03.925] [INFO] console - 8089 start
+[2016-04-22 16:12:39.086] [INFO] console - 8089 start
+[2016-04-22 16:12:44.374] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 123456789 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_aXTif5Kyr9GCXz9qbTXTOyfP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 123456789 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_aXTif5Kyr9GCXz9qbTXTOyfP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 123456789 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_aXTif5Kyr9GCXz9qbTXTOyfP。' } }
+Error: 红包 123456789 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_aXTif5Kyr9GCXz9qbTXTOyfP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-22 16:14:14.206] [INFO] console - 8089 start
+[2016-04-22 16:14:20.991] [INFO] console - null
+[2016-04-22 16:14:42.460] [INFO] console - 8089 start
+[2016-04-22 16:14:47.334] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_TiPGe9fX94WHTOenbTqfnv98。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_TiPGe9fX94WHTOenbTqfnv98。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_TiPGe9fX94WHTOenbTqfnv98。' } }
+Error: 红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_TiPGe9fX94WHTOenbTqfnv98。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-22 16:14:47.340] [INFO] console - null
+[2016-04-22 16:15:05.679] [INFO] console - 8089 start
+[2016-04-22 16:15:16.880] [INFO] console - null
+[2016-04-22 16:15:16.882] [INFO] console - { id: 'red_zvjbnDPqf1a1DyPe10i1yrvD',
+  object: 'red_envelope',
+  created: 1461312916,
+  received: null,
+  refunded: null,
+  livemode: false,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937928383',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '活动' },
+  metadata: {} }
+[2016-04-22 16:17:15.650] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928383 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_zvjbnDPqf1a1DyPe10i1yrvD。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928383 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_zvjbnDPqf1a1DyPe10i1yrvD。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928383 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_zvjbnDPqf1a1DyPe10i1yrvD。' } }
+Error: 红包 23728937928383 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_zvjbnDPqf1a1DyPe10i1yrvD。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-22 16:17:15.654] [INFO] console - null
+[2016-04-25 21:29:22.789] [INFO] console - 8089 start
+[2016-04-25 21:29:30.302] [INFO] console - null
+[2016-04-25 21:29:30.306] [INFO] console - { id: 'red_Karnz1Pyfbb9mHC0KSazvDu9',
+  object: 'red_envelope',
+  created: 1461590964,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937928383',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '活动' },
+  metadata: {} }
+[2016-04-25 21:32:29.411] [INFO] console - 8089 start
+[2016-04-25 21:33:23.261] [INFO] console - 正在获取第570个用户的信息，共有1184个用户...
+[2016-04-25 21:33:23.337] [INFO] console - 正在写入第570条数据，共有1184条...
+[2016-04-25 21:33:23.535] [INFO] console - 正在获取第1080个用户的信息，共有1184个用户...
+[2016-04-25 21:33:23.604] [INFO] console - 正在写入第1080条数据，共有1184条...
+[2016-04-25 21:34:06.753] [INFO] console - 8089 start
+[2016-04-25 21:34:16.268] [INFO] console - null
+[2016-04-25 21:34:16.273] [INFO] console - { id: 'red_XLib9GGm98iDDCe1mPLG8iH4',
+  object: 'red_envelope',
+  created: 1461591250,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937928388',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jmNWuApEHERvvUxlFB0ROsM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '活动' },
+  metadata: {} }
+[2016-04-25 21:36:14.547] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。' } }
+Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:36:14.551] [INFO] console - null
+[2016-04-25 21:38:19.582] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。' } }
+Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:38:19.587] [INFO] console - null
+[2016-04-25 21:40:49.608] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。' } }
+Error: 红包 23728937928388 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_XLib9GGm98iDDCe1mPLG8iH4。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:40:49.611] [INFO] console - null
+[2016-04-25 21:41:36.620] [INFO] console - 8089 start
+[2016-04-25 21:41:41.903] [INFO] console - null
+[2016-04-25 21:41:41.905] [INFO] console - { id: 'red_bfHGuH1Gev10SGKq54zXHybH',
+  object: 'red_envelope',
+  created: 1461591696,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937928389',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jmNWuApEHERvvUxlFB0ROsM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '活动' },
+  metadata: {} }
+[2016-04-25 21:43:40.299] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_bfHGuH1Gev10SGKq54zXHybH。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_bfHGuH1Gev10SGKq54zXHybH。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_bfHGuH1Gev10SGKq54zXHybH。' } }
+Error: 红包 23728937928389 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_bfHGuH1Gev10SGKq54zXHybH。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:43:40.303] [INFO] console - null
+[2016-04-25 21:44:50.561] [INFO] console - 8089 start
+[2016-04-25 21:44:55.875] [INFO] console - null
+[2016-04-25 21:44:55.881] [INFO] console - { id: 'red_WPCebTPafTK8ijvjrTur1a14',
+  object: 'red_envelope',
+  created: 1461591890,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937938389',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jmNWuApEHERvvUxlFB0ROsM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: 
+   { nick_name: '建定通',
+     send_name: '活动',
+     logo: 'http://www.huiyoulun.com/images/logo.png' },
+  metadata: {} }
+[2016-04-25 21:46:46.393] [INFO] console - 8089 start
+[2016-04-25 21:46:51.468] [INFO] console - null
+[2016-04-25 21:46:51.474] [INFO] console - { id: 'red_L4eXD8r98GGCOiLGmLCafHeP',
+  object: 'red_envelope',
+  created: 1461592005,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937938189',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: 
+   { nick_name: '建定通',
+     send_name: '活动',
+     logo: 'http://www.huiyoulun.com/images/logo.png' },
+  metadata: {} }
+[2016-04-25 21:48:49.683] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:48:49.688] [INFO] console - null
+[2016-04-25 21:51:49.743] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:51:49.749] [INFO] console - null
+[2016-04-25 21:58:49.713] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 21:58:49.715] [INFO] console - null
+[2016-04-25 22:10:49.766] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 22:10:49.772] [INFO] console - null
+[2016-04-25 22:42:49.874] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 22:42:49.879] [INFO] console - null
+[2016-04-25 23:15:03.787] [INFO] console - { type: 'PingppConnectionError',
+  stack: 'Error: An error occurred with our connection to Pingpp\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at ClientRequest.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:144:9)\n    at ClientRequest.EventEmitter.emit (events.js:95:17)\n    at CleartextStream.socketErrorListener (http.js:1547:9)\n    at CleartextStream.EventEmitter.emit (events.js:95:17)\n    at Socket.onerror (tls.js:1445:17)\n    at Socket.EventEmitter.emit (events.js:117:20)\n    at net.js:833:16',
+  rawType: undefined,
+  code: undefined,
+  param: undefined,
+  message: 'An error occurred with our connection to Pingpp',
+  detail: 'getaddrinfo ENOTFOUND',
+  raw: 
+   { message: 'An error occurred with our connection to Pingpp',
+     detail: 'getaddrinfo ENOTFOUND' } }
+Error: An error occurred with our connection to Pingpp
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at ClientRequest.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:144:9)
+    at ClientRequest.EventEmitter.emit (events.js:95:17)
+    at CleartextStream.socketErrorListener (http.js:1547:9)
+    at CleartextStream.EventEmitter.emit (events.js:95:17)
+    at Socket.onerror (tls.js:1445:17)
+    at Socket.EventEmitter.emit (events.js:117:20)
+    at net.js:833:16
+[2016-04-25 23:15:03.792] [INFO] console - null
+[2016-04-25 23:46:51.226] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-25 23:46:51.230] [INFO] console - null
+[2016-04-26 00:18:50.054] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 00:18:50.058] [INFO] console - null
+[2016-04-26 00:50:50.115] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 00:50:50.117] [INFO] console - null
+[2016-04-26 01:22:50.191] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 01:22:50.196] [INFO] console - null
+[2016-04-26 01:54:50.236] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 01:54:50.243] [INFO] console - null
+[2016-04-26 02:26:50.326] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 02:26:50.331] [INFO] console - null
+[2016-04-26 02:58:50.371] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 02:58:50.384] [INFO] console - null
+[2016-04-26 03:30:52.881] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 03:30:52.885] [INFO] console - null
+[2016-04-26 04:02:50.492] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 04:02:50.501] [INFO] console - null
+[2016-04-26 04:34:50.584] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 04:34:50.587] [INFO] console - null
+[2016-04-26 05:06:50.691] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 05:06:50.694] [INFO] console - null
+[2016-04-26 05:38:50.704] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 05:38:50.709] [INFO] console - null
+[2016-04-26 06:10:50.780] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 06:10:50.788] [INFO] console - null
+[2016-04-26 06:42:50.840] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 06:42:50.844] [INFO] console - null
+[2016-04-26 07:14:50.901] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 07:14:50.905] [INFO] console - null
+[2016-04-26 07:46:50.946] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 07:46:50.949] [INFO] console - null
+[2016-04-26 08:18:51.036] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。' } }
+Error: 红包 23728937938189 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_L4eXD8r98GGCOiLGmLCafHeP。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 08:18:51.037] [INFO] console - null
+[2016-04-26 10:20:27.199] [INFO] console - 8089 start
+[2016-04-26 10:35:19.819] [INFO] console - 8089 start
+[2016-04-26 10:35:26.196] [INFO] console - null
+[2016-04-26 10:35:26.199] [INFO] console - { id: 'red_1qv5m9TG44eDaH8qzHOeXLCG',
+  object: 'red_envelope',
+  created: 1461638119,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '23728937938129',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: 'Your Subject',
+  body: 'Your Body',
+  description: 'Your Description',
+  failure_msg: null,
+  extra: 
+   { nick_name: '建定通',
+     send_name: '活动',
+     logo: 'http://www.huiyoulun.com/images/logo.png' },
+  metadata: {} }
+[2016-04-26 10:37:24.293] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 红包 23728937938129 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_1qv5m9TG44eDaH8qzHOeXLCG。\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '红包 23728937938129 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_1qv5m9TG44eDaH8qzHOeXLCG。',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '红包 23728937938129 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_1qv5m9TG44eDaH8qzHOeXLCG。' } }
+Error: 红包 23728937938129 已经通过支付渠道 wx_pub 发送。Red_envelope id: red_1qv5m9TG44eDaH8qzHOeXLCG。
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 10:37:24.298] [INFO] console - null
+[2016-04-26 10:38:13.534] [INFO] console - 8089 start
+[2016-04-26 11:31:05.433] [INFO] console - 8089 start

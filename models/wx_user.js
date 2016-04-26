@@ -27,11 +27,20 @@ WxUser = function(action,req,res){
 	  	case "getUserById":
 	  		getUserById(req,res);
 	  		break;
+	  	case "getUserByopenid":
+	  		getUserByopenid(req,res);
+	  		break;
 	  	case "getUser":
 	  		getUser(req,res);
 	  		break;
+	  	case "getGroup":
+	  		getGroup(req,res);
+	  		break;
 	  	case "setUser":
 	  		setUser(req,res);
+	  		break;
+	  	case "setGroup":
+	  		setGroup(req,res);
 	  		break;
 	  	case "getScore":
 	  		getScore(req,res);
@@ -315,6 +324,15 @@ function getUserById(req,res){
 		});
 }
 
+function getUserByopenid(req,res){
+		var id = req.param("id");
+		var sql = "select * from view_user_group where openid = '" + id + "'";
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
+}
+
 function setUser(req,res){
 		var userid = req.param("userid");
 		var id = req.param("id");
@@ -329,9 +347,50 @@ function setUser(req,res){
 		});
 }
 
+function setGroup(req,res){
+	var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    //1.获取access_token
+    var url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
+    	request(url,function(err,response,body){
+            if(!err && response.statusCode == 200){
+            	var o = JSON.parse(body);
+                var access_token = o.access_token;
+                var groupid = req.param("groupid");
+				var openid = req.param("openid");
+				var formData = {
+					openid:openid,
+					to_groupid:groupid
+				};
+				formData = JSON.stringify(formData);
+				console.log(access_token);
+				var url = "https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token="+access_token;
+				request({
+				    url: url,
+				    method: 'POST',
+				    body: formData
+				}, function(err, response, body) {
+				    if (!err && response.statusCode == 200) {
+				    	console.log(body);
+				    	/*修改wx_user*/
+				    	var id = req.param("id");
+						var sql = "update wx_user set groupid = "+groupid+" where id = " + id;
+						var sql1 = "select group_name from view_user_group where id = " + id;
+						mysql.query(sql, function(err, result) {
+							if (err) return console.error(err.stack);
+							mysql.query(sql1, function(err, rows) {
+								if (err) return console.error(err.stack);
+								res.json(rows[0]);
+							});
+						});
+				    }
+				});
+            }
+        });
+}
+
 function setRemark(req,res){
 	var appId = settings.AppID;
-	console.log(appId);
     var appSecret = settings.AppSecret;
     //1.获取access_token
     var url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
@@ -369,6 +428,14 @@ function setRemark(req,res){
 
 function getUser(req,res){
 		var sql = "select id,name from user";
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
+}
+
+function getGroup(req,res){
+		var sql = "select group_id,group_name from wx_group";
 		mysql.query(sql, function(err, result) {
 			if (err) return console.error(err.stack);
 			res.json(result);

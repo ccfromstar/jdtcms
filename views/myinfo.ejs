@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>我的信息</title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="css/amazeui.min.css" />
+		<link rel="stylesheet" href="css/basic.css" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/amazeui.min.js"></script>
+		<script type="text/javascript" src="js/setting.js"></script>
+		<style>
+			.header {
+				text-align: center;
+			}
+			
+			.header h1 {
+				font-size: 200%;
+				color: #333;
+				margin-top: 30px;
+			}
+			
+			.header p {
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body class="am-with-fixed-navbar">
+		<!-- Header -->
+		<header data-am-widget="header" class="am-header am-header-default am-no-layout am-header-fixed">
+			<h1 class="am-header-title">
+    		<a href="#title-link">我的信息</a>
+  		</h1>
+		</header>
+		<table class="am-table am-table-bordered am-table-radius am-table-striped">
+    		<tr>
+    			<td>可兑换积分</td>
+    			<td><%=score_unused%></td>
+    		</tr>
+    		<tr>
+    			<td>建定通账号到期日期</td>
+    			<td><%=limited%></td>
+    		</tr>
+		</table>
+	</body>
+
+</html>

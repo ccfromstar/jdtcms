@@ -12,9 +12,34 @@ WxRecord = function(action,req,res){
 		case "getRecord":
 	  		getRecord(req,res);
 	  		break;
+	  	case "getRecordById":
+	  		getRecordById(req,res);
+	  		break;
+	  	case "setRemark":
+	  		setRemark(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
+}
+
+function setRemark(req,res){
+		var remark = req.param("remark");
+		var id = req.param("id");
+		var sql = "update wx_user_record set remark = '"+remark+"' where id = " + id;
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.send("300");
+		});
+}
+
+function getRecordById(req,res){
+		var id = req.param("id");
+		var sql = "select * from view_record_user_type_post where id = " + id;
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			res.json(result);
+		});
 }
 
 /*获取view_record_user_type*/

@@ -49,6 +49,21 @@ var R_content = React.createClass({
 				$("#wx_user").html(option);
 			}
 		});
+		/*获取分组*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getGroup",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>分组</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
+				}
+				$("#wx_group").html(option);
+			}
+		});
 		/*获取积分明细*/
 		this.toPage();
 	},
@@ -69,6 +84,31 @@ var R_content = React.createClass({
 			success: function(data) {
 				$('.successinfo').html('<p>分配成功</p>').removeClass("none");
 				$("#user_id").html(data.name);
+				setTimeout(function() {
+					$('.successinfo').addClass("none");
+				}, 2000);
+			}
+		});
+	},
+	setGroup:function(e){
+		e.preventDefault();
+		var groupid = $("#wx_group").val();
+		var openid = window.sessionStorage.getItem("openid");
+		var readdocid = window.sessionStorage.getItem("readdocid");
+		if(groupid == "-"){
+			return false;
+		}
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/setGroup",
+			data: {
+				groupid:groupid,
+				id:readdocid,
+				openid:openid
+			},
+			success: function(data) {
+				$('.successinfo').html('<p>分组成功</p>').removeClass("none");
+				$("#groupid").html(data.group_name);
 				setTimeout(function() {
 					$('.successinfo').addClass("none");
 				}, 2000);
@@ -260,7 +300,10 @@ var R_content = React.createClass({
 					            <div className="am-u-sm-4 am-u-md-2 am-text-left">
 					              分组
 					            </div>
-					            <div id="groupid" className="am-u-sm-8 am-u-md-10">
+					            <div id="groupid" className="am-u-sm-8 am-u-md-4">
+					            </div>
+					             <div className="am-hide-sm-only am-u-md-6">
+									<select id="wx_group" onChange={this.setGroup.bind(this)}></select>
 					            </div>
 					        </div>
 

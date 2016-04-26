@@ -13,10 +13,16 @@ var formidable = require('formidable');
 var request = require("request");
 var crypto = require("crypto");
 var Jdtuser = require('../models/jdtuser');
+var Redpacket = require('../models/redpacket');
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	var user = new User(req.params.sql,req,res);
+}
+
+exports.redpacketdo = function(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  var redpacket = new Redpacket(req.params.sql,req,res);
 }
 
 exports.jdtuserdo = function(req, res) {
@@ -133,6 +139,41 @@ exports.reg = function (req, res) {
             res.render("reg",{openid:openid});
         }
     });
+}
+
+exports.myinfo = function (req, res) {
+    var code = req.query.code;
+    var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+    request(url,function(err,response,body){
+        if(!err && response.statusCode == 200){
+            if(JSON.parse(body).errcode != null){
+                console.log(body);
+                res.redirect(req.url);
+                return false;
+            }
+            console.log(body);
+            var openid = JSON.parse(body).openid; 
+            /*根据openid得到未兑换的积分*/
+            var sql1 = "select score_unused from wx_user where openid = '"+openid+"'";
+            mysql.query(sql1, function(err, rows1) {
+              if (err) return console.error(err.stack);
+              /*根据openid得到账号有效期*/
+              var sql2 = "select limited from admin where username = '"+openid+"'";
+              mysql.query(sql2, function(err, rows2) {
+                if (err) return console.error(err.stack);
+                var d = "未激活";
+                if(rows2[0]){
+                	d = rows2[0].limited;
+                	d = d?d.Format("yyyy-MM-dd hh:mm:ss"):"未激活";
+                }
+                res.render("myinfo",{score_unused:rows1[0].score_unused,limited:d});
+              });
+            });
+        }
+    });
+    //res.render("myinfo");
 }
 
 exports.weixin_js = function (req, res) {
@@ -254,6 +295,68 @@ exports.uploadImg = function(req, res) {
     };
     res.send(info);
 }
+
+exports.sendredpack = function(req,res) {
+	/*发送微信红包接口测试*/
+	var pingpp = require('pingpp')('sk_live_4SqPiLHKiDKGiv1SSGa9mT4G');
+	pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
+	pingpp.redEnvelopes.create({
+        order_no:  '23728937938129',
+        app: { id: "app_1qHebLGCe5COOerH" },
+        channel:   "wx_pub",//红包基于微信公众帐号，所以渠道是 wx_pub
+        amount:    100,//金额在 100-20000 之间
+        currency:  "cny",
+        subject:   "Your Subject",
+        body:      "Your Body",
+        extra:     {//extra 需填入的参数请参阅[API 文档]()
+            nick_name: "建定通",
+            send_name: "活动"
+        },
+        recipient: "oh822jvVXPrv6lILL5sZBkF8tLyM",//指定用户的 open_id
+        description: "Your Description" 
+    }, function(err, redEnvelope) {
+        //YOUR CODE
+        console.log(err);
+        console.log(redEnvelope);
+    });
+}
+
+function sign(nonce_str,mch_billno,mch_id,wxappid,send_name,re_openid,total_amount,total_num,wishing,client_ip,act_name,remark) {
+    var ret = {
+        nonce_str: nonce_str,
+        mch_billno: mch_billno,
+        mch_id: mch_id,
+        wxappid: wxappid,
+        send_name: send_name,
+        re_openid:re_openid,
+        total_amount:total_amount,
+        total_num:total_num,
+        wishing:wishing,
+        client_ip:client_ip,
+        act_name:act_name,
+        remark:remark
+    };
+    var string = raw(ret);
+    string = string + '&key=1234567890abcdefghijklmnopqrstuv';
+    var crypto = require('crypto');
+    return crypto.createHash('md5').update(string,'utf8').digest('hex');
+};
+
+function raw(args) {
+  var keys = Object.keys(args);
+  keys = keys.sort()
+  var newArgs = {};
+  keys.forEach(function (key) {
+    newArgs[key.toLowerCase()] = args[key];
+  });
+
+  var string = '';
+  for (var k in newArgs) {
+    string += '&' + k + '=' + newArgs[k];
+  }
+  string = string.substr(1);
+  return string;
+};
 
 Date.prototype.Format = function(fmt) {
 		var d = this;

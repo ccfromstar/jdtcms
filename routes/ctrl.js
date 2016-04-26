@@ -8,5 +8,8 @@ module.exports = function (app, routes) {
     app.get('/getopenid',routes.getopenid);
     app.get('/weixin_js',routes.weixin_js);
     app.get('/reg',routes.reg);
+    app.get('/myinfo',routes.myinfo);
     app.post('/jdtuser/:sql',routes.jdtuserdo);
+    app.post('/redpacket/:sql',routes.redpacketdo);
+    app.get('/sendredpack',routes.sendredpack);
 };
