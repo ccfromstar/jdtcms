@@ -148,6 +148,7 @@ var R_content = React.createClass({
 			return(
 					<tr>
 		              <td>{c.openid}</td>
+		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
 		              <td>{c.money+"元"}</td>
 		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
@@ -166,6 +167,7 @@ var R_content = React.createClass({
 			return(
 					<tr>
 		              <td>{c.openid}</td>
+		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
 		              <td>{c.money+"元"}</td>
 		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
@@ -215,6 +217,7 @@ var R_content = React.createClass({
 				            <thead>
 				              <tr>
 				                <th>兑换人openid</th>
+				                <th>兑换人昵称</th>
 				                <th>兑换积分</th>
 				                <th>兑换金额</th>
 				                <th>兑换时间</th>

@@ -37,7 +37,19 @@ ON b.user_id = e.id;
 DROP VIEW IF EXISTS `view_redpacket_record_status`;
 CREATE VIEW view_redpacket_record_status
 AS
-SELECT a.*,b.name
+SELECT a.*,b.name,c.nickname
 FROM redpacket_record a
 LEFT JOIN redpacket_type b
-ON a.status_id = b.id;
+ON a.status_id = b.id
+LEFT JOIN wx_user c
+ON a.openid = c.openid;
+
+DROP VIEW IF EXISTS `view_rp_status`;
+CREATE VIEW view_rp_status
+AS
+SELECT a.*,b.name,c.nickname
+FROM rp_record a
+LEFT JOIN rp_type b
+ON a.type_id = b.id
+LEFT JOIN wx_user c
+ON a.openid = c.openid;

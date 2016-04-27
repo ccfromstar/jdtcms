@@ -54,9 +54,110 @@ WxUser = function(action,req,res){
 	  	case "createAdmin":
 	  		createAdmin(req,res);
 	  		break;
+	  	case "setRP":
+	  		setRP(req,res);
+	  		break;
+	  	case "getRPScore":
+	  		getRPScore(req,res);
+	  		break;
+	  	case "getAllRPScore":
+	  		getAllRPScore(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
+}
+
+/*奖罚发放*/
+function setRP(req,res){
+	var score_sel = parseInt(req.param("score_sel"));
+	var score_number = parseInt(req.param("score_number"));
+	var score_remark = (req.param("score_remark"));
+	var openid = (req.param("openid"));
+	/*插入奖罚记录表*/
+	var sql1 = "insert into rp_record(openid,type_id,number,txtRemark,time) values('"+openid+"',"+score_sel+","+score_number+",'"+score_remark+"',now())";
+	mysql.query(sql1, function(err, result1) {
+		if (err) return console.error(err.stack);
+		if(score_sel == 1){
+			//奖励积分
+			//生成积分规则表
+			/*记录微信用户积分行为*/
+			var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id) values('"+openid+"',now(),"+score_number+",9)";
+			setLog(sql_score);
+			/*给用户增加积分*/
+			var sql_wx_user = "update wx_user set score_unused = score_unused + "+score_number+",score_total = score_total + "+score_number+" where openid = '" +openid+"'";
+			setLog(sql_wx_user);
+		}else if(score_sel == 2){
+			//惩罚积分
+			//生成积分规则表
+			/*记录微信用户积分行为*/
+			var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id) values('"+openid+"',now(),-"+score_number+",10)";
+			setLog(sql_score);
+			/*给用户增加积分*/
+			var sql_wx_user = "update wx_user set score_unused = score_unused - "+score_number+",score_total = score_total - "+score_number+" where openid = '" +openid+"'";
+			setLog(sql_wx_user);
+		}else if(score_sel == 3){
+			//奖励红包
+			/*给用户发送红包*/
+			//发送红包API
+			var timestamp=Math.round(new Date().getTime()/1000);
+			timestamp = timestamp + "";
+			var pingpp = require('pingpp')(settings.livekey);
+			pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
+			pingpp.redEnvelopes.create({
+				order_no: timestamp,
+				app: {
+					id: settings.app_id
+				},
+				channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
+				amount: Number(score_number) * 100, //金额在 100-20000 之间
+				currency: "cny",
+				subject: "建定通现金红包",
+				body: "感谢您长久以来对建定通的支持！",
+				extra: { //extra 需填入的参数请参阅[API 文档]()
+					nick_name: "建定通",
+					send_name: "现金奖励"
+				},
+				recipient: openid, //指定用户的 open_id
+				description: "感谢您长久以来对建定通的支持！"
+			}, function(err, redEnvelope) {
+				//YOUR CODE
+				if (!err) {
+					console.log(redEnvelope);
+				} else {
+					console.log(err);
+				}
+			});
+		}else if(score_sel == 4){
+			//奖励建定通天数
+			/*给用户的建定通账户增加使用天数*/
+		    var sql_admin = "select * from admin where username ='"+openid+"'";
+		    mysql.query(sql_admin, function(err, admin) {
+		        if (err) return console.error(err.stack);
+		        if(admin[0]){
+		            var d = admin[0].limited + "";
+		            var limited = GetDateStr(new Date(d),score_number);
+		            var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+		            setLog(sql_adday);
+		        }
+		    });
+		}else if(score_sel == 5){
+			score_number = 0 - score_number;
+			//惩罚建定通天数
+			/*给用户的建定通账户减少使用天数*/
+		    var sql_admin = "select * from admin where username ='"+openid+"'";
+		    mysql.query(sql_admin, function(err, admin) {
+		        if (err) return console.error(err.stack);
+		        if(admin[0]){
+		            var d = admin[0].limited + "";
+		            var limited = GetDateStr(new Date(d),score_number);
+		            var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+		            setLog(sql_adday);
+		        }
+		    });
+		}
+		res.send("300");
+	});
 }
 
 /*获取微信关注者列表*/
@@ -521,15 +622,98 @@ function getScore(req,res){
 	});
 }
 
+function getRPScore(req,res){
+	var page = parseInt(req.param("indexPage"));
+	var openid = req.param("cid");
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT;
+	var sql1 = "select * from view_rp_status where openid = '"+openid+"' order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_rp_status where openid = '"+openid+"'";
+	debug(sql1);
+	async.waterfall([function(callback) {
+		mysql.query(sql1, function(err, result) {
+		    if (err) return console.error(err.stack);
+		    callback(null, result);
+		});
+	}, function(result, callback) {
+		mysql.query(sql2, function(err, rows) {
+		    if (err) return console.error(err.stack);
+		    callback(err, rows,result);
+		});
+	}], function(err,rows,result) {
+		if(err){
+		    console.log(err);
+		}else{	
+		    var total = rows[0].count;
+		    var totalpage = Math.ceil(total/limit);
+            var isFirstPage = page == 1 ;
+            var isLastPage = ((page -1) * limit + result.length) == total;
+		   	var ret = {
+		    	total:total,
+		    	totalpage:totalpage,
+		    	isFirstPage:isFirstPage,
+		    	isLastPage:isLastPage,
+				record:result
+			};
+			res.json(ret);
+		}
+	});
+}
+
+function getAllRPScore(req,res){
+	var page = parseInt(req.param("indexPage"));
+	var openid = req.param("cid");
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT;
+	var sql1 = "select * from view_rp_status order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_rp_status";
+	debug(sql1);
+	async.waterfall([function(callback) {
+		mysql.query(sql1, function(err, result) {
+		    if (err) return console.error(err.stack);
+		    callback(null, result);
+		});
+	}, function(result, callback) {
+		mysql.query(sql2, function(err, rows) {
+		    if (err) return console.error(err.stack);
+		    callback(err, rows,result);
+		});
+	}], function(err,rows,result) {
+		if(err){
+		    console.log(err);
+		}else{	
+		    var total = rows[0].count;
+		    var totalpage = Math.ceil(total/limit);
+            var isFirstPage = page == 1 ;
+            var isLastPage = ((page -1) * limit + result.length) == total;
+		   	var ret = {
+		    	total:total,
+		    	totalpage:totalpage,
+		    	isFirstPage:isFirstPage,
+		    	isLastPage:isLastPage,
+				record:result
+			};
+			res.json(ret);
+		}
+	});
+}
+
+
 function GetDateStr(time,AddDayCount) { 
-	var dd = new Date(time); 
-	dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
-	var y = dd.getFullYear(); 
-	//var m = dd.getMonth()+1;//获取当前月份的日期 
-	//var d = dd.getDate(); 
-	var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
-	var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
-	return y+"-"+m+"-"+d; 
+	var dd = time; 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
 } 
 
 function getParentScore(req,res){

@@ -65,7 +65,7 @@ var R_sidebar = React.createClass({
 			      <ul className="am-list admin-sidebar-list">
 			      	<li><a href="record.html"><span className="am-icon-sitemap"></span>	关注者行为查询</a></li>
 			      	<li><a href="index.html"><span className="am-icon-user-plus"></span> 关注者查询</a></li>
-			      	<li><a href="#"><span className="am-icon-clipboard"></span>	奖罚统计</a></li>
+			      	<li><a href="rewardpunish.html"><span className="am-icon-clipboard"></span>	奖罚统计</a></li>
 			      	<li><a href="query.html"><span className="am-icon-search"></span> 员工业绩查询</a></li>
 			       	<li><a href="settings.html"><span className="am-icon-cog"></span> 系统设定</a></li>
 			       	<li>

@@ -1046,3 +1046,503 @@ Error: 红包 23728937938129 已经通过支付渠道 wx_pub 发送。Red_envelo
 [2016-04-26 10:37:24.298] [INFO] console - null
 [2016-04-26 10:38:13.534] [INFO] console - 8089 start
 [2016-04-26 11:31:05.433] [INFO] console - 8089 start
+[2016-04-26 12:19:10.434] [INFO] console - 8089 start
+[2016-04-26 13:26:40.030] [INFO] console - 8089 start
+[2016-04-26 15:11:07.221] [INFO] console - 8089 start
+[2016-04-26 15:18:57.840] [INFO] console - 8089 start
+[2016-04-26 16:04:00.471] [INFO] console - 8089 start
+[2016-04-26 16:05:12.028] [INFO] normal - ReferenceError: money is not defined
+    at Query.<anonymous> (D:\git\jdtcms\models\redpacket.js:49:121)
+    at Query._callback (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:177:8)
+    at Query.Sequence.end (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:78:24)
+    at Query._handleFinalResultPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:143:8)
+    at Query.OkPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:77:10)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+    at Protocol.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:37:16)
+    at Socket.<anonymous> (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:75:28)
+    at Socket.EventEmitter.emit (events.js:95:17)
+[2016-04-26 16:06:04.072] [INFO] console - 8089 start
+[2016-04-26 16:16:47.096] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 16:16:47.294] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 16:17:03.976] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 6 order by time desc limit 0,20
+[2016-04-26 16:17:04.167] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 16:17:07.707] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 16:17:07.897] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 16:37:23.190] [INFO] console - 8089 start
+[2016-04-26 16:37:53.443] [INFO] normal - Error: ENOENT, no such file or directory 'D:\git\jdtcms\models\pem\rsa_private_key.pem'
+    at Object.fs.openSync (fs.js:427:18)
+    at Object.fs.readFileSync (fs.js:284:15)
+    at Object.Pingpp.setPrivateKeyPath (D:\git\jdtcms\node_modules\pingpp\lib\pingpp.js:138:27)
+    at Query.<anonymous> (D:\git\jdtcms\models\redpacket.js:75:10)
+    at Query._callback (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:177:8)
+    at Query.Sequence.end (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:78:24)
+    at Query._handleFinalResultPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:143:8)
+    at Query.OkPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:77:10)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+[2016-04-26 16:52:01.341] [INFO] console - 8089 start
+[2016-04-26 16:52:09.632] [INFO] console - { type: 'PingppInvalidRequest',
+  stack: 'Error: 无效的值 order_no: undefined. 仅能包含数字字符\n    at Error._Error (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:12:17)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Error.Constructor (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\utils.js:65:13)\n    at Function.PingppError.generate (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\Error.js:52:14)\n    at IncomingMessage.<anonymous> (D:\\git\\jdtcms\\node_modules\\pingpp\\lib\\PingppResource.js:118:39)\n    at IncomingMessage.EventEmitter.emit (events.js:117:20)\n    at _stream_readable.js:920:16\n    at process._tickCallback (node.js:415:13)',
+  rawType: 'invalid_request_error',
+  code: undefined,
+  param: undefined,
+  message: '无效的值 order_no: undefined. 仅能包含数字字符',
+  detail: undefined,
+  raw: 
+   { type: 'invalid_request_error',
+     message: '无效的值 order_no: undefined. 仅能包含数字字符' } }
+Error: 无效的值 order_no: undefined. 仅能包含数字字符
+    at Error._Error (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:12:17)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Error.Constructor (D:\git\jdtcms\node_modules\pingpp\lib\utils.js:65:13)
+    at Function.PingppError.generate (D:\git\jdtcms\node_modules\pingpp\lib\Error.js:52:14)
+    at IncomingMessage.<anonymous> (D:\git\jdtcms\node_modules\pingpp\lib\PingppResource.js:118:39)
+    at IncomingMessage.EventEmitter.emit (events.js:117:20)
+    at _stream_readable.js:920:16
+    at process._tickCallback (node.js:415:13)
+[2016-04-26 16:52:26.227] [INFO] console - 8089 start
+[2016-04-26 16:53:08.690] [INFO] console - { id: 'red_ajrvrHfHKOqT8ePef1bTGW14',
+  object: 'red_envelope',
+  created: 1461660781,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '1461660774',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: '建定通现金红包',
+  body: '感谢您长久以来对建定通的支持！',
+  description: '感谢您长久以来对建定通的支持！',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '积分兑换' },
+  metadata: {} }
+[2016-04-26 16:59:07.072] [INFO] console - { id: 'red_OCiXbT8yTmz55KK4C0v14enT',
+  object: 'red_envelope',
+  created: 1461661140,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '1461661092',
+  transaction_no: null,
+  amount: 500,
+  amount_settle: 500,
+  currency: 'cny',
+  recipient: 'oh822jmNWuApEHERvvUxlFB0ROsM',
+  subject: '建定通现金红包',
+  body: '感谢您长久以来对建定通的支持！',
+  description: '感谢您长久以来对建定通的支持！',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '积分兑换' },
+  metadata: {} }
+[2016-04-26 17:03:08.618] [INFO] console - 2016-07-25 17:3:8
+[2016-04-26 17:07:37.823] [INFO] console - 正在获取第291个用户的信息，共有1187个用户...
+[2016-04-26 17:07:37.939] [INFO] console - 正在写入第291条数据，共有1187条...
+[2016-04-26 17:07:38.115] [INFO] console - 正在获取第773个用户的信息，共有1187个用户...
+[2016-04-26 17:07:38.197] [INFO] console - 正在写入第773条数据，共有1187条...
+[2016-04-26 17:07:38.340] [INFO] console - 正在获取第1048个用户的信息，共有1187个用户...
+[2016-04-26 17:07:38.436] [INFO] console - 正在写入第1048条数据，共有1187条...
+[2016-04-26 17:07:38.558] [INFO] console - 正在获取第1103个用户的信息，共有1187个用户...
+[2016-04-26 17:07:38.645] [INFO] console - 正在写入第1103条数据，共有1187条...
+[2016-04-26 17:08:06.565] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:08:06.750] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 17:08:20.717] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 20,20
+[2016-04-26 17:08:20.901] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 17:08:23.319] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:08:23.530] [INFO] console - [ { score_focus: 10,
+    score_read: 1,
+    score_like: 5,
+    score_transpond: 20,
+    score_admin_focus: 100,
+    score_admin_read: 10,
+    score_admin_like: 50,
+    score_admin_transpond: 200,
+    day_initial: 90,
+    day_read: 1,
+    day_like: 2,
+    day_transpond: 4 } ]
+[2016-04-26 17:13:36.739] [INFO] console - 8089 start
+[2016-04-26 17:13:45.870] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:13:46.129] [INFO] console - [ { count: 33, type_id: 3 } ]
+[2016-04-26 17:14:23.853] [INFO] console - 8089 start
+[2016-04-26 17:15:20.484] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:15:20.685] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-26 17:16:54.213] [INFO] console - 8089 start
+[2016-04-26 17:17:01.990] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:17:02.249] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-26 17:17:02.266] [INFO] normal - TypeError: Cannot read property 'type_id' of undefined
+    at D:\git\jdtcms\models\wx_user.js:612:56
+    at D:\git\jdtcms\node_modules\async\lib\async.js:52:16
+    at D:\git\jdtcms\node_modules\async\lib\async.js:1209:30
+    at Query.<anonymous> (D:\git\jdtcms\models\wx_user.js:570:7)
+    at Query._callback (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:177:8)
+    at Query.Sequence.end (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:78:24)
+    at Query._handleFinalResultPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:143:8)
+    at Query.EofPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:127:8)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+[2016-04-26 17:17:28.982] [INFO] console - 8089 start
+[2016-04-26 17:17:40.294] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:17:40.528] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-26 17:17:46.477] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 20,20
+[2016-04-26 17:17:47.125] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-26 17:17:51.419] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-26 17:17:51.888] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-27 10:32:38.715] [INFO] console - 8089 start
+[2016-04-27 10:32:53.899] [INFO] console - 正在获取第224个用户的信息，共有1188个用户...
+[2016-04-27 10:32:53.980] [INFO] console - 正在写入第224条数据，共有1188条...
+[2016-04-27 11:01:10.403] [INFO] console - select * from view_score_user_type_post where 1=1  and user_id = 12 order by time desc limit 0,20
+[2016-04-27 11:01:10.598] [INFO] console - [ { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 6 },
+  { type_id: 5 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 1 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 1 },
+  { type_id: 3 },
+  { type_id: 4 },
+  { type_id: 4 },
+  { type_id: 5 },
+  { type_id: 6 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 8 },
+  { type_id: 8 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 },
+  { type_id: 7 } ]
+[2016-04-27 12:05:58.589] [INFO] console - 8089 start
+[2016-04-27 12:06:05.741] [INFO] normal - Error: ENOENT, open 'D:\git\jdtcms\models\public\txt\openlist.txt'
+[2016-04-27 12:06:44.496] [INFO] console - 8089 start
+[2016-04-27 12:06:46.653] [INFO] normal - Error: ENOENT, open 'D:\git\jdtcms\models\public\txt\openlist.txt'
+[2016-04-27 12:07:05.933] [INFO] console - 8089 start
+[2016-04-27 12:07:09.717] [INFO] normal - Error: ENOENT, open 'D:\git\jdtcms\models..\public\txt\openlist.txt'
+[2016-04-27 12:07:33.625] [INFO] console - 8089 start
+[2016-04-27 12:07:35.596] [INFO] normal - Error: ENOENT, open 'D:\public\txt\openlist.txt'
+[2016-04-27 12:07:45.593] [INFO] console - 8089 start
+[2016-04-27 12:07:47.932] [INFO] console - File Saved !
+[2016-04-27 12:08:03.847] [INFO] console - File Saved !
+[2016-04-27 12:14:20.182] [INFO] console - 8089 start
+[2016-04-27 12:14:22.675] [INFO] console - File Saved !
+[2016-04-27 12:15:20.010] [INFO] console - 8089 start
+[2016-04-27 12:15:25.166] [INFO] console - File Saved !
+[2016-04-27 12:25:56.847] [INFO] console - 8089 start
+[2016-04-27 12:26:13.012] [INFO] console - File Saved !
+[2016-04-27 14:18:57.846] [INFO] console - 8089 start
+[2016-04-27 15:28:04.267] [INFO] console - 8089 start
+[2016-04-27 15:37:56.384] [INFO] console - 8089 start
+[2016-04-27 15:40:15.502] [INFO] console - 8089 start
+[2016-04-27 15:53:05.716] [INFO] console - 8089 start
+[2016-04-27 15:53:49.574] [ERROR] console - Error: ER_BAD_FIELD_ERROR: Unknown column 'wx_openid' in 'where clause'
+    at Query.Sequence._packetToError (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Sequence.js:30:14)
+    at Query.ErrorPacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\sequences\Query.js:82:18)
+    at Protocol._parsePacket (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:213:24)
+    at Parser.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Parser.js:62:12)
+    at Protocol.write (D:\git\jdtcms\node_modules\mysql\lib\protocol\Protocol.js:37:16)
+    at Socket.<anonymous> (D:\git\jdtcms\node_modules\mysql\lib\Connection.js:75:28)
+    at Socket.EventEmitter.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:746:14)
+    at Socket.EventEmitter.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:408:10)
+    --------------------
+    at Pool.query (D:\git\jdtcms\node_modules\mysql\lib\Pool.js:182:23)
+    at async.waterfall.total (D:\git\jdtcms\models\wx_user.js:573:9)
+    at fn (D:\git\jdtcms\node_modules\async\lib\async.js:746:34)
+    at D:\git\jdtcms\node_modules\async\lib\async.js:1213:16
+    at D:\git\jdtcms\node_modules\async\lib\async.js:166:37
+    at D:\git\jdtcms\node_modules\async\lib\async.js:706:43
+    at D:\git\jdtcms\node_modules\async\lib\async.js:167:37
+    at Object.async.waterfall (D:\git\jdtcms\node_modules\async\lib\async.js:710:44)
+    at getRPScore (D:\git\jdtcms\models\wx_user.js:572:8)
+    at new WxUser (D:\git\jdtcms\models\wx_user.js:61:6)
+[2016-04-27 15:55:04.504] [INFO] console - 8089 start
+[2016-04-27 16:04:22.618] [INFO] console - 8089 start
+[2016-04-27 16:04:42.103] [INFO] console - { id: 'red_X1GeTCbv9G0GWDefvHWXv1qD',
+  object: 'red_envelope',
+  created: 1461744273,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '1461744280',
+  transaction_no: null,
+  amount: 100,
+  amount_settle: 100,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: '建定通现金红包',
+  body: '感谢您长久以来对建定通的支持！',
+  description: '感谢您长久以来对建定通的支持！',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '奖励现金红包' },
+  metadata: {} }
+[2016-04-27 16:07:37.103] [INFO] console - 8089 start
+[2016-04-27 16:07:54.368] [INFO] console - { id: 'red_GinfvDnPejbDi5eP4GaPGmvT',
+  object: 'red_envelope',
+  created: 1461744465,
+  received: null,
+  refunded: null,
+  livemode: true,
+  status: 'sending',
+  app: 'app_1qHebLGCe5COOerH',
+  channel: 'wx_pub',
+  order_no: '1461744473',
+  transaction_no: null,
+  amount: 200,
+  amount_settle: 200,
+  currency: 'cny',
+  recipient: 'oh822jvVXPrv6lILL5sZBkF8tLyM',
+  subject: '建定通现金红包',
+  body: '感谢您长久以来对建定通的支持！',
+  description: '感谢您长久以来对建定通的支持！',
+  failure_msg: null,
+  extra: { nick_name: '建定通', send_name: '现金奖励' },
+  metadata: {} }
+[2016-04-27 16:40:01.907] [INFO] console - 8089 start
+[2016-04-27 16:41:45.484] [INFO] console - 2016-07-26 16:41:45
+[2016-04-27 16:43:16.655] [INFO] console - 2016-07-26 16:43:16
+[2016-04-27 16:43:24.993] [INFO] console - 8089 start
+[2016-04-27 16:43:37.467] [INFO] console - 2016-07-29 16:43:16
+[2016-04-27 16:44:51.329] [INFO] console - 8089 start
+[2016-04-27 16:45:15.817] [INFO] console - 2016-07-27 16:43:16
+[2016-04-27 16:49:31.566] [INFO] console - 8089 start
