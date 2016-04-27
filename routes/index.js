@@ -122,6 +122,10 @@ exports.getopenid = function(req, res) {
 
 var strat_time = new Date();
 
+exports.regsuccess = function (req, res) {
+    res.render("regsuccess");
+}
+
 exports.reg = function (req, res) {
     var code = req.query.code;
     var appId = settings.AppID;

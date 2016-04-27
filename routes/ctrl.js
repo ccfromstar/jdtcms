@@ -12,4 +12,5 @@ module.exports = function (app, routes) {
     app.post('/jdtuser/:sql',routes.jdtuserdo);
     app.post('/redpacket/:sql',routes.redpacketdo);
     app.get('/sendredpack',routes.sendredpack);
+    app.get('/regsuccess',routes.regsuccess);
 };

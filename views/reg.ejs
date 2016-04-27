@@ -96,10 +96,7 @@
 								}, 2000);
 								return false;
 							}
-							$('.successinfo').html('<p>申请成功</p>').removeClass("none");
-							setTimeout(function() {
-								$('.successinfo').addClass("none");
-							}, 2000);
+							window.location = '/regsuccess';
 						}
 					});
 				});
