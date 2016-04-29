@@ -78,10 +78,6 @@ var R_content = React.createClass({
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
-		if(role == "管理员"){
-			$("#btn_add").removeClass("none");
-		}
 		$.ajax({
 			type: "post",
 			url: hosts + "/user/getUser",
@@ -144,7 +140,7 @@ var R_content = React.createClass({
 			      <div className="am-u-sm-12 am-u-md-12">
 			        <div className="am-btn-toolbar">
 			          <div className="am-btn-group am-btn-group-xs">
-			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default none"><span className="am-icon-plus"></span> 新增</button>
+			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default"><span className="am-icon-plus"></span> 新增</button>
 			          </div>
 			        </div>
 			      </div>
@@ -153,7 +149,7 @@ var R_content = React.createClass({
 			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
-				          <table className="am-table am-table-striped am-table-hover table-main">
+				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
 				                <th>手机号</th>

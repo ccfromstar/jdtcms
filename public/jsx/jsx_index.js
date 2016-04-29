@@ -172,6 +172,25 @@ var R_content = React.createClass({
 			}
 		});
 	},	
+	UpdateWxUserInfo:function(){
+		$('.loadinfo').html('<p>同步中...</p>').removeClass("none");
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/UpdateWxUserInfo",
+			data: {
+
+			},
+			success: function(data) {
+				if(data == "200"){
+					setTimeout(function() {
+						$('.loadinfo').addClass("none");
+						$('.successinfo').html('<p>同步用户信息成功</p>').removeClass("none");
+						window.location = "index.html";
+					}, 120000);
+				}
+			}
+		});
+	},
 	componentDidMount:function(){
 		var o = this;
 		var $modal = $('#my-modal-loading');
@@ -274,6 +293,7 @@ var R_content = React.createClass({
 			          <div className="am-btn-group am-btn-group-xs">
 			            <button type="button" onClick={this.UpdateWxUser} className="am-btn am-btn-default "><span className="am-icon-refresh"></span> 更新关注者</button>
 			          	<button type="button" onClick={this.UpdateWxGroup} className="am-btn am-btn-default"><span className="am-icon-refresh"></span> 更新分组</button>
+			          	<button type="button" onClick={this.UpdateWxUserInfo} className="am-btn am-btn-default"><span className="am-icon-refresh"></span> 同步用户信息</button>
 			          </div>
 			        </div>
 			      </div>
@@ -290,7 +310,7 @@ var R_content = React.createClass({
 			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
-				          <table className="am-table am-table-striped am-table-hover table-main">
+				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
 				              	<th>

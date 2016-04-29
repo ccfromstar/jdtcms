@@ -172,6 +172,25 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},	
+	UpdateWxUserInfo:function(){
+		$('.loadinfo').html('<p>同步中...</p>').removeClass("none");
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/UpdateWxUserInfo",
+			data: {
+
+			},
+			success: function(data) {
+				if(data == "200"){
+					setTimeout(function() {
+						$('.loadinfo').addClass("none");
+						$('.successinfo').html('<p>同步用户信息成功</p>').removeClass("none");
+						window.location = "index.html";
+					}, 120000);
+				}
+			}
+		});
+	},
 	componentDidMount:function(){
 		var o = this;
 		var $modal = $('#my-modal-loading');
@@ -273,7 +292,8 @@ var R_content = React.createClass({displayName: "R_content",
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
 			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
 			            React.createElement("button", {type: "button", onClick: this.UpdateWxUser, className: "am-btn am-btn-default "}, React.createElement("span", {className: "am-icon-refresh"}), " 更新关注者"), 
-			          	React.createElement("button", {type: "button", onClick: this.UpdateWxGroup, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新分组")
+			          	React.createElement("button", {type: "button", onClick: this.UpdateWxGroup, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新分组"), 
+			          	React.createElement("button", {type: "button", onClick: this.UpdateWxUserInfo, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 同步用户信息")
 			          )
 			        )
 			      ), 
@@ -290,7 +310,7 @@ var R_content = React.createClass({displayName: "R_content",
 			    React.createElement("div", {className: "am-g"}, 
 				    React.createElement("div", {className: "am-u-sm-12"}, 
 				        React.createElement("form", {className: "am-form"}, 
-				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main"}, 
+				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main jdt-table"}, 
 				            React.createElement("thead", null, 
 				              React.createElement("tr", null, 
 				              	React.createElement("th", null, 

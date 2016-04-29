@@ -46,6 +46,34 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	UpdateRedpacket:function(){
+		var redpacket_min = $("#redpacket_min").val();
+		var redpacket_max = $("#redpacket_max").val();
+		if(isNaN(redpacket_min) || isNaN(redpacket_max)){
+			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
+			setTimeout(function() {
+				$('.errorinfo').addClass("none");
+			}, 2000);
+			return false;
+		}
+		var that = this;
+
+		$.ajax({
+			type: "post",
+			url: hosts + "/settings/updateRedPacketSettings",
+			data: {
+				redpacket_min:redpacket_min,
+				redpacket_max:redpacket_max
+			},
+			success: function(data) {
+				that.setSettings();
+				$('.successinfo').html('<p>设置成功</p>').removeClass("none");
+				setTimeout(function() {
+					$('.successinfo').addClass("none");
+				}, 2000);
+			}
+		});
+	},
 	toPage:function(page,e){
 		var o = this;
 		if(e){
@@ -71,6 +99,22 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	setSettings:function(){
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		$.ajax({
+			type: "post",
+			url: hosts + "/settings/getSettings",
+			data: {
+				
+			},
+			success: function(data) {
+				$("#redpacket_min").val(data[0].redpacket_min);
+				$("#redpacket_max").val(data[0].redpacket_max);
+				$modal.modal('close');
+			}
+		});
+	},
 	componentDidMount:function(){
 		var o = this;
 		var $modal = $('#my-modal-loading');
@@ -91,6 +135,7 @@ var R_content = React.createClass({
 				o.setState({totalpage:data.totalpage});
 				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
 				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
+				o.setSettings();
 				$modal.modal('close');
 			}
 		});
@@ -100,7 +145,7 @@ var R_content = React.createClass({
 		var list = this.state.data.map(function(c){
 		return(
 				<tr>
-	              <td>{c.money+"元"}</td>
+	              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
 	              <td>{c.score}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
@@ -131,44 +176,64 @@ var R_content = React.createClass({
 			    <div className="am-cf am-padding">
 			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">红包设定</strong> / <small>列表</small></div>
 				</div>
-			    <div className="am-g">
-			      <div className="am-u-sm-12 am-u-md-12">
-			        <div className="am-btn-toolbar">
-			          <div className="am-btn-group am-btn-group-xs">
-			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default"><span className="am-icon-plus"></span> 新增</button>
-			          </div>
-			        </div>
-			      </div>
-			    </div>
-			    
-			    <div className="am-g">
-				    <div className="am-u-sm-12">
-				        <form className="am-form">
-				          <table className="am-table am-table-striped am-table-hover table-main">
-				            <thead>
-				              <tr>
-				                <th>红包金额</th>
-				                <th>所需积分</th>
-			            		<th className="am-hide-sm-only table-set">操作</th>
-				              </tr>
-				          	</thead>
-				          	<tbody>
-				          		{list}
-				          	</tbody>
-				          </table>
-				          	<div className="am-cf">
-							  共 {this.state.total} 条记录
-							  <div className="am-fr">
-							    <ul className="am-pagination">
-							      <li className={this.state.isFirst}><a href="#" onClick={this.toPage.bind(this,Number(window.sessionStorage.getItem("indexPage"))-1)}>«</a></li>
-							      {pager}
-							      <li className={this.state.isLast}><a href="#" onClick={this.toPage.bind(this,Number(window.sessionStorage.getItem("indexPage"))+1)}>»</a></li>
-							    </ul>
-							  </div>
+				
+				
+				<div className="am-tabs am-margin" data-am-tabs>
+				    <ul className="am-tabs-nav am-nav am-nav-tabs">
+				      <li className="am-active"><a href="#tab1">固定金额红包</a></li>
+				      <li><a href="#tab2">随机金额红包</a></li>
+				    </ul>
+				
+				    <div className="am-tabs-bd">
+				      <div className="am-tab-panel am-fade am-in am-active" id="tab1">
+				      		<div className="am-g">
+						      <div className="am-u-sm-12 am-u-md-12">
+						        <div className="am-btn-toolbar">
+						          <div className="am-btn-group am-btn-group-xs">
+						            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default"><span className="am-icon-plus"></span> 新增</button>
+						          </div>
+						        </div>
+						      </div>
+						    </div>
+						    
+						    <div className="am-g">
+							    <div className="am-u-sm-12">
+							        <form className="am-form">
+							          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
+							            <thead>
+							              <tr>
+							                <th>红包金额</th>
+							                <th>所需积分</th>
+						            		<th className="am-hide-sm-only table-set">操作</th>
+							              </tr>
+							          	</thead>
+							          	<tbody>
+							          		{list}
+							          	</tbody>
+							          </table>
+							          	<div className="am-cf">
+										  共 {this.state.total} 条记录
+										  <div className="am-fr">
+										    <ul className="am-pagination">
+										      <li className={this.state.isFirst}><a href="#" onClick={this.toPage.bind(this,Number(window.sessionStorage.getItem("indexPage"))-1)}>«</a></li>
+										      {pager}
+										      <li className={this.state.isLast}><a href="#" onClick={this.toPage.bind(this,Number(window.sessionStorage.getItem("indexPage"))+1)}>»</a></li>
+										    </ul>
+										  </div>
+										</div>
+							        </form>
+							    </div>
 							</div>
-				        </form>
+				      </div>
+				      <div className="am-tab-panel am-fade" id="tab2">
+				      		<div className="am-form">
+				      			金额范围：<input type="text" id="redpacket_min" className="am-input-sm settings_input" defaultValue="0" /> ~ <input type="text" id="redpacket_max" className="am-input-sm settings_input" defaultValue="0" />
+				      			<button type="button" onClick={this.UpdateRedpacket} className="btn-c am-btn am-btn-primary am-btn-xs">保存</button>
+				      		</div>
+				      </div>
 				    </div>
 				</div>
+
 				<div className="am-modal am-modal-confirm" tabIndex="-1" id="del-confirm">
 				  <div className="am-modal-dialog">
 				    <div className="am-modal-hd">提示</div>

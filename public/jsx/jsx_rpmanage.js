@@ -150,7 +150,7 @@ var R_content = React.createClass({
 		              <td>{c.openid}</td>
 		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
-		              <td>{c.money+"元"}</td>
+		              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
 		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 		              <td>{c.name}</td>
 		              <td>
@@ -169,7 +169,7 @@ var R_content = React.createClass({
 		              <td>{c.openid}</td>
 		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
-		              <td>{c.money+"元"}</td>
+		              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
 		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 		              <td>{c.name}</td>
 		              <td>
@@ -213,7 +213,7 @@ var R_content = React.createClass({
 			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
-				          <table className="am-table am-table-striped am-table-hover table-main">
+				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
 				                <th>兑换人openid</th>

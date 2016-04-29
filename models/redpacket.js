@@ -96,39 +96,82 @@ function sendRecord(req, res) {
 	var order_no = req.param("order_no");
 	//var timestamp=Math.round(new Date().getTime()/1000);
 	order_no = order_no + "";
-	//兑换记录状态变为已发放
-	var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
-	mysql.query(sql1, function(err, result1) {
-		if (err) return console.error(err.stack);
-		//发送红包API
-		var pingpp = require('pingpp')(settings.livekey);
-		pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
-		pingpp.redEnvelopes.create({
-			order_no: order_no,
-			app: {
-				id: settings.app_id
-			},
-			channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
-			amount: Number(money) * 100, //金额在 100-20000 之间
-			currency: "cny",
-			subject: "建定通现金红包",
-			body: "感谢您长久以来对建定通的支持！",
-			extra: { //extra 需填入的参数请参阅[API 文档]()
-				nick_name: "建定通",
-				send_name: "积分兑换"
-			},
-			recipient: openid, //指定用户的 open_id
-			description: "感谢您长久以来对建定通的支持！"
-		}, function(err, redEnvelope) {
-			//YOUR CODE
-			if (!err) {
-				console.log(redEnvelope);
-				res.send("300");
-			} else {
-				console.log(err);
-			}
+	if(Number(money)==-1){
+		//随机金额红包
+		var sql0 = "select * from settings";
+		mysql.query(sql0, function(err, row0) {
+			if (err) return console.error(err.stack);
+			//生成金额
+			var rnd_money = parseInt(Math.random()*(row0[0].redpacket_max-row0[0].redpacket_min+1)+row0[0].redpacket_min,10);
+			//兑换记录状态变为已发放
+			var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
+			mysql.query(sql1, function(err, result1) {
+				if (err) return console.error(err.stack);
+				//发送红包API
+				var pingpp = require('pingpp')(settings.livekey);
+				pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
+				pingpp.redEnvelopes.create({
+					order_no: order_no,
+					app: {
+						id: settings.app_id
+					},
+					channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
+					amount: Number(rnd_money) * 100, //金额在 100-20000 之间
+					currency: "cny",
+					subject: "建定通现金红包",
+					body: "感谢您长久以来对建定通的支持！",
+					extra: { //extra 需填入的参数请参阅[API 文档]()
+						nick_name: "建定通",
+						send_name: "积分兑换"
+					},
+					recipient: openid, //指定用户的 open_id
+					description: "感谢您长久以来对建定通的支持！"
+				}, function(err, redEnvelope) {
+					//YOUR CODE
+					if (!err) {
+						console.log(redEnvelope);
+						res.send("300");
+					} else {
+						console.log(err);
+					}
+				});
+			});
 		});
-	});
+	}else{
+		//兑换记录状态变为已发放
+		var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
+		mysql.query(sql1, function(err, result1) {
+			if (err) return console.error(err.stack);
+			//发送红包API
+			var pingpp = require('pingpp')(settings.livekey);
+			pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
+			pingpp.redEnvelopes.create({
+				order_no: order_no,
+				app: {
+					id: settings.app_id
+				},
+				channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
+				amount: Number(money) * 100, //金额在 100-20000 之间
+				currency: "cny",
+				subject: "建定通现金红包",
+				body: "感谢您长久以来对建定通的支持！",
+				extra: { //extra 需填入的参数请参阅[API 文档]()
+					nick_name: "建定通",
+					send_name: "积分兑换"
+				},
+				recipient: openid, //指定用户的 open_id
+				description: "感谢您长久以来对建定通的支持！"
+			}, function(err, redEnvelope) {
+				//YOUR CODE
+				if (!err) {
+					console.log(redEnvelope);
+					res.send("300");
+				} else {
+					console.log(err);
+				}
+			});
+		});	
+	}
 }
 
 function changeRecord(req, res) {

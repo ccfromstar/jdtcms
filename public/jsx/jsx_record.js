@@ -234,7 +234,7 @@ var R_content = React.createClass({
 			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
-				          <table className="am-table am-table-striped am-table-hover table-main">
+				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
 				              	<th>openid</th>

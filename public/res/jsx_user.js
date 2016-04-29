@@ -78,10 +78,6 @@ var R_content = React.createClass({displayName: "R_content",
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
-		if(role == "管理员"){
-			$("#btn_add").removeClass("none");
-		}
 		$.ajax({
 			type: "post",
 			url: hosts + "/user/getUser",
@@ -144,7 +140,7 @@ var R_content = React.createClass({displayName: "R_content",
 			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12"}, 
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
 			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-			            React.createElement("button", {id: "btn_add", type: "button", onClick: this.newDoc, className: "am-btn am-btn-default none"}, React.createElement("span", {className: "am-icon-plus"}), " 新增")
+			            React.createElement("button", {id: "btn_add", type: "button", onClick: this.newDoc, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-plus"}), " 新增")
 			          )
 			        )
 			      )
@@ -153,7 +149,7 @@ var R_content = React.createClass({displayName: "R_content",
 			    React.createElement("div", {className: "am-g"}, 
 				    React.createElement("div", {className: "am-u-sm-12"}, 
 				        React.createElement("form", {className: "am-form"}, 
-				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main"}, 
+				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main jdt-table"}, 
 				            React.createElement("thead", null, 
 				              React.createElement("tr", null, 
 				                React.createElement("th", null, "手机号"), 

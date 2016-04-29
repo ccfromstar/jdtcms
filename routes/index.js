@@ -176,7 +176,11 @@ exports.myinfo = function (req, res) {
                	var sql3 = "select * from redpacket";
                	mysql.query(sql3, function(err, rows3) {
                 	if (err) return console.error(err.stack);
-                	res.render("myinfo",{openid:openid,score_unused:rows1[0].score_unused,limited:d,redpacket:rows3});
+                	var sql4 = "select * from settings";
+                	mysql.query(sql4, function(err, rows4) {
+                		if (err) return console.error(err.stack);
+                		res.render("myinfo",{openid:openid,score_unused:rows1[0].score_unused,limited:d,redpacket:rows3,settings:rows4});
+                	});
                 });
               });
             });

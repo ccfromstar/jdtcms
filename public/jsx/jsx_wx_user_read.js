@@ -151,6 +151,11 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	setRPconfirm:function(e){
+		var o = this;
+		e.preventDefault();
+		$("#rp-confirm").modal();
+	},
 	setRP:function(e){
 		/*奖罚确认*/
 		var that = this;
@@ -172,6 +177,22 @@ var R_content = React.createClass({
 				$('.errorinfo').addClass("none");
 			}, 2000);
 			return false;
+		}
+		/*判断如果是发红包，1分钟内只能发送一次红包给一个用户*/
+		if(Number(score_sel) == 3){
+			var last_redpacket_sendtime = new Date(window.sessionStorage.getItem("last_redpacket_sendtime"));
+			if(last_redpacket_sendtime){
+				var this_redpacket_sendtime = new Date();
+				var date_difference=this_redpacket_sendtime.getTime()-last_redpacket_sendtime.getTime();
+				if(parseInt(date_difference/1000) < 61){
+					$('.errorinfo').html('<p>1分钟内只能发送一次红包给一个用户</p>').removeClass("none");
+					setTimeout(function() {
+						$('.errorinfo').addClass("none");
+					}, 2000);
+					return false;
+				}
+			}
+			window.sessionStorage.setItem("last_redpacket_sendtime",new Date());
 		}
 		$.ajax({
 			type: "post",
@@ -493,7 +514,7 @@ var R_content = React.createClass({
 					       		<p>备注说明 
 					       		&nbsp;&nbsp;<input type="text" id="score_remark" className="am-input-sm wx_user_input" />
 					       		</p>
-					       		<button type="button" onClick={this.setRP} className="am-btn am-btn-default am-btn-xs">确认</button>						        
+					       		<button type="button" onClick={this.setRPconfirm} className="am-btn am-btn-default am-btn-xs">确认</button>						        
 							</div>
 					    </div>  
 					    
@@ -532,6 +553,19 @@ var R_content = React.createClass({
 				
 				<div className="am-margin">
 				    <button type="button" onClick={this.cancleDoc} className="btn-c am-btn am-btn-primary am-btn-xs">关闭</button>
+				</div>
+				
+				<div className="am-modal am-modal-confirm" tabIndex="-1" id="rp-confirm">
+				  <div className="am-modal-dialog">
+				    <div className="am-modal-hd">提示</div>
+				    <div className="am-modal-bd">
+				      是否确定执行操作？
+				    </div>
+				    <div className="am-modal-footer">
+				      <span className="am-modal-btn" data-am-modal-cancel>取消</span>
+				      <span className="am-modal-btn" data-am-modal-confirm onClick={this.setRP}>确定</span>
+				    </div>
+				  </div>
 				</div>
 			</div>
 		);

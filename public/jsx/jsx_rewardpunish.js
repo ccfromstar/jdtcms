@@ -122,12 +122,6 @@ var R_content = React.createClass({
 				  <td>{c.number}</td>
 			      <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 			      <td>{c.txtRemark}</td>
-	              <td>
-	                <div className="am-hide-sm-only am-btn-toolbar">
-	                  <div className="am-btn-group am-btn-group-xs">
-	                  </div>
-	                </div>
-	              </td>
 	            </tr>
 			);
 		});
@@ -163,7 +157,7 @@ var R_content = React.createClass({
 						    <div className="am-g">
 							    <div className="am-u-sm-12">
 							        <form className="am-form">
-							          <table className="am-table am-table-striped am-table-hover table-main">
+							          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 							            <thead>
 							              <tr>
 							              	<th>openid</th>
@@ -172,7 +166,6 @@ var R_content = React.createClass({
 						              		<th>奖罚内容</th>
 						              		<th>时间</th>
 						              		<th>备注</th>
-						            		<th className="am-hide-sm-only table-set"></th>
 							              </tr>
 							          	</thead>
 							          	<tbody>

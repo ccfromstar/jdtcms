@@ -121,13 +121,7 @@ var R_content = React.createClass({displayName: "R_content",
 	              React.createElement("td", null, c.name), 
 				  React.createElement("td", null, c.number), 
 			      React.createElement("td", null, new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")), 
-			      React.createElement("td", null, c.txtRemark), 
-	              React.createElement("td", null, 
-	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
-	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
-	                  )
-	                )
-	              )
+			      React.createElement("td", null, c.txtRemark)
 	            )
 			);
 		});
@@ -163,7 +157,7 @@ var R_content = React.createClass({displayName: "R_content",
 						    React.createElement("div", {className: "am-g"}, 
 							    React.createElement("div", {className: "am-u-sm-12"}, 
 							        React.createElement("form", {className: "am-form"}, 
-							          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main"}, 
+							          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main jdt-table"}, 
 							            React.createElement("thead", null, 
 							              React.createElement("tr", null, 
 							              	React.createElement("th", null, "openid"), 
@@ -171,8 +165,7 @@ var R_content = React.createClass({displayName: "R_content",
 							                React.createElement("th", null, "奖罚行为"), 
 						              		React.createElement("th", null, "奖罚内容"), 
 						              		React.createElement("th", null, "时间"), 
-						              		React.createElement("th", null, "备注"), 
-						            		React.createElement("th", {className: "am-hide-sm-only table-set"})
+						              		React.createElement("th", null, "备注")
 							              )
 							          	), 
 							          	React.createElement("tbody", null, 

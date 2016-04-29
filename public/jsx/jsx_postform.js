@@ -53,24 +53,24 @@ var R_content = React.createClass({
         };
 	    KindEditor.ready(function(k){
 	        editor = k.create('#post',options);
+	        var o = this;
+			var mode = window.sessionStorage.getItem('mode');
+			if(mode == "edit"){
+				var editid = window.sessionStorage.getItem("editid");
+				$.ajax({
+					type: "post",
+					url: hosts + "/post/getPostById",
+					data: {
+						id:editid
+					},
+					success: function(data) {
+						$('#title').val(data[0].title);
+						editor.html(data[0].post);
+						
+					}
+				});
+			}
 	    });
-		var o = this;
-		var mode = window.sessionStorage.getItem('mode');
-		if(mode == "edit"){
-			var editid = window.sessionStorage.getItem("editid");
-			$.ajax({
-				type: "post",
-				url: hosts + "/post/getPostById",
-				data: {
-					id:editid
-				},
-				success: function(data) {
-					$('#title').val(data[0].title);
-					editor.html(data[0].post);
-					
-				}
-			});
-		}
 	},
 	render:function(){
 		return(

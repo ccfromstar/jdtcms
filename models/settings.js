@@ -10,6 +10,9 @@ Settings = function(action,req,res){
 	  	case "updateSettings":
 	  		updateSettings(req,res);
 	  		break;
+	  	case "updateRedPacketSettings":
+	  		updateRedPacketSettings(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -21,6 +24,20 @@ function getSettings(req,res){
 			if (err) return console.error(err.stack);
 			res.json(row);
 		});
+}
+
+function updateRedPacketSettings(req,res){
+	var redpacket_min = req.param("redpacket_min");
+	var redpacket_max = req.param("redpacket_max");
+			var sql = "update settings set ";
+			sql += " redpacket_min = "+redpacket_min+",";
+			sql += " redpacket_max = "+redpacket_max;
+			mysql.query(sql, function(err, result) {
+				if (err) return console.error(err.stack);
+				if(result.affectedRows == 1){
+					res.send("300");
+				}
+			});
 }
 
 function updateSettings(req,res){

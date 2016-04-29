@@ -10,32 +10,16 @@
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="Cache-Control" content="no-siteapp" />
 		<link rel="stylesheet" href="css/amazeui.min.css" />
-		<link rel="stylesheet" href="css/basic.css" />
+		<link rel="stylesheet" href="css/weixin_basic.css" />
 		<script src="js/jquery.min.js"></script>
 		<script src="js/amazeui.min.js"></script>
 		<script type="text/javascript" src="js/setting.js"></script>
-		<style>
-			.header {
-				text-align: center;
-			}
-			
-			.header h1 {
-				font-size: 200%;
-				color: #333;
-				margin-top: 30px;
-			}
-			
-			.header p {
-				font-size: 14px;
-			}
-		</style>
 	</head>
 
 	<body>
 		<script>
-			$(function(){
+			$(function() {
 				//window.sessionStorage.setItem("openid",'<%=openid%>');
-
 				$("#reg").click(function() {
 					var name = $('#name').val();
 					var mobile = $('#mobile').val();
@@ -89,7 +73,7 @@
 							openid: '<%=openid%>'
 						},
 						success: function(data) {
-							if(data == "400"){
+							if (data == "400") {
 								$('.errorinfo').html('<p>不能重复申请</p>').removeClass("none");
 								setTimeout(function() {
 									$('.errorinfo').addClass("none");

@@ -63,6 +63,9 @@ WxUser = function(action,req,res){
 	  	case "getAllRPScore":
 	  		getAllRPScore(req,res);
 	  		break;
+	  	case "UpdateWxUserInfo":
+	  		UpdateWxUserInfo(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -302,6 +305,84 @@ function updateWxUser(req,res){
     }else{
         debug("not first access_token");
     }
+}
+
+/*同步微信用户的昵称和头像信息*/
+function UpdateWxUserInfo(req,res){
+	var timestamp = parseInt(new Date().getTime() / 1000) + '';
+    var nonceStr = Math.random().toString(36).substr(2, 15);
+    var appId = settings.AppID;
+    var appSecret = settings.AppSecret;
+    //判断access_token是否已经获得，并且时效在2小时(7200s)以内
+    var end_time = new Date();
+    var timediff=end_time.getTime()-strat_time.getTime()  //时间差的毫秒数
+    timediff = timediff/1000;
+    //if(access_token == "" || Number(timediff) > 7200){
+    if(1 == 1){
+        debug("first access_token");
+        async.waterfall([function(callback) {
+        	/*获取access_token*/
+        	var url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+appId+"&secret="+appSecret;
+			request(url,function(err,response,body){
+	            if(response.statusCode == 200){
+	                var o = JSON.parse(body);
+	                access_token = o.access_token;
+	                debug("access_token:"+access_token);
+	                callback(err,access_token);
+	            }
+	        });
+		},function(access_token,callback) {
+        	/*得到数据库里已获取的openid*/
+        	var openidlist = "";
+        	var sql = "select openid from wx_user where subscribe = 1";
+        	mysql.query(sql, function(err, rows) {
+				if (err) return console.error(err.stack);
+				openidlist = (rows);
+				callback(err,access_token,openidlist);
+			});
+
+		}, function(access_token,openidlist, callback) {
+					var list = [];
+					for(var i in openidlist){
+						list.push(openidlist[i]);
+					}
+					/*根据openid获取用户基本信息*/
+					var count = 0;
+					async.eachSeries(list, function(record, callback) {
+						count += 1;	
+						//console.log('正在获取第' + count + '个用户的信息，共有' + list.length + '个用户...');
+						var url_basic = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+access_token+"&openid="+record.openid+"&lang=zh_CN";
+						request(url_basic,function(err,response,body){
+							if(response.statusCode == 200){
+							    var record1 = JSON.parse(body);
+							    /*同步数据库*/
+							    console.log('正在同步第' + count + '条数据，共有' + list.length + '条...');
+							    record1.nickname = (record1.nickname).replace(/'/g, "\\'");
+							    var sql = "update wx_user set nickname = '"+record1.nickname+"',headimgurl = '"+record1.headimgurl+"' where openid = '"+record.openid+"'";
+								mysql.query(sql, function(err, info) {
+									if (err) return console.error(err.stack);
+									if (info.affectedRows == 1) {
+										callback(err);
+									}
+								});
+							}
+						});
+							
+					}, function(err) {
+						if (err) return console.error(err.stack);
+						callback(err);
+					});
+		}], function(err) {
+			if(err){
+			    res.send(err);
+			}else{
+				res.send("200");
+			}
+		});	
+    }else{
+        debug("not first access_token");
+    }
+    res.send("200");
 }
 
 /*记录微信用户行为,微信用户积分增加减少记录，微信用户信息表积分变化*/
@@ -716,6 +797,22 @@ function GetDateStr(time,AddDayCount) {
   return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
 } 
 
+function GetDateStr_end(time,AddDayCount) { 
+	var dd = new Date(time); 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+} 
+
+
 function getParentScore(req,res){
 	var page = parseInt(req.param("indexPage"));
 	var user_id = req.param("user_id");
@@ -732,7 +829,7 @@ function getParentScore(req,res){
 		change += " and time >= '"+start_time+"'";
 	}
 	if(end_time != ""){
-		change += " and time <= '"+GetDateStr(end_time,1)+"'";
+		change += " and time <= '"+GetDateStr_end(end_time,1)+"'";
 	}
 	var sql1 = "select * from view_score_user_type_post where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
 	var sql2 = "select type_id from view_score_user_type_post where 1=1 "+change;
