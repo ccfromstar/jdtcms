@@ -457,8 +457,8 @@ gallery.html css
 }
 
 .sel_user{
-	margin-right: 10px;
 	padding:5px;
+	margin-right:0.8rem;
 }
 
 .date_sel{
@@ -490,7 +490,7 @@ strong{
 .am-list>li>a{
 	padding:0.7rem 0 0.7rem 2.4rem !important;
 }
-.am-btn{
+.am-table .am-btn{
 	padding: 0.2rem !important;
 }
 .am-header-title a{
@@ -498,4 +498,32 @@ strong{
 }
 .am-input-sm{
 	font-size: 1.2rem !important;
+}
+.search_input{
+	padding: 5px;
+	width:10rem !important;
+	margin-right: 0.8rem;
+}
+.search_input_num{
+	padding: 5px;
+	width:4rem !important;
+	margin-right: 0.8rem;
+}
+.menu-search{
+	line-height: 3;
+}
+.action_check label{
+	margin-left: 1rem;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.action_check input{
+	margin-top:-2px; 
+	margin-bottom:1px;
+	vertical-align:text-bottom; 
+}
+
+.btn-getDate{
+	margin-right: 1rem;
 }

@@ -744,12 +744,63 @@ function getRPScore(req,res){
 
 function getAllRPScore(req,res){
 	var page = parseInt(req.param("indexPage"));
-	var openid = req.param("cid");
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
-	var sql1 = "select * from view_rp_status order by time desc limit " + (page - 1) * limit + "," + limit;
-	var sql2 = "select count(*) as count from view_rp_status";
+	
+	var openid = req.param("openid");
+	var nickname = req.param("nickname");
+	var wx_group = req.param("wx_group");
+	var start_time = req.param("start_time");
+	var end_time = req.param("end_time");
+	var k_remark = req.param("k_remark");
+	var k_area = req.param("k_area");
+	var wx_user = req.param("wx_user");
+	var k_type_id = req.param("k_type_id");
+	
+	//查询条件
+	var change = "";
+	if(openid != ""){
+		change += " and openid = '"+openid+"'";
+	}
+	if(nickname != ""){
+		change += " and nickname like '%"+nickname+"%'";
+	}
+	if(wx_group != "-" && wx_group != ""){
+		change += " and groupid = '"+wx_group+"'";
+	}
+	if(start_time != ""){
+		change += " and time >= '"+start_time+"'";
+	}
+	if(end_time != ""){
+		change += " and time <= '"+GetDateStr_end(end_time,1)+"'";
+	}
+	if(k_remark != ""){
+		change += " and wx_remark like '%"+k_remark+"%'";
+	}
+	if(k_area != ""){
+		change += " and (province like '%"+k_area+"%' or city like '%"+k_area+"%')";
+	}
+	if(wx_user != "-" && wx_user !=""){
+		change += " and user_id = "+wx_user;
+	}
+	if(k_type_id && k_type_id != ""){
+		var change_type = "";
+		var arr = k_type_id.split('*');
+		for(var i=0;i<arr.length;i++){
+			if(change_type == ""){
+				change_type = " type_id = "+arr[i];
+			}else{
+				change_type += " or type_id = "+arr[i];
+			}
+		}
+		change += " and ("+change_type+")";
+	}
+	
+	
+	
+	var sql1 = "select * from view_rp_status where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_rp_status where 1=1 "+change;
 	debug(sql1);
 	async.waterfall([function(callback) {
 		mysql.query(sql1, function(err, result) {
@@ -815,15 +866,30 @@ function GetDateStr_end(time,AddDayCount) {
 
 function getParentScore(req,res){
 	var page = parseInt(req.param("indexPage"));
-	var user_id = req.param("user_id");
+	var openid = req.param("openid");
+	var nickname = req.param("nickname");
+	var wx_group = req.param("wx_group");
 	var start_time = req.param("start_time");
 	var end_time = req.param("end_time");
+	var k_remark = req.param("k_remark");
+	var k_area = req.param("k_area");
+	var wx_user = req.param("wx_user");
+	var k_type_id = req.param("k_type_id");
+	
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
+	
+	//查询条件
 	var change = "";
-	if(user_id != "-"){
-		change += " and user_id = "+user_id;
+	if(openid != ""){
+		change += " and wx_openid = '"+openid+"'";
+	}
+	if(nickname != ""){
+		change += " and nickname like '%"+nickname+"%'";
+	}
+	if(wx_group != "-" && wx_group != ""){
+		change += " and groupid = '"+wx_group+"'";
 	}
 	if(start_time != ""){
 		change += " and time >= '"+start_time+"'";
@@ -831,8 +897,30 @@ function getParentScore(req,res){
 	if(end_time != ""){
 		change += " and time <= '"+GetDateStr_end(end_time,1)+"'";
 	}
-	var sql1 = "select * from view_score_user_type_post where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
-	var sql2 = "select type_id from view_score_user_type_post where 1=1 "+change;
+	if(k_remark != ""){
+		change += " and wx_remark like '%"+k_remark+"%'";
+	}
+	if(k_area != ""){
+		change += " and (province like '%"+k_area+"%' or city like '%"+k_area+"%')";
+	}
+	if(wx_user != "-" && wx_user !=""){
+		change += " and user_id = "+wx_user;
+	}
+	if(k_type_id != ""){
+		var change_type = "";
+		var arr = k_type_id.split('*');
+		for(var i=0;i<arr.length;i++){
+			if(change_type == ""){
+				change_type = " type_id = "+arr[i];
+			}else{
+				change_type += " or type_id = "+arr[i];
+			}
+		}
+		change += " and ("+change_type+")";
+	}
+	
+	var sql1 = "select * from view_score_user_type_post where (type_id = 1 or type_id = 3 or type_id = 4 or type_id = 5 or type_id = 6) "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select type_id from view_score_user_type_post where (type_id = 1 or type_id = 3 or type_id = 4 or type_id = 5 or type_id = 6) "+change;
 	var sql3 = "select * from settings";
 	console.log(sql1);
 	async.waterfall([function(callback) {
@@ -940,23 +1028,70 @@ function createAdmin(req,res){
 	});
 }
 
-/*按昵称查询*/
+
+/*组合查询*/
 function getUserByKey(req,res){
-		var key = req.param("key");
-		var groupid = req.param("groupid");
 		var page = parseInt(req.param("indexPage"));
+		var openid = req.param("openid");
+		var nickname = req.param("nickname");
+		var wx_group = req.param("wx_group");
+		var start_time = req.param("start_time");
+		var end_time = req.param("end_time");
+		var k_remark = req.param("k_remark");
+		var k_area = req.param("k_area");
+		var wx_user = req.param("wx_user");
+		
+		var score_unused1 = Number(req.param("score_unused1"));
+		var score_unused2 = Number(req.param("score_unused2"));
+		var score_total1 = Number(req.param("score_total1"));
+		var score_total2 = Number(req.param("score_total2"));
+		
 		var cid = parseInt(req.param("cid"));
-		var role = req.param("role");
 		var LIMIT = 20;
 		page = (page && page > 0) ? page : 1;
 		var limit = (limit && limit > 0) ? limit : LIMIT;
-		var sql1 = "select * from view_user_group where subscribe = 1 and nickname like '%"+key+"%' ";
-		var sql2 = "select count(*) as count from view_user_group where subscribe = 1 and nickname like '%"+key+"%'";
-		if(groupid){
-			sql1 += " and groupid = "+groupid;
-			sql2 += " and groupid = "+groupid;
+		
+		//查询条件
+		var change = "";
+		if(openid != ""){
+			change += " and openid = '"+openid+"'";
 		}
-		sql1 += " order by subscribe_time desc limit " + (page - 1) * limit + "," + limit;
+		if(nickname != ""){
+			change += " and nickname like '%"+nickname+"%'";
+		}
+		if(wx_group != "-" && wx_group != ""){
+			change += " and groupid = '"+wx_group+"'";
+		}
+		var timestamp_start = Date.parse(new Date(start_time));
+		timestamp_start = timestamp_start / 1000;
+		if(start_time != ""){
+			change += " and subscribe_time >= '"+timestamp_start+"'";
+		}
+		var timestamp_end = Date.parse(new Date(GetDateStr_end(end_time,1)));
+		timestamp_end = timestamp_end / 1000;
+		if(end_time != ""){
+			change += " and subscribe_time <= '"+timestamp_end+"'";
+		}
+		if(k_remark != ""){
+			change += " and remark like '%"+k_remark+"%'";
+		}
+		if(k_area != ""){
+			change += " and (province like '%"+k_area+"%' or city like '%"+k_area+"%')";
+		}
+		if(wx_user != "-" && wx_user !=""){
+			change += " and user_id = "+wx_user;
+		}
+		if(score_unused1 !=0 || score_unused2 !=0){
+			change += " and score_unused >= "+score_unused1+" and score_unused <= "+score_unused2;
+		}
+		if(score_total1 !=0 || score_total2 !=0){
+			change += " and score_total >= "+score_total1+" and score_total <= "+score_total2;
+		}
+		
+		var sql1 = "select * from view_user_group where subscribe = 1 "+change+" order by subscribe_time desc limit " + (page - 1) * limit + "," + limit;
+		var sql2 = "select count(*) as count from view_user_group where subscribe = 1 "+change;
+		
+		console.log(sql1);
 		
 		async.waterfall([function(callback) {
 		    mysql.query(sql1, function(err, result) {

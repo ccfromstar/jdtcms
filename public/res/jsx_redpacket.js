@@ -121,6 +121,7 @@ var R_content = React.createClass({displayName: "R_content",
 		$modal.modal();
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
+		indexPage = 1;
 		indexPage = indexPage?indexPage:1;
 		
 		$.ajax({

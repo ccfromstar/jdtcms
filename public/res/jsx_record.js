@@ -142,6 +142,29 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},	
+	jqchk:function(name){ //jquery获取复选框值
+	    var chk_value = '';
+	    $('input[name="' + name + '"]:checked').each(function (){
+	        if (chk_value == ""){
+	            chk_value = $(this).val();
+	        }else{
+	            chk_value = chk_value + "*" + $(this).val();
+	        }
+	    }
+	    );
+	    return chk_value;
+	},
+	resetKey:function(){
+		window.location.reload();
+	},
+	ShowWin:function(){
+		$("#action_type").modal();
+	},
+	setType:function(){
+		$('#k_type_id').val(this.jqchk('type_id'));
+		$("#action_type").modal('close');
+		this.toPage(1);
+	},
 	getRecord:function(page){
 		var o = this;
 		var $modal = $('#my-modal-loading');
@@ -150,7 +173,16 @@ var R_content = React.createClass({displayName: "R_content",
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
+		/*查询参数*/
+		var k_openid = $("#k_openid").val();
+		var k_nickname = $("#k_nickname").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		var wx_group = $("#wx_group").val();
+		var k_remark = $("#k_remark").val();
+		var k_area = $("#k_area").val();
+		var wx_user = $("#wx_user").val();
+		var k_type_id = $("#k_type_id").val();
 		/*获取列表*/
 		$.ajax({
 			type: "post",
@@ -158,7 +190,15 @@ var R_content = React.createClass({displayName: "R_content",
 			data: {
 				indexPage:indexPage,
 				cid:id,
-				role:role
+				openid:k_openid,
+				nickname:k_nickname,
+				start_time:start_time,
+				end_time:end_time,
+				wx_group:wx_group,
+				k_remark:k_remark,
+				k_area:k_area,
+				wx_user:wx_user,
+				k_type_id:k_type_id
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -171,6 +211,42 @@ var R_content = React.createClass({displayName: "R_content",
 		});
 	},
 	componentDidMount:function(){
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		/*获取分组*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getWxGroup",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>分组</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
+				}
+				$("#wx_group").html(option);
+			}
+		});
+		/*获取客服*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getUser",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>所属客服</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].id+"'>"+data[i].name+"</option>";
+				}
+				$("#wx_user").html(option);
+			}
+		});
 		this.getRecord();
 	},
 	render:function(){
@@ -216,17 +292,22 @@ var R_content = React.createClass({displayName: "R_content",
 			    React.createElement("div", {className: "am-cf am-padding"}, 
 			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "关注者行为查询"), " / ", React.createElement("small", null, "列表"))
 				), 
+			    
 			    React.createElement("div", {className: "am-g"}, 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-9"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12 menu-search"}, 
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
-			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
-			            
-			          )
-			        )
-			      ), 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-3"}, 
-			        React.createElement("div", {className: "am-input-group am-input-group-sm"}
-			          
+			          		React.createElement("input", {type: "text", id: "k_openid", className: "am-input-sm search_input", placeholder: "openid"}), 
+			          		React.createElement("input", {type: "text", id: "k_nickname", className: "am-input-sm search_input", placeholder: "昵称"}), 
+			          		React.createElement("input", {type: "text", id: "k_remark", className: "am-input-sm search_input", placeholder: "用户备注"}), 
+			          		React.createElement("select", {id: "wx_group", className: "sel_user"}), 
+			          		React.createElement("input", {type: "text", id: "k_area", className: "am-input-sm search_input", placeholder: "地域"}), 
+			          		React.createElement("select", {id: "wx_user", className: "sel_user"}), 
+			          		React.createElement("input", {type: "text", id: "start_time", className: "am-form-field date_sel", placeholder: "开始日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          		React.createElement("input", {type: "text", id: "end_time", className: "am-form-field date_sel", placeholder: "结束日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          		React.createElement("input", {type: "hidden", id: "k_type_id", onClick: this.ShowWin, className: "am-input-sm search_input", placeholder: "行为分类", readOnly: true}), 
+			          		React.createElement("button", {type: "button", onClick: this.ShowWin, className: "btn-c am-btn am-btn-default am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-hand-pointer-o"}), " 选择行为分类"), 
+			          		React.createElement("button", {type: "button", onClick: this.toPage.bind(o,1), className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-search"}), " 查询"), 
+			          		React.createElement("button", {type: "button", onClick: this.resetKey, className: "btn-c am-btn am-btn-default am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-bitbucket"}), " 清空")
 			        )
 			      )
 			    ), 
@@ -273,7 +354,40 @@ var R_content = React.createClass({displayName: "R_content",
 				      React.createElement("span", {className: "am-modal-btn", "data-am-modal-confirm": true, onClick: this.delsql}, "确定")
 				    )
 				  )
+				), 
+				
+				React.createElement("div", {className: "am-modal am-modal-no-btn", tabindex: "-1", id: "action_type"}, 
+				  React.createElement("div", {className: "am-modal-dialog"}, 
+				    React.createElement("div", {className: "am-modal-hd"}, "选择行为分类", 
+				      React.createElement("a", {href: "javascript: void(0)", className: "am-close am-close-spin", "data-am-modal-close": true}, "×")
+				    ), 
+				    React.createElement("div", {className: "am-modal-bd"}, 
+				      	React.createElement("div", {className: "action_check"}, 
+						   	React.createElement("label", {for: "type_1"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "1", id: "type_1", "data-am-ucheck": true}), " 关注"	
+							), 
+							React.createElement("label", {for: "type_2"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "2", id: "type_2", "data-am-ucheck": true}), " 取消关注"
+							), 
+							React.createElement("label", {for: "type_3"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "3", id: "type_3", "data-am-ucheck": true}), " 阅读文章"
+							), 
+							React.createElement("label", {for: "type_4"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "4", id: "type_4", "data-am-ucheck": true}), " 点赞"
+							), 
+							React.createElement("label", {for: "type_5"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "5", id: "type_5", "data-am-ucheck": true}), " 分享好友"
+							), 
+							React.createElement("label", {for: "type_6"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "6", id: "type_6", "data-am-ucheck": true}), " 分享朋友圈"
+							)
+						), 
+						React.createElement("button", {type: "button", onClick: this.setType, className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, "确定")
+			          		
+				    )
+				  )
 				)
+				
 			)
 		);
 	}

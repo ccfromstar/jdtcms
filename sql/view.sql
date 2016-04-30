@@ -11,7 +11,7 @@ ON a.user_id = c.id;
 DROP VIEW IF EXISTS `view_record_user_type_post`;
 CREATE VIEW view_record_user_type_post
 AS
-SELECT a.*,b.nickname,c.name,d.title
+SELECT a.*,b.nickname,b.groupid,b.remark as wx_remark,b.province,b.city,b.user_id,c.name,d.title
 FROM wx_user_record a
 LEFT JOIN wx_user b
 ON a.wx_openid = b.openid
@@ -23,7 +23,7 @@ ON a.post_id = d.id;
 DROP VIEW IF EXISTS `view_score_user_type_post`;
 CREATE VIEW view_score_user_type_post
 AS
-SELECT a.*,b.nickname,c.name,d.title,e.name as kefu,b.user_id
+SELECT a.*,b.nickname,b.groupid,b.remark as wx_remark,b.province,b.city,c.name,d.title,e.name as kefu,b.user_id
 FROM wx_user_score a
 LEFT JOIN wx_user b
 ON a.wx_openid = b.openid
@@ -47,7 +47,7 @@ ON a.openid = c.openid;
 DROP VIEW IF EXISTS `view_rp_status`;
 CREATE VIEW view_rp_status
 AS
-SELECT a.*,b.name,c.nickname
+SELECT a.*,b.name,c.nickname,c.groupid,c.remark as wx_remark,c.province,c.city,c.user_id
 FROM rp_record a
 LEFT JOIN rp_type b
 ON a.type_id = b.id

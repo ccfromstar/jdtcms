@@ -54,27 +54,55 @@ var R_content = React.createClass({
 		if(e){
 			e.preventDefault();
 		}
-		/*昵称*/
-		var key = $("#key").val();
-		/*分组*/
-		var groupid = $("#wx_group").val();
-		groupid = (groupid=='-')?null:groupid;
+		
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
-		var role = window.sessionStorage.getItem("crole");
 		indexPage = indexPage?indexPage:1;
+		
+		/*查询参数*/
+		var k_openid = $("#k_openid").val();
+		var k_nickname = $("#k_nickname").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		var wx_group = $("#wx_group").val();
+		var k_remark = $("#k_remark").val();
+		var k_area = $("#k_area").val();
+		var wx_user = $("#wx_user").val();
+		
+		var score_unused1 = $("#score_unused1").val();
+		var score_unused2 = $("#score_unused2").val();
+		var score_total1 = $("#score_total1").val();
+		var score_total2 = $("#score_total2").val();
+		
+		if(isNaN(score_unused1) || isNaN(score_unused2) || isNaN(score_total1) || isNaN(score_total2)){
+			$('.errorinfo').html('<p>积分范围只能填写数字</p>').removeClass("none");
+			setTimeout(function() {
+				$('.errorinfo').addClass("none");
+			}, 2000);
+			return false;
+		}
+		
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		$.ajax({
 			type: "post",
 			url: hosts + "/wx_user/getUserByKey",
 			data: {
-				key:key,
 				indexPage:indexPage,
 				cid:id,
-				role:role,
-				groupid:groupid
+				openid:k_openid,
+				nickname:k_nickname,
+				start_time:start_time,
+				end_time:end_time,
+				wx_group:wx_group,
+				k_remark:k_remark,
+				k_area:k_area,
+				wx_user:wx_user,
+				score_unused1:score_unused1,
+				score_unused2:score_unused2,
+				score_total1:score_total1,
+				score_total2:score_total2
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -85,6 +113,9 @@ var R_content = React.createClass({
 				$modal.modal('close');
 			}
 		});
+	},
+	resetKey:function(){
+		window.location.reload();
 	},
 	exportXls:function(){
 		var id = window.sessionStorage.getItem('cid');
@@ -193,6 +224,12 @@ var R_content = React.createClass({
 	},
 	componentDidMount:function(){
 		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		var indexPage = window.sessionStorage.getItem("indexPage");
@@ -230,6 +267,21 @@ var R_content = React.createClass({
 					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
 				}
 				$("#wx_group").html(option);
+			}
+		});
+		/*获取客服*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getUser",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>所属客服</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].id+"'>"+data[i].name+"</option>";
+				}
+				$("#wx_user").html(option);
 			}
 		});
 	},
@@ -288,21 +340,37 @@ var R_content = React.createClass({
 			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">关注者查询</strong> / <small>列表</small></div>
 				</div>
 			    <div className="am-g">
-			      <div className="am-u-sm-12 am-u-md-9">
+			      <div className="am-u-sm-12 am-u-md-12">
 			        <div className="am-btn-toolbar">
 			          <div className="am-btn-group am-btn-group-xs">
-			            <button type="button" onClick={this.UpdateWxUser} className="am-btn am-btn-default "><span className="am-icon-refresh"></span> 更新关注者</button>
-			          	<button type="button" onClick={this.UpdateWxGroup} className="am-btn am-btn-default"><span className="am-icon-refresh"></span> 更新分组</button>
-			          	<button type="button" onClick={this.UpdateWxUserInfo} className="am-btn am-btn-default"><span className="am-icon-refresh"></span> 同步用户信息</button>
+			            <button type="button" onClick={this.UpdateWxUser} className="am-btn am-btn-default btn-getDate"><span className="am-icon-refresh"></span> 更新关注者</button>
+			          	<button type="button" onClick={this.UpdateWxGroup} className="am-btn am-btn-default btn-getDate"><span className="am-icon-refresh"></span> 更新分组</button>
+			          	<button type="button" onClick={this.UpdateWxUserInfo} className="am-btn am-btn-default btn-getDate"><span className="am-icon-refresh"></span> 同步用户信息</button>
 			          </div>
 			        </div>
 			      </div>
-			      <div className="am-u-sm-12 am-u-md-3">
-			        <div className="am-input-group am-input-group-sm">
-			          <input type="text" id="key" className="am-form-field" placeholder="用户昵称" />
-			          <span className="am-input-group-btn">
-			            <button onClick={this.search} className="am-btn am-btn-default" type="button">搜索</button>
-			          </span>
+			    </div>
+			    
+			    <div className="am-g">
+			      <div className="am-u-sm-12 am-u-md-12 menu-search">
+			        <div className="am-btn-toolbar">  
+			          		<input type="text" id="k_openid" className="am-input-sm search_input" placeholder="openid" />
+			          		<input type="text" id="k_nickname" className="am-input-sm search_input" placeholder="昵称" />
+			          		<input type="text" id="k_remark" className="am-input-sm search_input" placeholder="用户备注" />
+			          		<select id="wx_group" className="sel_user"></select>
+			          		<input type="text" id="k_area" className="am-input-sm search_input" placeholder="地域" />
+			          		<select id="wx_user" className="sel_user"></select>
+			          		<br/>首次关注时间：
+			          		<input type="text" id="start_time" className="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly required />
+			          		<input type="text" id="end_time" className="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly required />
+			          		未兑换的积分：
+			          		<input type="text" id="score_unused1" className="am-input-sm search_input_num" defaultValue="0" />~ &nbsp;
+			          		 <input type="text" id="score_unused2" className="am-input-sm search_input_num" defaultValue="0" />
+			          		总积分：
+			          		<input type="text" id="score_total1" className="am-input-sm search_input_num" defaultValue="0" />~ &nbsp;
+			          		 <input type="text" id="score_total2" className="am-input-sm search_input_num" defaultValue="0" />
+			          		<button type="button" onClick={this.toPage.bind(o,1)} className="btn-c am-btn am-btn-primary am-btn-xs btn-search"><span className="am-icon-search"></span> 查询</button>
+			          		<button type="button" onClick={this.resetKey} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-bitbucket"></span> 清空</button>
 			        </div>
 			      </div>
 			    </div>
@@ -313,11 +381,7 @@ var R_content = React.createClass({
 				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
-				              	<th>
-									<select id="wx_group" onChange={this.toPage.bind(this,1)}>
-							       
-							        </select>
-				              	</th>
+				              	<th>分组</th>
 				              	<th>用户头像</th>
 				              	<th>昵称</th>
 				              	<th>性别</th>

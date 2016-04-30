@@ -89,6 +89,11 @@ function backRecord(req, res) {
 	});
 }
 
+function rd(n,m){
+    var c = m-n+1;  
+    return (Math.random() * c + n).toFixed(2);
+}
+
 function sendRecord(req, res) {
 	var id = req.param("id");
 	var openid = req.param("openid");
@@ -102,7 +107,8 @@ function sendRecord(req, res) {
 		mysql.query(sql0, function(err, row0) {
 			if (err) return console.error(err.stack);
 			//生成金额
-			var rnd_money = parseInt(Math.random()*(row0[0].redpacket_max-row0[0].redpacket_min+1)+row0[0].redpacket_min,10);
+			var rnd_money = rd(row0[0].redpacket_min,(row0[0].redpacket_max-1));
+			console.log(rnd_money);
 			//兑换记录状态变为已发放
 			var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
 			mysql.query(sql1, function(err, result1) {
@@ -299,12 +305,11 @@ function getAllgetchangeRecord(req, res) {
 
 function getRecord(req, res) {
 	var page = parseInt(req.param("indexPage"));
-	var LIMIT = 6;
+	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
 	var sql1 = "select * from redpacket order by id desc limit " + (page - 1) * limit + "," + limit;
 	var sql2 = "select count(*) as count from redpacket";
-	debug(sql1);
 	async.waterfall([function(callback) {
 		mysql.query(sql1, function(err, result) {
 			if (err) return console.error(err.stack);
@@ -319,7 +324,6 @@ function getRecord(req, res) {
 		if (err) {
 			console.log(err);
 		} else {
-
 			var total = rows[0].count;
 			var totalpage = Math.ceil(total / limit);
 			var isFirstPage = page == 1;

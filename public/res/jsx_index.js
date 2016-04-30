@@ -54,27 +54,55 @@ var R_content = React.createClass({displayName: "R_content",
 		if(e){
 			e.preventDefault();
 		}
-		/*昵称*/
-		var key = $("#key").val();
-		/*分组*/
-		var groupid = $("#wx_group").val();
-		groupid = (groupid=='-')?null:groupid;
+		
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
-		var role = window.sessionStorage.getItem("crole");
 		indexPage = indexPage?indexPage:1;
+		
+		/*查询参数*/
+		var k_openid = $("#k_openid").val();
+		var k_nickname = $("#k_nickname").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		var wx_group = $("#wx_group").val();
+		var k_remark = $("#k_remark").val();
+		var k_area = $("#k_area").val();
+		var wx_user = $("#wx_user").val();
+		
+		var score_unused1 = $("#score_unused1").val();
+		var score_unused2 = $("#score_unused2").val();
+		var score_total1 = $("#score_total1").val();
+		var score_total2 = $("#score_total2").val();
+		
+		if(isNaN(score_unused1) || isNaN(score_unused2) || isNaN(score_total1) || isNaN(score_total2)){
+			$('.errorinfo').html('<p>积分范围只能填写数字</p>').removeClass("none");
+			setTimeout(function() {
+				$('.errorinfo').addClass("none");
+			}, 2000);
+			return false;
+		}
+		
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		$.ajax({
 			type: "post",
 			url: hosts + "/wx_user/getUserByKey",
 			data: {
-				key:key,
 				indexPage:indexPage,
 				cid:id,
-				role:role,
-				groupid:groupid
+				openid:k_openid,
+				nickname:k_nickname,
+				start_time:start_time,
+				end_time:end_time,
+				wx_group:wx_group,
+				k_remark:k_remark,
+				k_area:k_area,
+				wx_user:wx_user,
+				score_unused1:score_unused1,
+				score_unused2:score_unused2,
+				score_total1:score_total1,
+				score_total2:score_total2
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -85,6 +113,9 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
+	},
+	resetKey:function(){
+		window.location.reload();
 	},
 	exportXls:function(){
 		var id = window.sessionStorage.getItem('cid');
@@ -193,6 +224,12 @@ var R_content = React.createClass({displayName: "R_content",
 	},
 	componentDidMount:function(){
 		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		var indexPage = window.sessionStorage.getItem("indexPage");
@@ -230,6 +267,21 @@ var R_content = React.createClass({displayName: "R_content",
 					option += "<option value='"+data[i].group_id+"'>"+data[i].group_name+"</option>";
 				}
 				$("#wx_group").html(option);
+			}
+		});
+		/*获取客服*/
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/getUser",
+			data: {
+				
+			},
+			success: function(data) {
+				var option = "<option value='-'>所属客服</option>";
+				for(var i in data){
+					option += "<option value='"+data[i].id+"'>"+data[i].name+"</option>";
+				}
+				$("#wx_user").html(option);
 			}
 		});
 	},
@@ -288,21 +340,37 @@ var R_content = React.createClass({displayName: "R_content",
 			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "关注者查询"), " / ", React.createElement("small", null, "列表"))
 				), 
 			    React.createElement("div", {className: "am-g"}, 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-9"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12"}, 
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
 			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-			            React.createElement("button", {type: "button", onClick: this.UpdateWxUser, className: "am-btn am-btn-default "}, React.createElement("span", {className: "am-icon-refresh"}), " 更新关注者"), 
-			          	React.createElement("button", {type: "button", onClick: this.UpdateWxGroup, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新分组"), 
-			          	React.createElement("button", {type: "button", onClick: this.UpdateWxUserInfo, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-refresh"}), " 同步用户信息")
+			            React.createElement("button", {type: "button", onClick: this.UpdateWxUser, className: "am-btn am-btn-default btn-getDate"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新关注者"), 
+			          	React.createElement("button", {type: "button", onClick: this.UpdateWxGroup, className: "am-btn am-btn-default btn-getDate"}, React.createElement("span", {className: "am-icon-refresh"}), " 更新分组"), 
+			          	React.createElement("button", {type: "button", onClick: this.UpdateWxUserInfo, className: "am-btn am-btn-default btn-getDate"}, React.createElement("span", {className: "am-icon-refresh"}), " 同步用户信息")
 			          )
 			        )
-			      ), 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-3"}, 
-			        React.createElement("div", {className: "am-input-group am-input-group-sm"}, 
-			          React.createElement("input", {type: "text", id: "key", className: "am-form-field", placeholder: "用户昵称"}), 
-			          React.createElement("span", {className: "am-input-group-btn"}, 
-			            React.createElement("button", {onClick: this.search, className: "am-btn am-btn-default", type: "button"}, "搜索")
-			          )
+			      )
+			    ), 
+			    
+			    React.createElement("div", {className: "am-g"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12 menu-search"}, 
+			        React.createElement("div", {className: "am-btn-toolbar"}, 
+			          		React.createElement("input", {type: "text", id: "k_openid", className: "am-input-sm search_input", placeholder: "openid"}), 
+			          		React.createElement("input", {type: "text", id: "k_nickname", className: "am-input-sm search_input", placeholder: "昵称"}), 
+			          		React.createElement("input", {type: "text", id: "k_remark", className: "am-input-sm search_input", placeholder: "用户备注"}), 
+			          		React.createElement("select", {id: "wx_group", className: "sel_user"}), 
+			          		React.createElement("input", {type: "text", id: "k_area", className: "am-input-sm search_input", placeholder: "地域"}), 
+			          		React.createElement("select", {id: "wx_user", className: "sel_user"}), 
+			          		React.createElement("br", null), "首次关注时间：", 
+			          		React.createElement("input", {type: "text", id: "start_time", className: "am-form-field date_sel", placeholder: "开始日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          		React.createElement("input", {type: "text", id: "end_time", className: "am-form-field date_sel", placeholder: "结束日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          		"未兑换的积分：", 
+			          		React.createElement("input", {type: "text", id: "score_unused1", className: "am-input-sm search_input_num", defaultValue: "0"}), "~  ", 
+			          		 React.createElement("input", {type: "text", id: "score_unused2", className: "am-input-sm search_input_num", defaultValue: "0"}), 
+			          		"总积分：", 
+			          		React.createElement("input", {type: "text", id: "score_total1", className: "am-input-sm search_input_num", defaultValue: "0"}), "~  ", 
+			          		 React.createElement("input", {type: "text", id: "score_total2", className: "am-input-sm search_input_num", defaultValue: "0"}), 
+			          		React.createElement("button", {type: "button", onClick: this.toPage.bind(o,1), className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-search"}), " 查询"), 
+			          		React.createElement("button", {type: "button", onClick: this.resetKey, className: "btn-c am-btn am-btn-default am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-bitbucket"}), " 清空")
 			        )
 			      )
 			    ), 
@@ -313,11 +381,7 @@ var R_content = React.createClass({displayName: "R_content",
 				          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main jdt-table"}, 
 				            React.createElement("thead", null, 
 				              React.createElement("tr", null, 
-				              	React.createElement("th", null, 
-									React.createElement("select", {id: "wx_group", onChange: this.toPage.bind(this,1)}
-							       
-							        )
-				              	), 
+				              	React.createElement("th", null, "分组"), 
 				              	React.createElement("th", null, "用户头像"), 
 				              	React.createElement("th", null, "昵称"), 
 				              	React.createElement("th", null, "性别"), 
