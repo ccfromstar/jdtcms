@@ -758,6 +758,9 @@ function getAllRPScore(req,res){
 	var wx_user = req.param("wx_user");
 	var k_type_id = req.param("k_type_id");
 	
+	var cid = parseInt(req.param("cid"));
+	var role_manage = parseInt(req.param("role_manage"));
+	
 	//查询条件
 	var change = "";
 	if(openid != ""){
@@ -797,7 +800,10 @@ function getAllRPScore(req,res){
 		change += " and ("+change_type+")";
 	}
 	
-	
+	//如果没有管理员权限，只能看到自己负责的客户
+	if(role_manage == 0){
+		change += " and user_id = "+cid;
+	}
 	
 	var sql1 = "select * from view_rp_status where 1=1 "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
 	var sql2 = "select count(*) as count from view_rp_status where 1=1 "+change;
@@ -875,6 +881,8 @@ function getParentScore(req,res){
 	var k_area = req.param("k_area");
 	var wx_user = req.param("wx_user");
 	var k_type_id = req.param("k_type_id");
+	var cid = parseInt(req.param("cid"));
+	var role_manage = parseInt(req.param("role_manage"));
 	
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
@@ -917,6 +925,10 @@ function getParentScore(req,res){
 			}
 		}
 		change += " and ("+change_type+")";
+	}
+	//如果没有管理员权限，只能看到自己负责的客户
+	if(role_manage == 0){
+		change += " and user_id = "+cid;
 	}
 	
 	var sql1 = "select * from view_score_user_type_post where (type_id = 1 or type_id = 3 or type_id = 4 or type_id = 5 or type_id = 6) "+change+" order by time desc limit " + (page - 1) * limit + "," + limit;
@@ -1047,6 +1059,8 @@ function getUserByKey(req,res){
 		var score_total2 = Number(req.param("score_total2"));
 		
 		var cid = parseInt(req.param("cid"));
+		var role_manage = parseInt(req.param("role_manage"));
+		
 		var LIMIT = 20;
 		page = (page && page > 0) ? page : 1;
 		var limit = (limit && limit > 0) ? limit : LIMIT;
@@ -1086,6 +1100,11 @@ function getUserByKey(req,res){
 		}
 		if(score_total1 !=0 || score_total2 !=0){
 			change += " and score_total >= "+score_total1+" and score_total <= "+score_total2;
+		}
+		
+		//如果没有管理员权限，只能看到自己负责的客户
+		if(role_manage == 0){
+			change += " and user_id = "+cid;
 		}
 		
 		var sql1 = "select * from view_user_group where subscribe = 1 "+change+" order by subscribe_time desc limit " + (page - 1) * limit + "," + limit;

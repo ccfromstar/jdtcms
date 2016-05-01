@@ -1,3 +1,8 @@
+var role_basic = Number(window.sessionStorage.getItem("c_role_basic"));
+var role_manage = Number(window.sessionStorage.getItem("c_role_manage"));
+var role_send = Number(window.sessionStorage.getItem("c_role_send"));
+var role_custom = Number(window.sessionStorage.getItem("c_role_custom"));
+var role_option = Number(window.sessionStorage.getItem("c_role_option"));
 /*
  * 底部菜单栏组件
  * */
@@ -54,8 +59,19 @@ var R_header = React.createClass({
 var R_sidebar = React.createClass({
 	componentDidMount:function(){
 		var role = window.sessionStorage.getItem('crole');
-		if(role == "业务员"){
-			$('.admin-sidebar-list').find('li').eq(1).addClass('none');
+		if(role_option == 0){
+			/*系统设定*/
+			$('.admin-sidebar-list').find('li').eq(4).addClass('none');
+			/*红包设定*/
+			$('.admin-sidebar-list').find('li').eq(5).find('li').eq(1).addClass('none');
+			/*帐号管理*/
+			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
+			/*软文管理*/
+			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
+		}
+		if(role_send == 0){
+			/*红包管理*/
+			$('.admin-sidebar-list').find('li').eq(5).addClass('none');
 		}
 	},
 	render:function(){

@@ -102,7 +102,8 @@ var R_content = React.createClass({displayName: "R_content",
 				score_unused1:score_unused1,
 				score_unused2:score_unused2,
 				score_total1:score_total1,
-				score_total2:score_total2
+				score_total2:score_total2,
+				role_manage:role_manage
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -222,7 +223,15 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},
+	checkRole:function(){
+		if(role_manage == 0){
+			//如果没有管理员权限，只能看到自己的客户
+			$("#wx_user").addClass("none");
+		}
+	},
 	componentDidMount:function(){
+		/*权限判断*/
+		this.checkRole();
 		var o = this;
 		$("#start_time").bind("click",function(){
 			$('#start_time').datepicker('open');
@@ -237,23 +246,7 @@ var R_content = React.createClass({displayName: "R_content",
 		indexPage = indexPage?indexPage:1;
 		var role = window.sessionStorage.getItem("crole");
 		/*获取用户列表*/
-		$.ajax({
-			type: "post",
-			url: hosts + "/wx_user/getWxUser",
-			data: {
-				indexPage:indexPage,
-				cid:id,
-				role:role
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-				$modal.modal('close');
-			}
-		});
+		this.toPage(1);
 		/*获取分组*/
 		$.ajax({
 			type: "post",

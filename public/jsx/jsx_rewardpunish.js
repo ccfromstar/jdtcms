@@ -105,7 +105,9 @@ var R_content = React.createClass({
 				k_remark:k_remark,
 				k_area:k_area,
 				wx_user:wx_user,
-				k_type_id:k_type_id
+				k_type_id:k_type_id,
+				role_manage:role_manage,
+				cid:id
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -134,8 +136,20 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	checkRole:function(){
+		if(role_manage == 0){
+			//如果没有管理员权限，只能看到自己的客户
+			$("#wx_user").addClass("none");
+		}
+		if(role_send == 0){
+			//没有派发权限
+			$("#li_tab2").addClass("none");
+		}
+	},
 	componentDidMount:function(){
 		var o = this;
+		/*权限判断*/
+		this.checkRole();
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
@@ -214,7 +228,7 @@ var R_content = React.createClass({
 				<div className="am-tabs am-margin" data-am-tabs>
 				    <ul className="am-tabs-nav am-nav am-nav-tabs">
 				      <li className="am-active"><a href="#tab1">奖罚情况</a></li>
-				      <li><a href="#tab2">群发新手红包</a></li>
+				      <li id="li_tab2"><a href="#tab2">群发新手红包</a></li>
 				    </ul>
 				    
 				    <div className="am-tabs-bd">

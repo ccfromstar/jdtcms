@@ -70,6 +70,9 @@ function getRecord(req,res){
 	var wx_user = req.param("wx_user");
 	var k_type_id = req.param("k_type_id");
 	
+	var cid = parseInt(req.param("cid"));
+	var role_manage = parseInt(req.param("role_manage"));
+	
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
@@ -111,6 +114,10 @@ function getRecord(req,res){
 			}
 		}
 		change += " and ("+change_type+")";
+	}
+	//如果没有管理员权限，只能看到自己负责的客户
+	if(role_manage == 0){
+		change += " and user_id = "+cid;
 	}
 	
 	var sql1 = "select * from view_record_user_type_post where 1=1 "+change+" order by operation_time desc limit " + (page - 1) * limit + "," + limit;

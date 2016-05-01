@@ -198,7 +198,8 @@ var R_content = React.createClass({displayName: "R_content",
 				k_remark:k_remark,
 				k_area:k_area,
 				wx_user:wx_user,
-				k_type_id:k_type_id
+				k_type_id:k_type_id,
+				role_manage:role_manage
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -210,7 +211,15 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},
+	checkRole:function(){
+		if(role_manage == 0){
+			//如果没有管理员权限，只能看到自己的客户
+			$("#wx_user").addClass("none");
+		}
+	},
 	componentDidMount:function(){
+		/*权限判断*/
+		this.checkRole();
 		$("#start_time").bind("click",function(){
 			$('#start_time').datepicker('open');
 		});

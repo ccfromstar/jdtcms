@@ -78,6 +78,7 @@ var R_content = React.createClass({
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		indexPage = indexPage?indexPage:1;
+		var id = window.sessionStorage.getItem('cid');
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		
@@ -105,7 +106,9 @@ var R_content = React.createClass({
 				k_remark:k_remark,
 				k_area:k_area,
 				wx_user:wx_user,
-				k_type_id:k_type_id
+				k_type_id:k_type_id,
+				role_manage:role_manage,
+				cid:id
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -118,7 +121,15 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	checkRole:function(){
+		if(role_manage == 0){
+			//如果没有管理员权限，只能看到自己的客户
+			$("#wx_user").addClass("none");
+		}
+	},
 	componentDidMount:function(){
+		/*权限判断*/
+		this.checkRole();
 		$("#start_time").bind("click",function(){
 			$('#start_time').datepicker('open');
 		});

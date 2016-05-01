@@ -19,8 +19,23 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},
+	checkRole:function(){
+		if(role_manage == 0){
+			//如果没有管理员权限
+			$("#wx_user").addClass("none");
+			$("#wx_group").addClass("none");
+			$("#input_remark").removeClass("wx_user_input").addClass("none");
+			$("#btn_remark").addClass("none");
+		}
+		if(role_custom == 0){
+			//没有自定义派发权限
+			$("#li_tab3").addClass("none");
+		}
+	},
 	componentDidMount:function(){
 		var o = this;
+		/*权限判断*/
+		this.checkRole();
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		var readdocid = window.sessionStorage.getItem("readdocid");
@@ -337,7 +352,7 @@ var R_content = React.createClass({displayName: "R_content",
 				    React.createElement("ul", {className: "am-tabs-nav am-nav am-nav-tabs"}, 
 				      React.createElement("li", {className: "am-active"}, React.createElement("a", {href: "#tab1"}, "关注者基本信息")), 
 				      React.createElement("li", null, React.createElement("a", {href: "#tab2"}, "积分信息")), 
-				      React.createElement("li", null, React.createElement("a", {href: "#tab3"}, "奖罚管理"))
+				      React.createElement("li", {id: "li_tab3"}, React.createElement("a", {href: "#tab3"}, "奖罚管理"))
 				    ), 
 				
 				    React.createElement("div", {className: "am-tabs-bd"}, 
@@ -423,7 +438,7 @@ var R_content = React.createClass({displayName: "R_content",
 					            React.createElement("div", {id: "remark", className: "am-u-sm-8 am-u-md-4"}), 
 					            React.createElement("div", {className: "am-hide-sm-only am-u-md-6"}, 
 									React.createElement("input", {type: "text", id: "input_remark", className: "am-input-sm wx_user_input"}), 
-									React.createElement("button", {type: "button", onClick: this.setRemark, className: "btn-c am-btn am-btn-primary am-btn-xs"}, "确定")
+									React.createElement("button", {id: "btn_remark", type: "button", onClick: this.setRemark, className: "btn-c am-btn am-btn-primary am-btn-xs"}, "确定")
 					            )
 					        ), 
 
