@@ -68,6 +68,8 @@ var R_sidebar = React.createClass({
 			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
 			/*软文管理*/
 			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
+			/*会议报名管理*/
+			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
 		}
 		if(role_send == 0){
 			/*红包管理*/
@@ -101,6 +103,7 @@ var R_sidebar = React.createClass({
 					<li className="admin-parent">
 						<a href="post.html"><span className="am-icon-wechat"></span> 服务号软文管理</a>
 					</li>
+					<li><a href="meeting.html"><span className="am-icon-university"></span> 会议报名管理</a></li>
 			      </ul>
 			      <div className="fix_bottom"></div>
 			    </div>

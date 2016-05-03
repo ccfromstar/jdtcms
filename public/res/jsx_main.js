@@ -68,6 +68,8 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
 			/*软文管理*/
 			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
+			/*会议报名管理*/
+			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
 		}
 		if(role_send == 0){
 			/*红包管理*/
@@ -100,7 +102,8 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 					), 
 					React.createElement("li", {className: "admin-parent"}, 
 						React.createElement("a", {href: "post.html"}, React.createElement("span", {className: "am-icon-wechat"}), " 服务号软文管理")
-					)
+					), 
+					React.createElement("li", null, React.createElement("a", {href: "meeting.html"}, React.createElement("span", {className: "am-icon-university"}), " 会议报名管理"))
 			      ), 
 			      React.createElement("div", {className: "fix_bottom"})
 			    )
