@@ -70,7 +70,7 @@ function getMeeting(req,res){
 			    }
 			});
 		}, function(result, callback) {
-		    request("http://www.jdjs.com.cn/jdtcms/Meeting_signup_count.asp?p="+sql2,function(error,response,body){
+		    request("http://www.jdjs.com.cn/jdtcms/getCount.asp?p="+sql2,function(error,response,body){
 			    if(!error && response.statusCode == 200){
 			        //输出返回的内容
 			        //console.log(body);

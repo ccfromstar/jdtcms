@@ -1,0 +1,24 @@
+p,h1 {
+	margin-bottom: 0 !important;	
+	margin-top:5px !important;
+}
+
+*{
+	font-size: 12px;
+}
+.am-btn{
+	font-size: 12px !important;
+}
+h1{
+	color:#DD514C;
+}
+.jdt-table th,.jdt-table td{
+	border:1px solid #ddd !important;
+	text-align:center;
+	max-width:150px;
+	min-width: 50px;
+	word-wrap: break-word;
+}
+.jdt-table{
+	margin-top: 5px;
+}

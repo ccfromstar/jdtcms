@@ -13,4 +13,5 @@ module.exports = function (app, routes) {
     app.post('/redpacket/:sql',routes.redpacketdo);
     app.get('/sendredpack',routes.sendredpack);
     app.get('/regsuccess',routes.regsuccess);
+    app.get('/WXprobase',routes.WXprobase);
 };
