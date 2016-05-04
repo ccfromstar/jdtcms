@@ -173,24 +173,143 @@ exports.WXprobase = function(req, res) {
 			}
 			str += ']';
 
-			//console.log(str);
+			var total = result;
+
+			var totalpage = Math.ceil(total / limit);
+			var isFirstPage = page == 1;
+			var isLastPage = ((page - 1) * limit + result.length) == total;
+
+			res.render("WXprobase",{
+				record:JSON.parse(str),
+				page: page,
+				total: total,
+				totalpage: totalpage,
+				isFirstPage: isFirstPage,
+				isLastPage: isLastPage
+			});
+		}
+	});
+	
+}
+
+exports.WXContactBase = function(req, res) {
+	var page = parseInt(req.param("p"));
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT;
+	var id_min = (page - 1) * limit;
+	var id_max = id_min + LIMIT;
+	var sql1 = "select top " + limit + " * from dbo.TClinkman where id not in ( select top " + id_min + " id from dbo.TClinkman order by id desc) order by id desc";
+	var sql2 = "select count(*) as count from dbo.TClinkman";
+	console.log(sql1);
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/WXContactBase.asp?p=" + sql1
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh = (Iconv.decode(body, 'gb2312').toString());
+				//console.log(body_zh);
+				callback(null, (body_zh));
+			}
+		});
+	}, function(result, callback) {
+		request("http://www.jdjs.com.cn/jdtcms/getCount.asp?p=" + sql2, function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				//输出返回的内容
+				//console.log(body);
+				callback(null, result, body);
+			}
+		});
+	}], function(err, rows, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			rows = rows.replace(/"/g, "“");
+			var str = '[';
+			var arr1 = rows.split("#");
+			for (var i = 0; i < arr1.length; i++) {
+				var arr2 = arr1[i].split("@");
+				if (i == 0) {
+					str += '{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '"}';
+				} else {
+					str += ',{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '"}';
+				}
+			}
+			str += ']';
 
 			var total = result;
 
 			var totalpage = Math.ceil(total / limit);
 			var isFirstPage = page == 1;
 			var isLastPage = ((page - 1) * limit + result.length) == total;
-			/*
-			var ret = {
+
+			res.render("WXContactBase",{
+				record:JSON.parse(str),
+				page: page,
 				total: total,
 				totalpage: totalpage,
 				isFirstPage: isFirstPage,
-				isLastPage: isLastPage,
-				record: JSON.parse(str)
-			};
-			res.json(ret);
-			*/
-			res.render("WXprobase",{
+				isLastPage: isLastPage
+			});
+		}
+	});
+	
+}
+
+exports.WXpromatbase = function(req, res) {
+	var page = parseInt(req.param("p"));
+	var LIMIT = 20;
+	page = (page && page > 0) ? page : 1;
+	var limit = (limit && limit > 0) ? limit : LIMIT;
+	var id_min = (page - 1) * limit;
+	var id_max = id_min + LIMIT;
+	var sql1 = "select top " + limit + " * from dbo.pro_mat_view where id not in ( select top " + id_min + " id from dbo.pro_mat_view order by id desc) order by id desc";
+	var sql2 = "select count(*) as count from dbo.pro_mat_view";
+	console.log(sql1);
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/WXpromatbase.asp?p=" + sql1
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh = (Iconv.decode(body, 'gb2312').toString());
+				//console.log(body_zh);
+				callback(null, (body_zh));
+			}
+		});
+	}, function(result, callback) {
+		request("http://www.jdjs.com.cn/jdtcms/getCount.asp?p=" + sql2, function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				//输出返回的内容
+				//console.log(body);
+				callback(null, result, body);
+			}
+		});
+	}], function(err, rows, result) {
+		if (err) {
+			console.log(err);
+		} else {
+			rows = rows.replace(/"/g, "“");
+			var str = '[';
+			var arr1 = rows.split("#");
+			for (var i = 0; i < arr1.length; i++) {
+				var arr2 = arr1[i].split("@");
+				if (i == 0) {
+					str += '{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '"}';
+				} else {
+					str += ',{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '"}';
+				}
+			}
+			str += ']';
+
+			var total = result;
+
+			var totalpage = Math.ceil(total / limit);
+			var isFirstPage = page == 1;
+			var isLastPage = ((page - 1) * limit + result.length) == total;
+
+			res.render("WXpromatbase",{
 				record:JSON.parse(str),
 				page: page,
 				total: total,
@@ -219,6 +338,37 @@ exports.reg = function(req, res) {
 			var openid = JSON.parse(body).openid;
 			res.render("reg", {
 				openid: openid
+			});
+		}
+	});
+}
+
+exports.Query_redirect = function(req, res) {
+	var code = req.query.code;
+	var appId = settings.AppID;
+	var appSecret = settings.AppSecret;
+	var page = req.query.page;
+	var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+	request(url, function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			if (JSON.parse(body).errcode != null) {
+				console.log(body);
+				res.redirect(req.url);
+				return false;
+			}
+			console.log(body);
+			var openid = JSON.parse(body).openid;
+			//判断建定通账户是否可用
+			var sql1 = "select name from admin where state_id = 1 and username = '"+openid+"' and limited > now()";
+			mysql.query(sql1, function(err, rows1) {
+				if (err) return console.error(err.stack);
+				var isNew = rows1[0]?"1":"0";
+				var label = rows1[0]?rows1[0].name:"";
+				res.render("Query_redirect", {
+					label: label,
+					page: page,
+					isNew:isNew
+				});
 			});
 		}
 	});

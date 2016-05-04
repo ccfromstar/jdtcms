@@ -14,4 +14,7 @@ module.exports = function (app, routes) {
     app.get('/sendredpack',routes.sendredpack);
     app.get('/regsuccess',routes.regsuccess);
     app.get('/WXprobase',routes.WXprobase);
+    app.get('/WXContactBase',routes.WXContactBase);
+    app.get('/WXpromatbase',routes.WXpromatbase);
+    app.get('/Query_redirect',routes.Query_redirect);
 };
