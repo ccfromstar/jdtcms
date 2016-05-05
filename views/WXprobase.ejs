@@ -42,12 +42,19 @@
 			}
 			
 			function toPage(i) {
-				window.location = "/WXprobase?p=" + i;
+				var proname = $("#proname").val();
+				var prosort = $("#prosort").val();
+				var proplace = $("#proplace").val();
+				window.location = "/WXprobase?p=" + i+"&proname="+proname+"&prosort="+prosort+"&proplace="+proplace;
 			}
 			
 			function setUser(){
 				$("#cuser").html(window.localStorage.getItem("user"));
+				$("#proname").val('<%=proname%>');
+				$("#prosort").val('<%=prosort%>');
+				$("#proplace").val('<%=proplace%>');
 			}
+			
 		</script>
 	</head>
 
@@ -63,11 +70,11 @@
 					<button type="button" class="am-btn am-btn-success" onclick="window.location='/WXpromatbase';">采购资讯</button>
 				</p>
 				<h1>“建定工程”微信服务号 工程信息查询(江浙沪地区)</h1>
-				<p>工程名：<input type="text" className="am-input-sm" id="txtTitle" /></p>
+				<p>工程名：<input type="text" className="am-input-sm" id="proname" /></p>
 				<p>
-					分类：<select name="ddlClass" id="ddlClass">
+					分类：<select name="ddlClass" id="prosort">
 							<option value="全部信息">全部信息</option>
-							<option selected="selected" value="办公楼">办公楼</option>
+							<option value="办公楼">办公楼</option>
 							<option value="酒店">酒店</option>
 							<option value="市政">市政</option>
 							<option value="工业">工业</option>
@@ -95,14 +102,14 @@
 						</select>
 				</p>
 				<p>
-					省市：<select name="ddlClass1" id="ddlClass1">
+					省市：<select name="ddlClass1" id="proplace">
 							<option value="全部地区">全部地区</option>
-							<option selected="selected" value="上海">上海</option>
+							<option value="上海">上海</option>
 							<option value="江苏">江苏</option>
 							<option value="浙江">浙江</option>						
 						</select>
 				</p>
-				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs"><span class="am-icon-search"></span> 查询</button></p>
+				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs" onclick="toPage(1)"><span class="am-icon-search"></span> 查询</button></p>
 				<table class="am-table am-table-striped am-table-hover jdt-table">
 					<thead>
 						<tr>

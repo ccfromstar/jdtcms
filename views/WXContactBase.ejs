@@ -42,11 +42,17 @@
 			}
 			
 			function toPage(i) {
-				window.location = "/WXContactBase?p=" + i;
+				var linkman = $("#linkman").val();
+				var companyname = $("#companyname").val();
+				var job = $("#job").val();
+				window.location = "/WXContactBase?p=" + i+"&linkman="+linkman+"&companyname="+companyname+"&job="+job;
 			}
 			
 			function setUser(){
 				$("#cuser").html(window.localStorage.getItem("user"));
+				$("#linkman").val('<%=linkman%>');
+				$("#companyname").val('<%=companyname%>');
+				$("#job").val('<%=job%>');
 			}
 		</script>
 	</head>
@@ -63,10 +69,10 @@
 					<button type="button" class="am-btn am-btn-success" onclick="window.location='/WXpromatbase';">采购资讯</button>
 				</p>
 				<h1>“建定工程”微信服务号 建筑、建设工程行业人脉</h1>
-				<p>人员姓名：<input type="text" className="am-input-sm" id="txtTitle" /></p>
-				<p>所属公司：<input type="text" className="am-input-sm" id="txtTitle1" /></p>
-				<p>部门职务：<input type="text" className="am-input-sm" id="txtTitle2" /></p>
-				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs"><span class="am-icon-search"></span> 查询</button></p>
+				<p>人员姓名：<input type="text" className="am-input-sm" id="linkman" /></p>
+				<p>所属公司：<input type="text" className="am-input-sm" id="companyname" /></p>
+				<p>部门职务：<input type="text" className="am-input-sm" id="job" /></p>
+				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs" onclick="toPage(1)"><span class="am-icon-search"></span> 查询</button></p>
 				<table class="am-table am-table-striped am-table-hover jdt-table">
 					<thead>
 						<tr>

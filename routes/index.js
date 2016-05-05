@@ -128,23 +128,41 @@ exports.regsuccess = function(req, res) {
 }
 
 exports.WXprobase = function(req, res) {
+	var proname = req.query.proname;
+	var prosort = req.query.prosort;
+	var proplace = req.query.proplace;
 	var page = parseInt(req.param("p"));
+	
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
 	var id_min = (page - 1) * limit;
 	var id_max = id_min + LIMIT;
-	var sql1 = "select top " + limit + " * from dbo.project_inforbase where id not in ( select top " + id_min + " id from dbo.project_inforbase order by id desc) order by id desc";
-	var sql2 = "select count(*) as count from dbo.project_inforbase";
-	console.log(sql1);
+	//查询条件
+	proname = proname?proname:"";
+	prosort = prosort?prosort:"全部信息";
+	proplace = proplace?proplace:"全部地区";
+	var change = "";
+	if(proname != ""){
+		change += " and proname like '@"+proname+"@'";
+	}
+	if(prosort != "全部信息"){
+		change += " and prosort like '@"+prosort+"@'";
+	}
+	if(proplace != "全部地区"){
+		change += " and proplace = '"+proplace+"'";
+	}
+	var sql1 = "select top " + limit + " * from dbo.project_inforbase where id not in ( select top " + id_min + " id from dbo.project_inforbase order by id desc) "+change+" order by id desc";
+	var sql2 = "select count(*) as count from dbo.project_inforbase where 1=1 "+change;
+	console.log(sql1);console.log(sql2);
 	async.waterfall([function(callback) {
 		request({
 			encoding: null,
 			url: "http://www.jdjs.com.cn/jdtcms/WXprobase.asp?p=" + sql1
 		}, function(error, res, body) {
 			if (!error && res.statusCode == 200) {
-				var body_zh = (Iconv.decode(body, 'gb2312').toString());
-				//console.log(body_zh);
+				var body_zh = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh);
 				callback(null, (body_zh));
 			}
 		});
@@ -162,7 +180,7 @@ exports.WXprobase = function(req, res) {
 		} else {
 			rows = rows.replace(/"/g, "“");
 			var str = '[';
-			var arr1 = rows.split("#");
+			var arr1 = rows.split("*");
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
@@ -185,7 +203,10 @@ exports.WXprobase = function(req, res) {
 				total: total,
 				totalpage: totalpage,
 				isFirstPage: isFirstPage,
-				isLastPage: isLastPage
+				isLastPage: isLastPage,
+				proname:proname,
+				prosort:prosort,
+				proplace:proplace
 			});
 		}
 	});
@@ -193,14 +214,31 @@ exports.WXprobase = function(req, res) {
 }
 
 exports.WXContactBase = function(req, res) {
+	var linkman = req.query.linkman;
+	var companyname = req.query.companyname;
+	var job = req.query.job;
 	var page = parseInt(req.param("p"));
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
 	var id_min = (page - 1) * limit;
 	var id_max = id_min + LIMIT;
-	var sql1 = "select top " + limit + " * from dbo.TClinkman where id not in ( select top " + id_min + " id from dbo.TClinkman order by id desc) order by id desc";
-	var sql2 = "select count(*) as count from dbo.TClinkman";
+	//查询条件
+	linkman = linkman?linkman:"";
+	companyname = companyname?companyname:"";
+	job = job?job:"";
+	var change = "";
+	if(linkman != ""){
+		change += " and linkman like '@"+linkman+"@'";
+	}
+	if(companyname != ""){
+		change += " and companyname like '@"+companyname+"@'";
+	}
+	if(job != ""){
+		change += " and job like '@"+job+"@'";
+	}
+	var sql1 = "select top " + limit + " * from dbo.TClinkman where id not in ( select top " + id_min + " id from dbo.TClinkman order by id desc) "+change+" order by id desc";
+	var sql2 = "select count(*) as count from dbo.TClinkman where 1=1 "+change;
 	console.log(sql1);
 	async.waterfall([function(callback) {
 		request({
@@ -208,7 +246,7 @@ exports.WXContactBase = function(req, res) {
 			url: "http://www.jdjs.com.cn/jdtcms/WXContactBase.asp?p=" + sql1
 		}, function(error, res, body) {
 			if (!error && res.statusCode == 200) {
-				var body_zh = (Iconv.decode(body, 'gb2312').toString());
+				var body_zh = (Iconv.decode(body, 'utf-8').toString());
 				//console.log(body_zh);
 				callback(null, (body_zh));
 			}
@@ -227,7 +265,7 @@ exports.WXContactBase = function(req, res) {
 		} else {
 			rows = rows.replace(/"/g, "“");
 			var str = '[';
-			var arr1 = rows.split("#");
+			var arr1 = rows.split("*");
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
@@ -250,7 +288,10 @@ exports.WXContactBase = function(req, res) {
 				total: total,
 				totalpage: totalpage,
 				isFirstPage: isFirstPage,
-				isLastPage: isLastPage
+				isLastPage: isLastPage,
+				linkman: linkman,
+				companyname: companyname,
+				job: job
 			});
 		}
 	});
@@ -258,14 +299,26 @@ exports.WXContactBase = function(req, res) {
 }
 
 exports.WXpromatbase = function(req, res) {
+	var matname = req.query.matname;
+	var proname = req.query.proname;
 	var page = parseInt(req.param("p"));
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
 	var id_min = (page - 1) * limit;
 	var id_max = id_min + LIMIT;
-	var sql1 = "select top " + limit + " * from dbo.pro_mat_view where id not in ( select top " + id_min + " id from dbo.pro_mat_view order by id desc) order by id desc";
-	var sql2 = "select count(*) as count from dbo.pro_mat_view";
+	//查询条件
+	matname = matname?matname:"";
+	proname = proname?proname:"";
+	var change = "";
+	if(matname != ""){
+		change += " and matname like '@"+matname+"@'";
+	}
+	if(proname != ""){
+		change += " and proname like '@"+proname+"@'";
+	}
+	var sql1 = "select top " + limit + " * from dbo.pro_mat_view where id not in ( select top " + id_min + " id from dbo.pro_mat_view order by id desc) "+change+" order by id desc";
+	var sql2 = "select count(*) as count from dbo.pro_mat_view where 1=1 "+change;
 	console.log(sql1);
 	async.waterfall([function(callback) {
 		request({
@@ -273,7 +326,7 @@ exports.WXpromatbase = function(req, res) {
 			url: "http://www.jdjs.com.cn/jdtcms/WXpromatbase.asp?p=" + sql1
 		}, function(error, res, body) {
 			if (!error && res.statusCode == 200) {
-				var body_zh = (Iconv.decode(body, 'gb2312').toString());
+				var body_zh = (Iconv.decode(body, 'utf-8').toString());
 				//console.log(body_zh);
 				callback(null, (body_zh));
 			}
@@ -292,7 +345,7 @@ exports.WXpromatbase = function(req, res) {
 		} else {
 			rows = rows.replace(/"/g, "“");
 			var str = '[';
-			var arr1 = rows.split("#");
+			var arr1 = rows.split("*");
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
@@ -315,7 +368,9 @@ exports.WXpromatbase = function(req, res) {
 				total: total,
 				totalpage: totalpage,
 				isFirstPage: isFirstPage,
-				isLastPage: isLastPage
+				isLastPage: isLastPage,
+				matname: matname,
+				proname: proname
 			});
 		}
 	});
