@@ -84,8 +84,8 @@
 					<tbody>
 						<%for(var i in record){%>
 							<tr>
-								<td><%=record[i].linkman%></td>
-								<td><%=record[i].companyname%></td>
+								<td><a href="/WXContactinfo?id=<%=record[i].id%>"><%=record[i].linkman%></a></td>
+								<td><a href="/WXcompany?id=<%=record[i].cid%>"><%=record[i].companyname%></a></td>
 								<td><%=record[i].job%></td>
 							</tr>
 						<%}%>

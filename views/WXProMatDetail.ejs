@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>采购信息-<%=baseinfo.matname%></title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="css/amazeui.min.css" />
+		<link rel="stylesheet" href="css/weixin_query.css" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/amazeui.min.js"></script>
+		<script type="text/javascript" src="js/setting.js"></script>
+		<script>
+			function setUser(){
+				$("#cuser").html(window.localStorage.getItem("user"));
+			}
+		</script>
+	</head>
+	<body onload="setUser()">
+		<div class="am-panel am-panel-default admin-sidebar-panel">
+			<div class="am-panel-bd">
+				<p>尊敬的 <span id="cuser"></span> 您好！</p>
+				<p>欢迎使用微信版 建定通</p>
+				<p>
+					<button type="button" class="am-btn am-btn-danger" onclick="window.location='/WXprobase';">工程查询</button>
+					<button type="button" class="am-btn am-btn-primary" onclick="window.location='/WXContactBase';">人脉查询</button>
+					<button type="button" class="am-btn am-btn-success" onclick="window.location='/WXpromatbase';">采购资讯</button>
+				</p>
+				<h1>采购详情</h1>
+				<table class="am-table am-table-striped am-table-hover jdt-table">
+					<tr>
+						<td>采购产品名称：</td>
+						<td><%=baseinfo.matname%></td>
+					</tr>
+					<tr>
+						<td>信息发布日期：</td>
+						<td><%=baseinfo.ptime%></td>
+					</tr>
+					<tr>
+						<td>当前状态：</td>
+						<td>采购进行中</td>
+					</tr>
+					<tr>
+						<td>所属工程项目名称：</td>
+						<td><a href="/WXProDetail?id=<%=baseinfo.proid%>"><%=baseinfo.proname%></a></td>
+					</tr>
+					<tr>
+						<td>计量单位：</td>
+						<td><%=baseinfo.matunit%></td>
+					</tr>
+					<tr>
+						<td>要求品牌：</td>
+						<td>不限</td>
+					</tr>
+					<tr>
+						<td>产品型号：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>产品规格：</td>
+						<td>未透露</td>
+					</tr>
+					
+					<tr>
+						<td>备注：</td>
+						<td>无</td>
+					</tr>
+					<tr>
+						<td>采购总量：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>采购方采购单价：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>采购起始日期：</td>
+						<td><%=baseinfo.stime%></td>
+					</tr>
+					<tr>
+						<td>采购截止日期：</td>
+						<td><%=baseinfo.ftime%></td>
+					</tr>
+					<tr>
+						<td>成交供应商：</td>
+						<td><%=baseinfo.gycompany%></td>
+					</tr>
+					<tr>
+						<td>已成交总量：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>成交单价：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>成交日期：</td>
+						<td>未透露</td>
+					</tr>
+					<tr>
+						<td>采购负责人：</td>
+						<td><a href="/WXContactinfo?id=<%=baseinfo.pepid%>"><%=baseinfo.linkname%></a></td>
+					</tr>
+					<tr>
+						<td>采购负责人所属公司</td>
+						<td><a href="/WXcompany?id=<%=baseinfo.pcid%>"><%=baseinfo.company%></a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+	</body>
+</html>

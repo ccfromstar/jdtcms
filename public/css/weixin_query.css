@@ -14,11 +14,17 @@ h1{
 }
 .jdt-table th,.jdt-table td{
 	border:1px solid #ddd !important;
-	text-align:center;
+	text-align:left;
 	max-width:150px;
 	min-width: 80px;
 	word-wrap: break-word;
 }
 .jdt-table{
 	margin-top: 5px;
+}
+.jdt-table-small th,.jdt-table-small td{
+	border:1px solid #ddd !important;
+	text-align:left;
+	max-width:150px;
+	word-wrap: break-word;
 }

@@ -81,8 +81,8 @@
 					<tbody>
 						<%for(var i in record){%>
 							<tr>
-								<td><%=record[i].matname%></td>
-								<td><%=record[i].proname%></td>
+								<td><a href="/WXProMatDetail?id=<%=record[i].id%>"><%=record[i].matname%></a></td>
+								<td><a href="/WXProDetail?id=<%=record[i].proid%>"><%=record[i].proname%></a></td>
 								<td><%=record[i].ptime%></td>
 							</tr>
 						<%}%>

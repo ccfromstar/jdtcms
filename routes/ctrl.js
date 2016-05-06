@@ -17,4 +17,8 @@ module.exports = function (app, routes) {
     app.get('/WXContactBase',routes.WXContactBase);
     app.get('/WXpromatbase',routes.WXpromatbase);
     app.get('/Query_redirect',routes.Query_redirect);
+    app.get('/WXProDetail',routes.WXProDetail);
+    app.get('/WXContactinfo',routes.WXContactinfo);
+    app.get('/WXcompany',routes.WXcompany);
+    app.get('/WXProMatDetail',routes.WXProMatDetail);
 };

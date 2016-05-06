@@ -121,7 +121,7 @@
 					<tbody>
 						<%for(var i in record){%>
 							<tr>
-								<td><%=record[i].proname%></td>
+								<td><a href="/WXProDetail?id=<%=record[i].id%>"><%=record[i].proname%></a></td>
 								<td><%=record[i].prostate%></td>
 								<td><%=record[i].inforptime%></td>
 							</tr>

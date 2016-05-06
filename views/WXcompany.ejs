@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>公司信息-<%=baseinfo.company%></title>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="stylesheet" href="css/amazeui.min.css" />
+		<link rel="stylesheet" href="css/weixin_query.css" />
+		<script src="js/jquery.min.js"></script>
+		<script src="js/amazeui.min.js"></script>
+		<script type="text/javascript" src="js/setting.js"></script>
+		<script>
+			function setUser(){
+				$("#cuser").html(window.localStorage.getItem("user"));
+			}
+		</script>
+	</head>
+	<body onload="setUser()">
+		<div class="am-panel am-panel-default admin-sidebar-panel">
+			<div class="am-panel-bd">
+				<p>尊敬的 <span id="cuser"></span> 您好！</p>
+				<p>欢迎使用微信版 建定通</p>
+				<p>
+					<button type="button" class="am-btn am-btn-danger" onclick="window.location='/WXprobase';">工程查询</button>
+					<button type="button" class="am-btn am-btn-primary" onclick="window.location='/WXContactBase';">人脉查询</button>
+					<button type="button" class="am-btn am-btn-success" onclick="window.location='/WXpromatbase';">采购资讯</button>
+				</p>
+				<h1>公司基本信息</h1>
+				<p><%=baseinfo.company%></p>
+				<table class="am-table am-table-striped am-table-hover jdt-table">
+					<tr>
+						<td>公司性质：</td>
+						<td><%=baseinfo.ctype%></td>
+					</tr>
+					<tr>
+						<td>所在地区：</td>
+						<td><%=baseinfo.cplace%></td>
+					</tr>
+					<tr>
+						<td>地址：</td>
+						<td><%=baseinfo.caddress%></td>
+					</tr>
+					<tr>
+						<td>邮编：</td>
+						<td><%=baseinfo.cpost%></td>
+					</tr>
+					<tr>
+						<td>电话 ：</td>
+						<td><%=baseinfo.cphone%></td>
+					</tr>
+					<tr>
+						<td>传真：</td>
+						<td><%=baseinfo.cfax%></td>
+					</tr>
+					<tr>
+						<td>邮箱：</td>
+						<td><%=baseinfo.cemail%></td>
+					</tr>
+					<tr>
+						<td>网址：</td>
+						<td><%=baseinfo.cweb%></td>
+					</tr>
+				</table>
+				<h1>公司人脉列表</h1>
+				<p>点击员工姓名可查看该员工全部信息</p>
+				<table class="am-table am-table-striped am-table-hover jdt-table-small">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>称呼</th>
+							<th>职务</th>
+							<th>电话</th>
+							<th>地址</th>
+						</tr>
+					</thead>
+					<tbody>
+						<%for(var i in r){%>
+							<tr>
+								<td><a href="/WXContactinfo?id=<%=r[i].id%>"><%=r[i].linkman%></a></td>
+								<td><%=r[i].chenghu%></td>
+								<td><%=r[i].job%></td>
+								<td><%=r[i].phone%></td>
+								<td><%=r[i].address%></td>
+							</tr>
+						<%}%>
+					</tbody>
+				</table>
+				<h1>相关参与工程列表</h1>
+				<%if(record[0].prostate !="undefined"){%>
+					<table class="am-table am-table-striped am-table-hover jdt-table">
+						<thead>
+							<tr>
+								<th>当时状态</th>
+								<th>发布日期</th>
+								<th>项目名称</th>
+							</tr>
+						</thead>
+						<tbody>
+							<%for(var i in record){%>
+								<tr>
+									<td><%=record[i].prostate%></td>
+									<td><%=record[i].inforptime%></td>
+									<td><a href="/WXProDetail?id=<%=record[i].proid%>"><%=record[i].proname%></a></td>
+								</tr>
+							<%}%>
+						</tbody>
+					</table>
+				<%}else{%>
+					没有
+				<%}%>
+			</div>
+		</div>
+		
+	</body>
+</html>

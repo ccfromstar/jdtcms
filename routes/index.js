@@ -127,6 +127,261 @@ exports.regsuccess = function(req, res) {
 	res.render("regsuccess");
 }
 
+exports.WXProMatDetail = function(req, res) {
+	var id = req.query.id;
+	console.log("http://www.jdjs.com.cn/jdtcms/getWXProMatDetail.asp?p=select * from dbo.pro_mat_view where id = "+id);
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXProMatDetail.asp?p=select * from dbo.pro_mat_view where id = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh1 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh1);
+				var arr = body_zh1.split("@");
+				var o1 = {
+					id:id
+				};
+				o1.matname = arr[0];
+				o1.ptime = arr[1];
+				o1.proname = arr[2];
+				o1.proid = arr[3];
+				o1.matunit = arr[4];
+				o1.matrek = arr[5];
+				o1.stime = arr[6];
+				o1.ftime = arr[7];
+				o1.gycompany = arr[8];
+				o1.linkname = arr[9];
+				o1.pepid = arr[10];
+				o1.company = arr[11];
+				o1.pcid = arr[12];
+				callback(null, o1);
+			}
+		});
+	}], function(err, o1) {
+		if (err) {
+			console.log(err);
+		} else {
+			//console.log(str);
+			res.render("WXProMatDetail",{
+				baseinfo:o1
+			});
+		}
+	});
+}
+
+exports.WXProDetail = function(req, res) {
+	var id = req.query.id;
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getProBaseDetail.asp?p=select * from dbo.project_inforbase where id = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh1 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh1);
+				var arr = body_zh1.split("@");
+				var o1 = {
+					id:id
+				};
+				o1.proname = arr[0];
+				o1.prosort = arr[4];
+				o1.prostate = arr[5];
+				o1.proplace = arr[1];
+				o1.proaddress = arr[2];
+				o1.prostime = arr[7];
+				o1.proftime = arr[8];
+				o1.promoney = arr[3];
+				o1.prorek = arr[6];
+				o1.inforptime = arr[9];
+				callback(null, o1);
+			}
+		});
+	}, function(o1,callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getProBaseDetail_down.asp?p=select * from dbo.Pro_linkman_View where proid = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh2 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh2);
+				var str = '[';
+				var arr1 = body_zh2.split("*");
+				for (var i = 0; i < arr1.length; i++) {
+					var arr2 = arr1[i].split("@");
+					if (i == 0) {
+						str += '{"companyname":"' + arr2[0] + '","cid":"' + arr2[1] + '","linkman":"' + arr2[2] + '","pepid":"' + arr2[3] + '","job":"' + arr2[4] + '","phone":"' + arr2[5] + '","fax":"' + arr2[6] + '","email":"' + arr2[7] + '","address":"' + arr2[8] + '","compid":"' + arr2[9] + '"}';
+					} else {
+						str += ',{"companyname":"' + arr2[0] + '","cid":"' + arr2[1] + '","linkman":"' + arr2[2] + '","pepid":"' + arr2[3] + '","job":"' + arr2[4] + '","phone":"' + arr2[5] + '","fax":"' + arr2[6] + '","email":"' + arr2[7] + '","address":"' + arr2[8] + '","compid":"' + arr2[9] + '"}';
+					}
+				}
+				str += ']';
+				callback(null, o1 ,JSON.parse(str));
+			}
+		});
+	}], function(err, o1 ,str) {
+		if (err) {
+			console.log(err);
+		} else {
+			//console.log(str);
+			res.render("WXProDetail",{
+				baseinfo:o1,
+				record:str
+			});
+		}
+	});
+}
+
+exports.WXcompany = function(req, res) {
+	var id = req.query.id;
+	console.log("http://www.jdjs.com.cn/jdtcms/getWXcompany.asp?p=select * from dbo.TCcompany where pcid = "+id);
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXcompany.asp?p=select * from dbo.TCcompany where pcid = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh1 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh1);
+				var arr = body_zh1.split("@");
+				var o1 = {
+					id:id
+				};
+				
+				o1.company = arr[0];
+				o1.ctype = arr[1];
+				o1.cplace = arr[2];
+				o1.caddress = arr[3];
+				o1.cpost = arr[4];
+				o1.cphone = arr[5];
+				o1.cfax = arr[6];
+				o1.cemail = arr[7];
+				o1.cweb = arr[8];
+				callback(null, o1);
+			}
+		});
+	}, function(o1,callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXContactinfo_down.asp?p=select * from dbo.Pro_linkman_View where cid = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh2 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh2);
+				var str = '[';
+				var arr1 = body_zh2.split("*");
+				for (var i = 0; i < arr1.length; i++) {
+					var arr2 = arr1[i].split("@");
+					if (i == 0) {
+						str += '{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+					} else {
+						str += ',{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+					}
+				}
+				str += ']';
+				callback(null, o1 ,JSON.parse(str));
+			}
+		});
+	}, function(o1,str,callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXcompany_down.asp?p=select * from dbo.TClinkman where cid = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh3 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh3);
+				var str1 = '[';
+				var arr1 = body_zh3.split("*");
+				for (var i = 0; i < arr1.length; i++) {
+					var arr2 = arr1[i].split("@");
+					if (i == 0) {
+						str1 += '{"linkman":"' + arr2[0] + '","chenghu":"' + arr2[1] + '","job":"' + arr2[2] + '","phone":"' + arr2[3] + '","address":"' + arr2[4] + '","id":"' + arr2[5] + '"}';
+					} else {
+						str1 += ',{"linkman":"' + arr2[0] + '","chenghu":"' + arr2[1] + '","job":"' + arr2[2] + '","phone":"' + arr2[3] + '","address":"' + arr2[4] + '","id":"' + arr2[5] + '"}';
+					}
+				}
+				str1 += ']';
+				callback(null, o1 ,str ,JSON.parse(str1));
+			}
+		});
+	}], function(err, o1 ,str,str1) {
+		if (err) {
+			console.log(err);
+		} else {
+			//console.log(str1);
+			res.render("WXcompany",{
+				baseinfo:o1,
+				record:str,
+				r:str1
+			});
+		}
+	});
+}
+
+exports.WXContactinfo = function(req, res) {
+	var id = req.query.id;
+	console.log("http://www.jdjs.com.cn/jdtcms/getWXContactinfo.asp?p=select * from dbo.TClinkman where id = "+id);
+	async.waterfall([function(callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXContactinfo.asp?p=select * from dbo.TClinkman where id = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh1 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh1);
+				var arr = body_zh1.split("@");
+				var o1 = {
+					id:id
+				};
+				
+				o1.linkman = arr[0];
+				o1.chenghu = arr[1];
+				o1.companyname = arr[3];
+				o1.place = arr[4];
+				o1.job = arr[2];
+				o1.phone = arr[6];
+				o1.fax = arr[7];
+				o1.email = arr[8];
+				o1.address = arr[5];
+				o1.cid = arr[9];
+				callback(null, o1);
+			}
+		});
+	}, function(o1,callback) {
+		request({
+			encoding: null,
+			url: "http://www.jdjs.com.cn/jdtcms/getWXContactinfo_down.asp?p=select * from dbo.Pro_linkman_View where pepid = "+id
+		}, function(error, res, body) {
+			if (!error && res.statusCode == 200) {
+				var body_zh2 = (Iconv.decode(body, 'utf-8').toString());
+				console.log(body_zh2);
+				var str = '[';
+				var arr1 = body_zh2.split("*");
+				for (var i = 0; i < arr1.length; i++) {
+					var arr2 = arr1[i].split("@");
+					if (i == 0) {
+						str += '{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+					} else {
+						str += ',{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+					}
+				}
+				str += ']';
+				callback(null, o1 ,JSON.parse(str));
+			}
+		});
+	}], function(err, o1 ,str) {
+		if (err) {
+			console.log(err);
+		} else {
+			//console.log(str);
+			res.render("WXContactinfo",{
+				baseinfo:o1,
+				record:str
+			});
+		}
+	});
+}
+
 exports.WXprobase = function(req, res) {
 	var proname = req.query.proname;
 	var prosort = req.query.prosort;
@@ -184,9 +439,9 @@ exports.WXprobase = function(req, res) {
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
-					str += '{"proname":"' + arr2[0] + '","prostate":"' + arr2[1] + '","inforptime":"' + arr2[2] + '"}';
+					str += '{"proname":"' + arr2[0] + '","prostate":"' + arr2[1] + '","inforptime":"' + arr2[2] + '","id":"' + arr2[3] + '"}';
 				} else {
-					str += ',{"proname":"' + arr2[0] + '","prostate":"' + arr2[1] + '","inforptime":"' + arr2[2] + '"}';
+					str += ',{"proname":"' + arr2[0] + '","prostate":"' + arr2[1] + '","inforptime":"' + arr2[2] + '","id":"' + arr2[3] + '"}';
 				}
 			}
 			str += ']';
@@ -269,9 +524,9 @@ exports.WXContactBase = function(req, res) {
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
-					str += '{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '"}';
+					str += '{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '","id":"' + arr2[3] + '","cid":"' + arr2[4] + '"}';
 				} else {
-					str += ',{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '"}';
+					str += ',{"linkman":"' + arr2[0] + '","companyname":"' + arr2[1] + '","job":"' + arr2[2] + '","id":"' + arr2[3] + '","cid":"' + arr2[4] + '"}';
 				}
 			}
 			str += ']';
@@ -349,9 +604,9 @@ exports.WXpromatbase = function(req, res) {
 			for (var i = 0; i < arr1.length; i++) {
 				var arr2 = arr1[i].split("@");
 				if (i == 0) {
-					str += '{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '"}';
+					str += '{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '","proid":"' + arr2[3] + '","id":"' + arr2[4] + '"}';
 				} else {
-					str += ',{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '"}';
+					str += ',{"matname":"' + arr2[0] + '","proname":"' + arr2[1] + '","ptime":"' + arr2[2] + '","proid":"' + arr2[3] + '","id":"' + arr2[4] + '"}';
 				}
 			}
 			str += ']';
