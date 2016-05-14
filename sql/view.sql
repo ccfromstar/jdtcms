@@ -37,7 +37,7 @@ ON b.user_id = e.id;
 DROP VIEW IF EXISTS `view_redpacket_record_status`;
 CREATE VIEW view_redpacket_record_status
 AS
-SELECT a.*,b.name,c.nickname
+SELECT a.*,b.name as sname,c.nickname
 FROM redpacket_record a
 LEFT JOIN redpacket_type b
 ON a.status_id = b.id

@@ -146,8 +146,13 @@ var R_content = React.createClass({displayName: "R_content",
 		var list = this.state.data.map(function(c){
 		return(
 				React.createElement("tr", null, 
-	              React.createElement("td", null, c.money==-1?"随机金额":c.money+"元"), 
+				  React.createElement("td", null, c.type_id==0?"固定金额":"随机金额"), 
+				  React.createElement("td", null, c.name), 
+	              React.createElement("td", null, c.type_id==0?c.money+"元":c.money+"~"+c.money_max+"元"), 
 	              React.createElement("td", null, c.score), 
+	              React.createElement("td", null, c.state_id==0?"未发布":"已发布"), 
+	              React.createElement("td", null, c.sort_id), 
+	              React.createElement("td", null, c.nick_name), 
 	              React.createElement("td", null, 
 	                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
 	                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
@@ -177,16 +182,7 @@ var R_content = React.createClass({displayName: "R_content",
 			    React.createElement("div", {className: "am-cf am-padding"}, 
 			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "红包设定"), " / ", React.createElement("small", null, "列表"))
 				), 
-				
-				
-				React.createElement("div", {className: "am-tabs am-margin", "data-am-tabs": true}, 
-				    React.createElement("ul", {className: "am-tabs-nav am-nav am-nav-tabs"}, 
-				      React.createElement("li", {className: "am-active"}, React.createElement("a", {href: "#tab1"}, "固定金额红包")), 
-				      React.createElement("li", null, React.createElement("a", {href: "#tab2"}, "随机金额红包"))
-				    ), 
-				
-				    React.createElement("div", {className: "am-tabs-bd"}, 
-				      React.createElement("div", {className: "am-tab-panel am-fade am-in am-active", id: "tab1"}, 
+				   
 				      		React.createElement("div", {className: "am-g"}, 
 						      React.createElement("div", {className: "am-u-sm-12 am-u-md-12"}, 
 						        React.createElement("div", {className: "am-btn-toolbar"}, 
@@ -203,8 +199,13 @@ var R_content = React.createClass({displayName: "R_content",
 							          React.createElement("table", {className: "am-table am-table-striped am-table-hover table-main jdt-table"}, 
 							            React.createElement("thead", null, 
 							              React.createElement("tr", null, 
+							              	React.createElement("th", null, "红包类别"), 
+							              	React.createElement("th", null, "红包名称"), 
 							                React.createElement("th", null, "红包金额"), 
 							                React.createElement("th", null, "所需积分"), 
+							                React.createElement("th", null, "状态"), 
+							                React.createElement("th", null, "排序"), 
+							                React.createElement("th", null, "文字"), 
 						            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 							              )
 							          	), 
@@ -224,16 +225,7 @@ var R_content = React.createClass({displayName: "R_content",
 										)
 							        )
 							    )
-							)
-				      ), 
-				      React.createElement("div", {className: "am-tab-panel am-fade", id: "tab2"}, 
-				      		React.createElement("div", {className: "am-form"}, 
-				      			"金额范围：", React.createElement("input", {type: "text", id: "redpacket_min", className: "am-input-sm settings_input", defaultValue: "0"}), " ~ ", React.createElement("input", {type: "text", id: "redpacket_max", className: "am-input-sm settings_input", defaultValue: "0"}), 
-				      			React.createElement("button", {type: "button", onClick: this.UpdateRedpacket, className: "btn-c am-btn am-btn-primary am-btn-xs"}, "保存")
-				      		)
-				      )
-				    )
-				), 
+							), 
 
 				React.createElement("div", {className: "am-modal am-modal-confirm", tabIndex: "-1", id: "del-confirm"}, 
 				  React.createElement("div", {className: "am-modal-dialog"}, 

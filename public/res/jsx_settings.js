@@ -16,10 +16,12 @@ var R_content = React.createClass({displayName: "R_content",
 				$("#day_read").val(data[0].day_read);
 				$("#day_like").val(data[0].day_like);
 				$("#day_transpond").val(data[0].day_transpond);
+				$("#day_share").val(data[0].day_share);
 				$("#score_focus").val(data[0].score_focus);
 				$("#score_read").val(data[0].score_read);
 				$("#score_like").val(data[0].score_like);
 				$("#score_transpond").val(data[0].score_transpond);
+				$("#score_share").val(data[0].score_share);
 				$("#score_admin_focus").val(data[0].score_admin_focus);
 				$("#score_admin_read").val(data[0].score_admin_read);
 				$("#score_admin_like").val(data[0].score_admin_like);
@@ -35,18 +37,20 @@ var R_content = React.createClass({displayName: "R_content",
 		var day_read = $("#day_read").val();
 		var day_like = $("#day_like").val();
 		var day_transpond = $("#day_transpond").val();
+		var day_share = $("#day_share").val();
 
 		var score_focus = $("#score_focus").val();
 		var score_read = $("#score_read").val();
 		var score_like = $("#score_like").val();
 		var score_transpond = $("#score_transpond").val();
+		var score_share = $("#score_share").val();
 
 		var score_admin_focus = $("#score_admin_focus").val();
 		var score_admin_read = $("#score_admin_read").val();
 		var score_admin_like = $("#score_admin_like").val();
 		var score_admin_transpond = $("#score_admin_transpond").val();
 
-		if(isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
+		if(isNaN(day_share) || isNaN(score_share) || isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
 			setTimeout(function() {
 				$('.errorinfo').addClass("none");
@@ -64,10 +68,12 @@ var R_content = React.createClass({displayName: "R_content",
 				day_read:day_read,
 				day_like:day_like,
 				day_transpond:day_transpond,
+				day_share:day_share,
 				score_focus:score_focus,
 				score_read:score_read,
 				score_like:score_like,
 				score_transpond:score_transpond,
+				score_share:score_share,
 				score_admin_focus:score_admin_focus,
 				score_admin_read:score_admin_read,
 				score_admin_like:score_admin_like,
@@ -117,6 +123,11 @@ var R_content = React.createClass({displayName: "R_content",
 				       		React.createElement("input", {type: "text", id: "score_transpond", className: "am-input-sm settings_input"}), 
 				       		"建定通使用天数", 
 				       		React.createElement("input", {type: "text", id: "day_transpond", className: "am-input-sm settings_input"})
+				       		), 	
+				       	  React.createElement("p", null, "分享到朋友圈获得的积分", 
+				       		React.createElement("input", {type: "text", id: "score_share", className: "am-input-sm settings_input"}), 
+				       		"建定通使用天数", 
+				       		React.createElement("input", {type: "text", id: "day_share", className: "am-input-sm settings_input"})
 				       		)	
 						)
 				    ), 

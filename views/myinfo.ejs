@@ -33,8 +33,12 @@
 					type: "post",
 					url: hosts + "/redpacket/changeRecord",
 					data: {
-						money:arr[0],
+						name:arr[0],
 						score:arr[1],
+						type_id:arr[2],
+						money:arr[3],
+						money_max:arr[4],
+						nick_name:arr[5],
 						openid:"<%=openid%>"
 					},
 					success: function(data) {
@@ -60,16 +64,12 @@
 						var list = "-- 暂无 --";
 						if(data[0]){
 							list = "<table class='table-myinfo am-table am-table-bordered am-table-radius am-table-striped'>";
-							list += "<tr><th>金额</th><th>时间</th><th>状态</th></tr>";
+							list += "<tr><th>名称</th><th>时间</th><th>状态</th></tr>";
 							for(var i in data){
 								list += "<tr>";
-								if(data[i].money == -1){
-									list += "<td>随机金额</td>";
-								}else{
-									list += "<td>"+data[i].money+"元</td>";
-								}
-								list += "<td>"+new Date(data[i].time).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
 								list += "<td>"+data[i].name+"</td>";
+								list += "<td>"+new Date(data[i].time).Format("yyyy-MM-dd hh:mm:ss")+"</td>";
+								list += "<td>"+data[i].sname+"</td>";
 								list += "</tr>";
 							}
 							list += "</table>";
@@ -135,12 +135,8 @@
 					<%for(var i in redpacket){%>
 						<div>
 							<label class="am-radio">
-								<input type="radio" name="changeType" value="<%=redpacket[i].money%>@<%=redpacket[i].score%>" id="changeType<%=i%>" data-am-ucheck />
-								<%if(redpacket[i].money != -1){%>
-									<%=redpacket[i].money%>元现金红包-<%=redpacket[i].score%>积分
-								<%}else{%>
-									随机金额(<%=settings[0].redpacket_min%>~<%=settings[0].redpacket_max%>)元现金红包-<%=redpacket[i].score%>积分
-								<%}%>
+								<input type="radio" name="changeType" value="<%=redpacket[i].name%>@<%=redpacket[i].score%>@<%=redpacket[i].type_id%>@<%=redpacket[i].money%>@<%=redpacket[i].money_max%>@<%=redpacket[i].nick_name%>" id="changeType<%=i%>" data-am-ucheck />
+								<%=redpacket[i].name%>-<%=redpacket[i].score%>积分
 							</label>
 						</div>
 					<%}%>

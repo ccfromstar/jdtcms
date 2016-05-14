@@ -712,7 +712,7 @@ exports.myinfo = function(req, res) {
 						d = d ? d.Format("yyyy-MM-dd hh:mm:ss") : "未激活";
 					}
 					/*得到所有的红包的分类*/
-					var sql3 = "select * from redpacket";
+					var sql3 = "select * from redpacket where state_id = 1 order by sort_id desc";
 					mysql.query(sql3, function(err, rows3) {
 						if (err) return console.error(err.stack);
 						var sql4 = "select * from settings";
@@ -767,12 +767,12 @@ exports.weixin_js = function(req, res) {
 						jsapi_ticket = (JSON.parse(body_jsapi)).ticket;
 						console.log("jsapi_ticket:" + jsapi_ticket);
 						strat_time = new Date();
-						var signature = sign(jsapi_ticket, nonceStr, timestamp, wx_url);
+						var signature = signjsapi(jsapi_ticket, nonceStr, timestamp, wx_url);
 						//var url_info = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='+access_token+'&openid=oEDF2xBoerpEFGh3brZPkWfVRZZg&lang=zh_CN';
 						var url_info = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' + access_token + '&next_openid=';
 						request(url_info, function(err_info, response_info, body_info) {
 							if (!err_info && response_info.statusCode == 200) {
-
+								console.log(signature);
 								res.render('weixin_js', {
 									signature: signature,
 									jsapi_ticket: jsapi_ticket,
@@ -789,7 +789,7 @@ exports.weixin_js = function(req, res) {
 		});
 	} else {
 		console.log("not first access_token");
-		var signature = sign(jsapi_ticket, nonceStr, timestamp, wx_url);
+		var signature = signjsapi(jsapi_ticket, nonceStr, timestamp, wx_url);
 		//var url_info = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='+access_token+'&openid=oEDF2xBoerpEFGh3brZPkWfVRZZg&lang=zh_CN';
 		var url_info = 'https://api.weixin.qq.com/cgi-bin/user/get?access_token=' + access_token + '&next_openid=';
 		request(url_info, function(err_info, response_info, body_info) {
@@ -804,7 +804,7 @@ exports.weixin_js = function(req, res) {
 	}
 }
 
-function sign(jsapi_ticket, nonceStr, timestamp, url) {
+function signjsapi(jsapi_ticket, nonceStr, timestamp, url) {
 	var ret = {
 		jsapi_ticket: jsapi_ticket,
 		nonceStr: nonceStr,

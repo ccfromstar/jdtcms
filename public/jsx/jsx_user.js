@@ -152,7 +152,7 @@ var R_content = React.createClass({
 				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
 				              <tr>
-				                <th>手机号</th>
+				                <th>账号名称</th>
 				                <th>姓名</th>
 			            		<th>密码</th>
 			            		<th>基础权限</th>

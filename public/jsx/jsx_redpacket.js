@@ -146,8 +146,13 @@ var R_content = React.createClass({
 		var list = this.state.data.map(function(c){
 		return(
 				<tr>
-	              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
+				  <td>{c.type_id==0?"固定金额":"随机金额"}</td>
+				  <td>{c.name}</td>
+	              <td>{c.type_id==0?c.money+"元":c.money+"~"+c.money_max+"元"}</td>
 	              <td>{c.score}</td>
+	              <td>{c.state_id==0?"未发布":"已发布"}</td>
+	              <td>{c.sort_id}</td>
+	              <td>{c.nick_name}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
@@ -177,16 +182,7 @@ var R_content = React.createClass({
 			    <div className="am-cf am-padding">
 			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">红包设定</strong> / <small>列表</small></div>
 				</div>
-				
-				
-				<div className="am-tabs am-margin" data-am-tabs>
-				    <ul className="am-tabs-nav am-nav am-nav-tabs">
-				      <li className="am-active"><a href="#tab1">固定金额红包</a></li>
-				      <li><a href="#tab2">随机金额红包</a></li>
-				    </ul>
-				
-				    <div className="am-tabs-bd">
-				      <div className="am-tab-panel am-fade am-in am-active" id="tab1">
+				   
 				      		<div className="am-g">
 						      <div className="am-u-sm-12 am-u-md-12">
 						        <div className="am-btn-toolbar">
@@ -203,8 +199,13 @@ var R_content = React.createClass({
 							          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 							            <thead>
 							              <tr>
+							              	<th>红包类别</th>
+							              	<th>红包名称</th>
 							                <th>红包金额</th>
 							                <th>所需积分</th>
+							                <th>状态</th>
+							                <th>排序</th>
+							                <th>文字</th>
 						            		<th className="am-hide-sm-only table-set">操作</th>
 							              </tr>
 							          	</thead>
@@ -225,15 +226,6 @@ var R_content = React.createClass({
 							        </form>
 							    </div>
 							</div>
-				      </div>
-				      <div className="am-tab-panel am-fade" id="tab2">
-				      		<div className="am-form">
-				      			金额范围：<input type="text" id="redpacket_min" className="am-input-sm settings_input" defaultValue="0" /> ~ <input type="text" id="redpacket_max" className="am-input-sm settings_input" defaultValue="0" />
-				      			<button type="button" onClick={this.UpdateRedpacket} className="btn-c am-btn am-btn-primary am-btn-xs">保存</button>
-				      		</div>
-				      </div>
-				    </div>
-				</div>
 
 				<div className="am-modal am-modal-confirm" tabIndex="-1" id="del-confirm">
 				  <div className="am-modal-dialog">

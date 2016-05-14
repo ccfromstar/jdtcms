@@ -177,22 +177,36 @@ function setPost(req,res){
 function shareToFriend(req,res){
 		var id = req.param("id");
 		var openid = req.param("openid");
+		var obj = {
+			name:'shareToFriend'
+		};
 		var sql = "select id from wx_user_record where type_id = 5 and wx_openid = '"+openid+"' and post_id = "+id;
 		mysql.query(sql, function(err, rows) {
 			if (err) return console.error(err.stack);
 			if(rows[0]){
-				res.send("400");
+				obj.hasShared = 1;
+				res.json(obj);
 			}else{
+				obj.hasShared = 0;
 				/*判断用户是否关注了公众号*/
-				var sql2 = "select id from wx_user where openid = '"+openid+"'";
+				var sql2 = "select * from wx_user where openid = '"+openid+"'";
 				mysql.query(sql2, function(err, rows2) {
 					if (err) return console.error(err.stack);
 					if(rows2[0]){
+						obj.hasFocus = 1;
+						//判断是否是取消关注了
+						if(rows2[0].subscribe == 1){
+							obj.hasCancelFocus = 0;
+						}else{
+							obj.hasCancelFocus = 1;
+						}
 						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
 						/*获取系统设定*/
 				          var sql_settings = "select * from settings";
 				          mysql.query(sql_settings, function(err, settings) {
 				              if (err) return console.error(err.stack);
+				              obj.score = settings[0].score_transpond;
+				              obj.day = settings[0].day_transpond;
 				              /*记录微信用户积分行为*/
 				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",5,"+id+")";
 				              setLog(sql_score);
@@ -200,7 +214,7 @@ function shareToFriend(req,res){
 				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
 				              setLog(sql_wx_user);
 				              /*给用户的建定通账户增加使用天数*/
-				              var sql_admin = "select * from admin where username ='"+openid+"'";
+				              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
 				              mysql.query(sql_admin, function(err, admin) {
 				                if (err) return console.error(err.stack);
 				                if(admin[0]){
@@ -208,58 +222,83 @@ function shareToFriend(req,res){
 				                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
 				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
 				                    setLog(sql_adday);
+				                    obj.ActivedJDT = 1;
+				                    res.json(obj);
+				                }else{
+				                	obj.ActivedJDT = 0;
+				              		res.json(obj);
 				                }
-				              });
+				              });	
 				          });
-						res.send("300");	
 					}else{
-						res.send("500");
+						obj.hasFocus = 0;
+						res.json(obj);
 					}
 				});	
 			}
+			
 		});	
 }
 
 function shareToCricle(req,res){
 		var id = req.param("id");
 		var openid = req.param("openid");
+		var obj = {
+			name:'shareToFriend'
+		};
 		var sql = "select id from wx_user_record where type_id = 6 and wx_openid = '"+openid+"' and post_id = "+id;
 		mysql.query(sql, function(err, rows) {
 			if (err) return console.error(err.stack);
 			if(rows[0]){
-				res.send("400");
+				obj.hasShared = 1;
+				res.json(obj);
 			}else{
+				obj.hasShared = 0;
 				/*判断用户是否关注了公众号*/
-				var sql2 = "select id from wx_user where openid = '"+openid+"'";
+				var sql2 = "select * from wx_user where openid = '"+openid+"'";
 				mysql.query(sql2, function(err, rows2) {
 					if (err) return console.error(err.stack);
 					if(rows2[0]){
+						obj.hasFocus = 1;
+						//判断是否是取消关注了
+						if(rows2[0].subscribe == 1){
+							obj.hasCancelFocus = 0;
+						}else{
+							obj.hasCancelFocus = 1;
+						}
 						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
 						/*获取系统设定*/
 				          var sql_settings = "select * from settings";
 				          mysql.query(sql_settings, function(err, settings) {
 				              if (err) return console.error(err.stack);
+				              obj.score = settings[0].score_share;
+				              obj.day = settings[0].day_share;
 				              /*记录微信用户积分行为*/
-				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",6,"+id+")";
+				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_share+",6,"+id+")";
 				              setLog(sql_score);
 				              /*给用户增加积分*/
-				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
+				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_share+",score_total = score_total + "+settings[0].score_share+" where openid = '" +openid+"'";
 				              setLog(sql_wx_user);
 				              /*给用户的建定通账户增加使用天数*/
-				              var sql_admin = "select * from admin where username ='"+openid+"'";
+				              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
 				              mysql.query(sql_admin, function(err, admin) {
 				                if (err) return console.error(err.stack);
 				                if(admin[0]){
 				                    var d = admin[0].limited + "";
-				                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
+				                    var limited = GetDateStr(new Date(d),settings[0].day_share);
 				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
 				                    setLog(sql_adday);
+				                    obj.ActivedJDT = 1;
+				                    res.json(obj);
+				                }else{
+				                	obj.ActivedJDT = 0;
+				              		res.json(obj);
 				                }
 				              });
-				          });
-						res.send("300");	
+				          });	
 					}else{
-						res.send("500");
+						obj.hasFocus = 0;
+						res.json(obj);
 					}
 				});	
 			}

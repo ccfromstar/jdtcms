@@ -69,7 +69,7 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	sendDoc:function(id,openid,money,order_no,e){
+	sendDoc:function(id,openid,money,order_no,money_max,type_id,nick_name,e){
 		var o = this;
 		e.preventDefault();
 		$.ajax({
@@ -79,7 +79,10 @@ var R_content = React.createClass({
 				id:id,
 				openid:openid,
 				money:money,
-				order_no:order_no
+				order_no:order_no,
+				money_max:money_max,
+				type_id:type_id,
+				nick_name:nick_name
 			},
 			success: function(data) {
 				if(data == "300"){
@@ -150,13 +153,13 @@ var R_content = React.createClass({
 		              <td>{c.openid}</td>
 		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
-		              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
-		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 		              <td>{c.name}</td>
+		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
+		              <td>{c.sname}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
-		                    <button onClick={o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-gavel"></span> 发放</button>
+		                    <button onClick={o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no,c.money_max,c.type_id,c.nick_name)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-gavel"></span> 发放</button>
 		                    <button onClick={o.backDoc.bind(o,c.id,c.openid,c.score,c.money)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-reply"></span> 退回</button>
 		                  </div>
 		                </div>
@@ -169,9 +172,9 @@ var R_content = React.createClass({
 		              <td>{c.openid}</td>
 		              <td>{c.nickname}</td>
 		              <td>{c.score}</td>
-		              <td>{c.money==-1?"随机金额":c.money+"元"}</td>
-		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
 		              <td>{c.name}</td>
+		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
+		              <td>{c.sname}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
@@ -219,7 +222,7 @@ var R_content = React.createClass({
 				                <th>兑换人openid</th>
 				                <th>兑换人昵称</th>
 				                <th>兑换积分</th>
-				                <th>兑换金额</th>
+				                <th>兑换名称</th>
 				                <th>兑换时间</th>
 				                <th>状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>

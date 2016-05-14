@@ -69,7 +69,7 @@ var R_content = React.createClass({displayName: "R_content",
 			}
 		});
 	},
-	sendDoc:function(id,openid,money,order_no,e){
+	sendDoc:function(id,openid,money,order_no,money_max,type_id,nick_name,e){
 		var o = this;
 		e.preventDefault();
 		$.ajax({
@@ -79,7 +79,10 @@ var R_content = React.createClass({displayName: "R_content",
 				id:id,
 				openid:openid,
 				money:money,
-				order_no:order_no
+				order_no:order_no,
+				money_max:money_max,
+				type_id:type_id,
+				nick_name:nick_name
 			},
 			success: function(data) {
 				if(data == "300"){
@@ -150,13 +153,13 @@ var R_content = React.createClass({displayName: "R_content",
 		              React.createElement("td", null, c.openid), 
 		              React.createElement("td", null, c.nickname), 
 		              React.createElement("td", null, c.score), 
-		              React.createElement("td", null, c.money==-1?"随机金额":c.money+"元"), 
-		              React.createElement("td", null, new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")), 
 		              React.createElement("td", null, c.name), 
+		              React.createElement("td", null, new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")), 
+		              React.createElement("td", null, c.sname), 
 		              React.createElement("td", null, 
 		                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
 		                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
-		                    React.createElement("button", {onClick: o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-gavel"}), " 发放"), 
+		                    React.createElement("button", {onClick: o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no,c.money_max,c.type_id,c.nick_name), className: "am-btn am-btn-default am-btn-xs am-text-secondary"}, React.createElement("span", {className: "am-icon-gavel"}), " 发放"), 
 		                    React.createElement("button", {onClick: o.backDoc.bind(o,c.id,c.openid,c.score,c.money), className: "am-btn am-btn-default am-btn-xs am-text-danger"}, React.createElement("span", {className: "am-icon-reply"}), " 退回")
 		                  )
 		                )
@@ -169,9 +172,9 @@ var R_content = React.createClass({displayName: "R_content",
 		              React.createElement("td", null, c.openid), 
 		              React.createElement("td", null, c.nickname), 
 		              React.createElement("td", null, c.score), 
-		              React.createElement("td", null, c.money==-1?"随机金额":c.money+"元"), 
-		              React.createElement("td", null, new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")), 
 		              React.createElement("td", null, c.name), 
+		              React.createElement("td", null, new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")), 
+		              React.createElement("td", null, c.sname), 
 		              React.createElement("td", null, 
 		                React.createElement("div", {className: "am-hide-sm-only am-btn-toolbar"}, 
 		                  React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
@@ -219,7 +222,7 @@ var R_content = React.createClass({displayName: "R_content",
 				                React.createElement("th", null, "兑换人openid"), 
 				                React.createElement("th", null, "兑换人昵称"), 
 				                React.createElement("th", null, "兑换积分"), 
-				                React.createElement("th", null, "兑换金额"), 
+				                React.createElement("th", null, "兑换名称"), 
 				                React.createElement("th", null, "兑换时间"), 
 				                React.createElement("th", null, "状态"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")

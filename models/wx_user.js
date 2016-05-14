@@ -1026,7 +1026,7 @@ function createAdmin(req,res){
 	var job = req.param("job");
 	var openid = req.param("openid");
 	var sql1 = "select id from admin where username = '"+openid+"'";
-	var sql2 = "insert into admin (name,mobile,company,address,job,username,password) values('"+name+"','"+mobile+"','"+company+"','"+address+"','"+job+"','"+openid+"','"+openid+"')";
+	var sql2 = "insert into admin (name,mobile,company,address,job,username,password,applytime) values('"+name+"','"+mobile+"','"+company+"','"+address+"','"+job+"','"+openid+"','"+openid+"',now())";
 	mysql.query(sql1, function(err, result) {
 		if (err) return console.error(err.stack);
 		if(result[0]){

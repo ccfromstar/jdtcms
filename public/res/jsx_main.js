@@ -11,7 +11,7 @@ var R_footer = React.createClass({displayName: "R_footer",
 		return(
 			React.createElement("footer", null, 
 				React.createElement("hr", null), 
-				React.createElement("p", {className: "am-padding-left"}, "© 2016 建定通微信管理系统."), 
+				React.createElement("p", {className: "am-padding-left"}, "© 2016 上海标锭建设工程服务有限公司."), 
 				React.createElement("div", {className: "am-alert am-alert-danger none errorinfo", "data-am-alert": true}), 
 				React.createElement("div", {className: "am-alert am-alert-success none successinfo", "data-am-alert": true}), 
 				React.createElement("div", {className: "am-alert am-alert-warning none loadinfo", "data-am-alert": true})
@@ -37,7 +37,7 @@ var R_header = React.createClass({displayName: "R_header",
 		return(
 			React.createElement("header", {className: "am-topbar admin-header"}, 
 			  React.createElement("div", {className: "am-topbar-brand"}, 
-			    React.createElement("strong", null, "建定通"), " ", React.createElement("small", null, "微信管理系统")
+			    React.createElement("strong", null, "建定工程"), " ", React.createElement("small", null, "官方微信后台管理系统")
 			  ), 
 			
 			  React.createElement("button", {className: "am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only", "data-am-collapse": "{target: '#topbar-collapse'}"}, React.createElement("span", {className: "am-sr-only"}, "导航切换"), " ", React.createElement("span", {className: "am-icon-bars"})), 
@@ -68,12 +68,14 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
 			/*软文管理*/
 			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
-			/*会议报名管理*/
-			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
 		}
 		if(role_send == 0){
 			/*红包管理*/
 			$('.admin-sidebar-list').find('li').eq(5).addClass('none');
+		}
+		if(role_manage == 1){
+			/*修改密码*/
+			$('.admin-sidebar-list').find('li').eq(13).addClass('none');
 		}
 	},
 	render:function(){
@@ -103,7 +105,8 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 					React.createElement("li", {className: "admin-parent"}, 
 						React.createElement("a", {href: "post.html"}, React.createElement("span", {className: "am-icon-wechat"}), " 服务号软文管理")
 					), 
-					React.createElement("li", null, React.createElement("a", {href: "meeting.html"}, React.createElement("span", {className: "am-icon-university"}), " 会议报名管理"))
+					React.createElement("li", null, React.createElement("a", {href: "meeting.html"}, React.createElement("span", {className: "am-icon-university"}), " 会议报名管理")), 
+					React.createElement("li", null, React.createElement("a", {href: "changePwd.html"}, React.createElement("span", {className: "am-icon-gear"}), " 密码修改"))
 			      ), 
 			      React.createElement("div", {className: "fix_bottom"})
 			    )

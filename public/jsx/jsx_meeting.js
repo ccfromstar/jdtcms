@@ -46,42 +46,47 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	resetKey:function(){
+		window.location.reload();
+	},
 	toPage:function(page,e){
 		var o = this;
 		if(e){
 			e.preventDefault();
 		}
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
+		
+		/*查询参数*/
+		var meetingname = $("#meetingname").val();
+		var company = $("#company").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		var linkman = $("#linkman").val();
+		var address = $("#address").val();
+		var phone = $("#phone").val();
+		var remark = $("#remark").val();
+		var state_id = $("#state_id").val();
+		
 		$.ajax({
 			type: "post",
 			url: hosts + "/user/getMeeting",
 			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		$.ajax({
-			type: "post",
-			url: hosts + "/user/getMeeting",
-			data: {
-				indexPage:indexPage
+				indexPage:indexPage,
+				cid:id,
+				meetingname:meetingname,
+				company:company,
+				start_time:start_time,
+				end_time:end_time,
+				linkman:linkman,
+				address:address,
+				phone:phone,
+				remark:remark,
+				state_id:state_id
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -90,6 +95,52 @@ var R_content = React.createClass({
 				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
 				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
 				$modal.modal('close');
+			}
+		});
+	},
+	componentDidMount:function(){
+		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		this.toPage(1);
+	},
+	ShowWin:function(id,state_id,remark,e){
+		if(e){
+			e.preventDefault();
+		}
+		window.sessionStorage.setItem("meetingid",id);
+		
+		$("#w_state_id").val(state_id);
+		$("#w_remark").val(remark);
+		$("#action_type").modal();
+	},
+	setMeeting:function(e){
+		var o = this;
+		if(e){
+			e.preventDefault();
+		}
+		var meetingid = window.sessionStorage.getItem('meetingid');
+		var w_remark = $("#w_remark").val();
+		var w_state_id = $("#w_state_id").val();
+		$("#action_type").modal('close');
+		$.ajax({
+			type: "post",
+			url: hosts + "/user/updateMeeting",
+			data: {
+				meetingid:meetingid,
+				w_remark:w_remark,
+				w_state_id:w_state_id
+			},
+			success: function(data) {
+				o.toPage(window.sessionStorage.getItem("indexPage"));
+				$('.successinfo').html('<p>修改成功</p>').removeClass("none");
+				setTimeout(function() {
+					$('.successinfo').addClass("none");
+				}, 2000);
 			}
 		});
 	},
@@ -104,7 +155,16 @@ var R_content = React.createClass({
 	              <td>{c.address}</td>
 	              <td>{c.phone}</td>
 	              <td>{c.custfrom}</td>
+	              <td>{c.state_id==0?"未处理":"已联系"}</td>
+	              <td>{c.remark}</td>
 	              <td>{c.signDate}</td>
+	              <td>
+	                <div className="am-hide-sm-only am-btn-toolbar">
+	                  <div className="am-btn-group am-btn-group-xs">
+	                    <button onClick={o.ShowWin.bind(o,c.id,c.state_id,c.remark)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-edit"></span> 修改</button>
+	                  </div>
+	                </div>
+	              </td>
 	            </tr>
 			);
 		});
@@ -136,6 +196,29 @@ var R_content = React.createClass({
 			    </div>
 			    
 			    <div className="am-g">
+			      <div className="am-u-sm-12 am-u-md-12 menu-search">
+			        <div className="am-btn-toolbar">  
+			          		<input type="text" id="meetingname" className="am-input-sm search_input" placeholder="会议名" />
+			          		<input type="text" id="company" className="am-input-sm search_input" placeholder="公司" />
+			          		<input type="text" id="linkman" className="am-input-sm search_input" placeholder="联系人" />
+			          		<input type="text" id="address" className="am-input-sm search_input" placeholder="地址" />
+			          		<input type="text" id="phone" className="am-input-sm search_input" placeholder="手机号" />
+			          		<input type="text" id="remark" className="am-input-sm search_input" placeholder="备注" />
+			          		申请日期：
+			          		<input type="text" id="start_time" className="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly required />
+			          		<input type="text" id="end_time" className="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly required />
+			          		<select id="state_id" className="sel_user">
+			          			<option value='-'>状态</option>
+			          			<option value='0'>未处理</option>
+			          			<option value='1'>已联系</option>
+			          		</select>
+			          		<button type="button" onClick={this.toPage.bind(o,1)} className="btn-c am-btn am-btn-primary am-btn-xs btn-search"><span className="am-icon-search"></span> 查询</button>
+			          		<button type="button" onClick={this.resetKey} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-bitbucket"></span> 清空</button>
+			        </div>
+			      </div>
+			    </div>
+			    
+			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
 				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
@@ -147,7 +230,10 @@ var R_content = React.createClass({
 				                <th>地址</th>
 				                <th>手机号</th>
 				                <th>类型</th>
+				                <th>状态</th>
+				                <th>备注</th>
 				                <th>申请日期</th>
+				                <th>操作</th>
 				              </tr>
 				          	</thead>
 				          	<tbody>
@@ -176,6 +262,45 @@ var R_content = React.createClass({
 				    <div className="am-modal-footer">
 				      <span className="am-modal-btn" data-am-modal-cancel>取消</span>
 				      <span className="am-modal-btn" data-am-modal-confirm onClick={this.delsql}>确定</span>
+				    </div>
+				  </div>
+				</div>
+				
+				<div className="am-modal am-modal-no-btn" tabindex="-1" id="action_type">
+				  <div className="am-modal-dialog">
+				    <div className="am-modal-hd">修改状态和备注
+				      <a href="javascript: void(0)" className="am-close am-close-spin" data-am-modal-close>&times;</a>
+				    </div>
+				    
+				    <div className="am-modal-bd">
+				    	<div className="am-form">
+				    		<div className="am-g am-margin-top">
+						        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+						            备注
+						        </div>
+						        <div className="am-u-sm-8 am-u-md-4">
+						            <input type="text" id="w_remark" className="am-input-sm" />
+						        </div>
+						        <div className="am-hide-sm-only am-u-md-6"></div>
+						    </div>
+						    
+						    <div className="am-g am-margin-top">
+						        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+						            状态
+						        </div>
+						        <div className="am-u-sm-8 am-u-md-4">
+						        	<select id="w_state_id" className="sel_user">
+					          			<option value='0'>未处理</option>
+					          			<option value='1'>已联系</option>
+					          		</select>
+						        </div>
+						        <div className="am-hide-sm-only am-u-md-6"></div>
+						    </div>
+				    	</div>  
+					    
+					    <p>&nbsp;</p>
+						<button type="button" onClick={this.setMeeting}  className="btn-c am-btn am-btn-primary am-btn-xs btn-search">确定</button>
+			          		
 				    </div>
 				  </div>
 				</div>

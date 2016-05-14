@@ -45,6 +45,7 @@ function updateSettings(req,res){
 	var score_read = req.param("score_read");
 	var score_like = req.param("score_like");
 	var score_transpond = req.param("score_transpond");
+	var score_share = req.param("score_share");
 	var score_admin_focus = req.param("score_admin_focus");
 	var score_admin_read = req.param("score_admin_read");
 	var score_admin_like = req.param("score_admin_like");
@@ -53,16 +54,19 @@ function updateSettings(req,res){
 	var day_read = req.param("day_read");
 	var day_like = req.param("day_like");
 	var day_transpond = req.param("day_transpond");
+	var day_share = req.param("day_share");
 
 			var sql = "update settings set ";
 			sql += " day_initial = "+day_initial+",";
 			sql += " day_read = "+day_read+",";
 			sql += " day_like = "+day_like+",";
 			sql += " day_transpond = "+day_transpond+",";
+			sql += " day_share = "+day_share+",";
 			sql += " score_focus = "+score_focus+",";
 			sql += " score_read = "+score_read+",";
 			sql += " score_like = "+score_like+",";
 			sql += " score_transpond = "+score_transpond+",";
+			sql += " score_share = "+score_share+",";
 			sql += " score_admin_focus = "+score_admin_focus+",";
 			sql += " score_admin_read = "+score_admin_read+",";
 			sql += " score_admin_like = "+score_admin_like+",";

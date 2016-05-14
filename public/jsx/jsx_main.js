@@ -11,7 +11,7 @@ var R_footer = React.createClass({
 		return(
 			<footer>
 				<hr />
-				<p className="am-padding-left">© 2016 建定通微信管理系统.</p>
+				<p className="am-padding-left">© 2016 上海标锭建设工程服务有限公司.</p>
 				<div className="am-alert am-alert-danger none errorinfo" data-am-alert></div>
 				<div className="am-alert am-alert-success none successinfo" data-am-alert></div>
 				<div className="am-alert am-alert-warning none loadinfo" data-am-alert></div>
@@ -37,7 +37,7 @@ var R_header = React.createClass({
 		return(
 			<header className="am-topbar admin-header">
 			  <div className="am-topbar-brand">
-			    <strong>建定通</strong> <small>微信管理系统</small>
+			    <strong>建定工程</strong> <small>官方微信后台管理系统</small>
 			  </div>
 			
 			  <button className="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span className="am-sr-only">导航切换</span> <span className="am-icon-bars"></span></button>
@@ -68,12 +68,14 @@ var R_sidebar = React.createClass({
 			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
 			/*软文管理*/
 			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
-			/*会议报名管理*/
-			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
 		}
 		if(role_send == 0){
 			/*红包管理*/
 			$('.admin-sidebar-list').find('li').eq(5).addClass('none');
+		}
+		if(role_manage == 1){
+			/*修改密码*/
+			$('.admin-sidebar-list').find('li').eq(13).addClass('none');
 		}
 	},
 	render:function(){
@@ -104,6 +106,7 @@ var R_sidebar = React.createClass({
 						<a href="post.html"><span className="am-icon-wechat"></span> 服务号软文管理</a>
 					</li>
 					<li><a href="meeting.html"><span className="am-icon-university"></span> 会议报名管理</a></li>
+					<li><a href="changePwd.html"><span className="am-icon-gear"></span> 密码修改</a></li>
 			      </ul>
 			      <div className="fix_bottom"></div>
 			    </div>

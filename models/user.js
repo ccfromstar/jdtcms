@@ -24,6 +24,12 @@ User = function(action,req,res){
 	  	case "getMeeting":
 	  		getMeeting(req,res);
 	  		break;
+	  	case "changePwd":
+	  		changePwd(req,res);
+	  		break;
+	  	case "updateMeeting":
+	  		updateMeeting(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -48,15 +54,112 @@ function checkLogin(req,res){
 		});
 }
 
+function changePwd(req,res){
+	var oldpwd = req.param("oldpwd");
+	var newpwd = req.param("newpwd");
+	var id = req.param("id");
+	var sql1 = "select * from user where id = "+ id+" and password = '"+oldpwd+"'";
+	mysql.query(sql1, function(err, result) {
+		if (err) return console.error(err.stack);
+		if (!result[0]) {
+			res.send("400");
+			return;
+		}
+		var sql2  = "update user set password = '"+newpwd+"' where id  = " + id;
+		mysql.query(sql2, function(err, result2) {
+			if (err) return console.error(err.stack);
+			res.send("300");
+		});
+	});
+}
+
+function GetDateStr_end(time,AddDayCount) { 
+	var dd = new Date(time); 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+}
+
+function updateMeeting(req,res){
+	var meetingid = req.param("meetingid");
+	var w_remark = req.param("w_remark");
+	var w_state_id = req.param("w_state_id");
+	var sql1 = "update dbo.Meeting_signup set state_id = "+w_state_id+",remark='"+w_remark+"' where id="+meetingid;
+	console.log(sql1);
+			request({
+			    encoding: null,
+			    url: "http://www.jdjs.com.cn/jdtcms/update.asp?p="+sql1
+			}, function(error, res1, body) {
+			    if (!error && res1.statusCode == 200) {
+			    	console.log("success");
+			        res.send("300");
+			    }
+			});
+}
+
 function getMeeting(req,res){
 		var page = parseInt(req.param("indexPage"));
+		var meetingname = req.param("meetingname");
+		var company = req.param("company");
+		var start_time = req.param("start_time");
+		var end_time = req.param("end_time");
+		var linkman = req.param("linkman");
+		var address = req.param("address");
+		var phone = req.param("phone");
+		var remark = req.param("remark");
+		var state_id = req.param("state_id");
+		
 		var LIMIT = 20;
 		page = (page && page > 0) ? page : 1;
 		var limit = (limit && limit > 0) ? limit : LIMIT;
 		var id_min = (page - 1) * limit;
 		var id_max = id_min + LIMIT;
-		var sql1 = "select top "+limit+" * from dbo.Meeting_signup where id not in ( select top "+id_min+" id from dbo.Meeting_signup order by id desc) order by id desc";
-		var sql2 = "select count(*) as count from dbo.Meeting_signup";
+		
+		//查询条件
+		var change = "";
+		if(meetingname != ""){
+			change += " and meetingname like '@"+meetingname+"@'";
+		}
+		if(company != ""){
+			change += " and company like '@"+company+"@'";
+		}
+		if(linkman != ""){
+			change += " and linkman like '@"+linkman+"@'";
+		}
+		if(address != ""){
+			change += " and address like '@"+address+"@'";
+		}
+		if(phone != ""){
+			change += " and phone like '@"+phone+"@'";
+		}
+		if(remark != ""){
+			change += " and remark like '@"+remark+"@'";
+		}
+		
+		if(state_id != "-" && state_id != ""){
+			change += " and state_id = '"+state_id+"'";
+		}
+		var timestamp_start = Date.parse(new Date(start_time));
+		timestamp_start = timestamp_start / 1000;
+		if(start_time != ""){
+			change += " and signDate >= '"+timestamp_start+"'";
+		}
+		var timestamp_end = Date.parse(new Date(GetDateStr_end(end_time,1)));
+		timestamp_end = timestamp_end / 1000;
+		if(end_time != ""){
+			change += " and signDate <= '"+timestamp_end+"'";
+		}
+		
+		var sql1 = "select top "+limit+" * from dbo.Meeting_signup where id not in ( select top "+id_min+" id from dbo.Meeting_signup order by id desc) "+change+" order by id desc";
+		var sql2 = "select count(*) as count from dbo.Meeting_signup where 1 = 1 "+change;
 		console.log(sql1);
 		async.waterfall([function(callback) {
 			request({
@@ -64,7 +167,8 @@ function getMeeting(req,res){
 			    url: "http://www.jdjs.com.cn/jdtcms/Meeting_signup.asp?p="+sql1
 			}, function(error, res, body) {
 			    if (!error && res.statusCode == 200) {
-			        var body_zh = (Iconv.decode(body, 'gb2312').toString());
+			        //var body_zh = (Iconv.decode(body, 'gb2312').toString());
+			        var body_zh = (Iconv.decode(body, 'utf-8').toString());
 			        //console.log(body_zh);
 			        callback(null, (body_zh));
 			    }
@@ -87,9 +191,9 @@ function getMeeting(req,res){
 		    	for(var i=0;i<arr1.length;i++){
 		    		var arr2 = arr1[i].split("@");
 		    		if(i==0){
-		    			str += '{"meetingname":"'+arr2[0]+'","company":"'+arr2[1]+'","linkman":"'+arr2[2]+'","address":"'+arr2[3]+'","phone":"'+arr2[4]+'","custfrom":"'+arr2[5]+'","signDate":"'+arr2[6]+'"}';
+		    			str += '{"meetingname":"'+arr2[0]+'","company":"'+arr2[1]+'","linkman":"'+arr2[2]+'","address":"'+arr2[3]+'","phone":"'+arr2[4]+'","custfrom":"'+arr2[5]+'","signDate":"'+arr2[6]+'","state_id":"'+arr2[7]+'","remark":"'+arr2[8]+'","id":"'+arr2[9]+'"}';
 		    		}else{
-		    			str += ',{"meetingname":"'+arr2[0]+'","company":"'+arr2[1]+'","linkman":"'+arr2[2]+'","address":"'+arr2[3]+'","phone":"'+arr2[4]+'","custfrom":"'+arr2[5]+'","signDate":"'+arr2[6]+'"}';
+		    			str += ',{"meetingname":"'+arr2[0]+'","company":"'+arr2[1]+'","linkman":"'+arr2[2]+'","address":"'+arr2[3]+'","phone":"'+arr2[4]+'","custfrom":"'+arr2[5]+'","signDate":"'+arr2[6]+'","state_id":"'+arr2[7]+'","remark":"'+arr2[8]+'","id":"'+arr2[9]+'"}';
 		    		}
 		    	}
 		    	str += ']';
@@ -178,7 +282,7 @@ function createUser(req,res){
 
 function getUser(req,res){
 		var page = parseInt(req.param("indexPage"));
-		var LIMIT = 6;
+		var LIMIT = 10;
 		page = (page && page > 0) ? page : 1;
 		var limit = (limit && limit > 0) ? limit : LIMIT
 		var sql1 = "select * from user order by id desc limit " + (page - 1) * limit + "," + limit;

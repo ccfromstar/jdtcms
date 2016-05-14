@@ -149,6 +149,7 @@ var R_content = React.createClass({
 		              <td>{limited}</td>
 		              <td>{c.username}</td>
 		              <td>{c.password}</td>
+		              <td>{c.applytime?new Date(c.applytime).Format("yyyy-MM-dd hh:mm:ss"):""}</td>
 		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
@@ -171,6 +172,7 @@ var R_content = React.createClass({
 		              <td>{limited}</td>
 		              <td>{c.username}</td>
 		              <td>{c.password}</td>
+		              <td>{c.applytime?new Date(c.applytime).Format("yyyy-MM-dd hh:mm:ss"):""}</td>
 		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
@@ -226,6 +228,7 @@ var R_content = React.createClass({
 			            		<th>账号有效期</th>
 			            		<th>账号</th>
 			            		<th>密码</th>
+			            		<th>激活时间</th>
 			            		<th>激活状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
