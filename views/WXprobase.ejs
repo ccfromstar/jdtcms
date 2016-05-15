@@ -45,7 +45,20 @@
 				var proname = $("#proname").val();
 				var prosort = $("#prosort").val();
 				var proplace = $("#proplace").val();
-				window.location = "/WXprobase?p=" + i+"&proname="+proname+"&prosort="+prosort+"&proplace="+proplace;
+				
+				var prostate = $("#prostate").val();
+				var proaddress = $("#proaddress").val();
+				var start_time1 = $("#start_time1").val();
+				var end_time1 = $("#end_time1").val();
+				var start_time2 = $("#start_time2").val();
+				var end_time2 = $("#end_time2").val();
+				var start_time3 = $("#start_time3").val();
+				var end_time3 = $("#end_time3").val();
+				var promoney1 = $("#promoney1").val();
+				var promoney2 = $("#promoney2").val();
+				var prorek = $("#prorek").val();
+				
+				window.location = "/WXprobase?p=" + i+"&proname="+proname+"&prosort="+prosort+"&proplace="+proplace+"&prostate="+prostate+"&proaddress="+proaddress+"&start_time1="+start_time1+"&end_time1="+end_time1+"&start_time2="+start_time2+"&end_time2="+end_time2+"&start_time3="+start_time3+"&end_time3="+end_time3+"&promoney1="+promoney1+"&promoney2="+promoney2+"&prorek="+prorek;
 			}
 			
 			function setUser(){
@@ -53,6 +66,30 @@
 				$("#proname").val('<%=proname%>');
 				$("#prosort").val('<%=prosort%>');
 				$("#proplace").val('<%=proplace%>');
+				
+				$("#prostate").val('<%=prostate%>');
+				$("#proaddress").val('<%=proaddress%>');
+				if('<%=start_time1%>'){
+					$("#start_time1").datepicker('setValue','<%=start_time1%>');
+				}
+				if('<%=end_time1%>'){
+					$("#end_time1").datepicker('setValue','<%=end_time1%>');
+				}
+				if('<%=start_time2%>'){
+					$("#start_time2").datepicker('setValue','<%=start_time2%>');
+				}
+				if('<%=end_time2%>'){
+					$("#end_time2").datepicker('setValue','<%=end_time2%>');
+				}
+				if('<%=start_time3%>'){
+					$("#start_time3").datepicker('setValue','<%=start_time3%>');
+				}
+				if('<%=end_time3%>'){
+					$("#end_time3").datepicker('setValue','<%=end_time3%>');
+				}
+				$("#promoney1").val('<%=promoney1%>');
+				$("#promoney2").val('<%=promoney2%>');
+				$("#prorek").val('<%=prorek%>');
 			}
 			
 		</script>
@@ -109,6 +146,22 @@
 							<option value="浙江">浙江</option>						
 						</select>
 				</p>
+				<p>工程状态：<input type="text" className="am-input-sm" id="prostate" /></p>
+				<p>工程地址：<input type="text" className="am-input-sm" id="proaddress" /></p>
+				<p>发布日期：
+					<input type="text" id="start_time1" class="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly  />
+			        <input type="text" id="end_time1" class="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly  />
+				</p>
+				<p>开工日期：
+					<input type="text" id="start_time2" class="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly  />
+			        <input type="text" id="end_time2" class="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly  />
+				</p>
+				<p>竣工日期：
+					<input type="text" id="start_time3" class="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly  />
+			        <input type="text" id="end_time3" class="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly  />
+				</p>
+				<p>造价范围：<input type="text" class="range" className="am-input-sm" id="promoney1" /> ~ <input type="text" class="range" className="am-input-sm" id="promoney2" /></p>
+				<p>采购建材及设备：<input type="text" className="am-input-sm" id="prorek" /></p>
 				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs" onclick="toPage(1)"><span class="am-icon-search"></span> 查询</button></p>
 				<table class="am-table am-table-striped am-table-hover jdt-table">
 					<thead>

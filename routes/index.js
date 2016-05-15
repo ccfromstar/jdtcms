@@ -386,6 +386,19 @@ exports.WXprobase = function(req, res) {
 	var proname = req.query.proname;
 	var prosort = req.query.prosort;
 	var proplace = req.query.proplace;
+	
+	var prostate = req.query.prostate;
+	var proaddress = req.query.proaddress;
+	var start_time1 = req.query.start_time1;
+	var end_time1 = req.query.end_time1;
+	var start_time2 = req.query.start_time2;
+	var end_time2 = req.query.end_time2;
+	var start_time3 = req.query.start_time3;
+	var end_time3 = req.query.end_time3;
+	var promoney1 = req.query.promoney1;
+	var promoney2 = req.query.promoney2;
+	var prorek = req.query.prorek;
+	
 	var page = parseInt(req.param("p"));
 	
 	var LIMIT = 20;
@@ -397,6 +410,19 @@ exports.WXprobase = function(req, res) {
 	proname = proname?proname:"";
 	prosort = prosort?prosort:"全部信息";
 	proplace = proplace?proplace:"全部地区";
+	
+	prostate = prostate?prostate:"";
+	proaddress = proaddress?proaddress:"";
+	start_time1 = start_time1?start_time1:"";
+	end_time1 = end_time1?end_time1:"";
+	start_time2 = start_time2?start_time2:"";
+	end_time2 = end_time2?end_time2:"";
+	start_time3 = start_time3?start_time3:"";
+	end_time3 = end_time3?end_time3:"";
+	promoney1 = promoney1?promoney1:"";
+	promoney2 = promoney2?promoney2:"";
+	prorek = prorek?prorek:"";
+	
 	var change = "";
 	if(proname != ""){
 		change += " and proname like '@"+proname+"@'";
@@ -407,6 +433,45 @@ exports.WXprobase = function(req, res) {
 	if(proplace != "全部地区"){
 		change += " and proplace = '"+proplace+"'";
 	}
+	
+	if(prostate != ""){
+		change += " and prostate like '@"+prostate+"@'";
+	}
+	if(proaddress != ""){
+		change += " and proaddress like '@"+proaddress+"@'";
+	}
+	if(start_time1 != ""){
+		change += " and inforptime >= '"+start_time1+"'";
+	}
+	if(end_time1 != ""){
+		change += " and inforptime <= '"+GetDateStr_end(end_time1,1)+"'";
+	}
+	if(start_time2 != ""){
+		change += " and prostime >= '"+start_time2+"'";
+	}
+	if(end_time2 != ""){
+		change += " and prostime <= '"+GetDateStr_end(end_time2,1)+"'";
+	}
+	if(start_time3 != ""){
+		change += " and proftime >= '"+start_time3+"'";
+	}
+	if(end_time3 != ""){
+		change += " and proftime <= '"+GetDateStr_end(end_time3,1)+"'";
+	}
+	
+	if(prorek != ""){
+		change += " and prorek like '@"+prorek+"@'";
+	}
+	
+	if(promoney1 != ""){
+		change += " and promoney >= "+promoney1;
+	}
+	
+	if(promoney2 != ""){
+		change += " and promoney <= "+promoney2;
+	}
+	
+	
 	var sql1 = "select top " + limit + " * from dbo.project_inforbase where id not in ( select top " + id_min + " id from dbo.project_inforbase order by id desc) "+change+" order by id desc";
 	var sql2 = "select count(*) as count from dbo.project_inforbase where 1=1 "+change;
 	console.log(sql1);console.log(sql2);
@@ -451,7 +516,7 @@ exports.WXprobase = function(req, res) {
 			var totalpage = Math.ceil(total / limit);
 			var isFirstPage = page == 1;
 			var isLastPage = ((page - 1) * limit + result.length) == total;
-
+			console.log(start_time1);
 			res.render("WXprobase",{
 				record:JSON.parse(str),
 				page: page,
@@ -461,7 +526,18 @@ exports.WXprobase = function(req, res) {
 				isLastPage: isLastPage,
 				proname:proname,
 				prosort:prosort,
-				proplace:proplace
+				proplace:proplace,
+				prostate:prostate,
+				proaddress:proaddress,
+				start_time1:start_time1,
+				end_time1:end_time1,
+				start_time2:start_time2,
+				end_time2:end_time2,
+				start_time3:start_time3,
+				end_time3:end_time3,
+				promoney1:promoney1,
+				promoney2:promoney2,
+				prorek:prorek
 			});
 		}
 	});
@@ -472,6 +548,8 @@ exports.WXContactBase = function(req, res) {
 	var linkman = req.query.linkman;
 	var companyname = req.query.companyname;
 	var job = req.query.job;
+	var place = req.query.place;
+	var address = req.query.address;
 	var page = parseInt(req.param("p"));
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
@@ -482,6 +560,8 @@ exports.WXContactBase = function(req, res) {
 	linkman = linkman?linkman:"";
 	companyname = companyname?companyname:"";
 	job = job?job:"";
+	place = place?place:"全部地区";
+	address = address?address:"";
 	var change = "";
 	if(linkman != ""){
 		change += " and linkman like '@"+linkman+"@'";
@@ -491,6 +571,12 @@ exports.WXContactBase = function(req, res) {
 	}
 	if(job != ""){
 		change += " and job like '@"+job+"@'";
+	}
+	if(place != "全部地区"){
+		change += " and place like '@"+place+"@'";
+	}
+	if(address != ""){
+		change += " and address like '@"+address+"@'";
 	}
 	var sql1 = "select top " + limit + " * from dbo.TClinkman where id not in ( select top " + id_min + " id from dbo.TClinkman order by id desc) "+change+" order by id desc";
 	var sql2 = "select count(*) as count from dbo.TClinkman where 1=1 "+change;
@@ -546,16 +632,35 @@ exports.WXContactBase = function(req, res) {
 				isLastPage: isLastPage,
 				linkman: linkman,
 				companyname: companyname,
-				job: job
+				job: job,
+				place: place,
+				address: address
 			});
 		}
 	});
 	
 }
 
+function GetDateStr_end(time,AddDayCount) { 
+	var dd = new Date(time); 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+}
+
 exports.WXpromatbase = function(req, res) {
 	var matname = req.query.matname;
 	var proname = req.query.proname;
+	var start_time = req.query.start_time;
+	var end_time = req.query.end_time;
 	var page = parseInt(req.param("p"));
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
@@ -565,6 +670,8 @@ exports.WXpromatbase = function(req, res) {
 	//查询条件
 	matname = matname?matname:"";
 	proname = proname?proname:"";
+	start_time = start_time?start_time:"";
+	end_time = end_time?end_time:"";
 	var change = "";
 	if(matname != ""){
 		change += " and matname like '@"+matname+"@'";
@@ -572,6 +679,13 @@ exports.WXpromatbase = function(req, res) {
 	if(proname != ""){
 		change += " and proname like '@"+proname+"@'";
 	}
+	if(start_time != ""){
+		change += " and ptime >= '"+start_time+"'";
+	}
+	if(end_time != ""){
+		change += " and ptime <= '"+GetDateStr_end(end_time,1)+"'";
+	}
+		
 	var sql1 = "select top " + limit + " * from dbo.pro_mat_view where id not in ( select top " + id_min + " id from dbo.pro_mat_view order by id desc) "+change+" order by id desc";
 	var sql2 = "select count(*) as count from dbo.pro_mat_view where 1=1 "+change;
 	console.log(sql1);
@@ -625,7 +739,9 @@ exports.WXpromatbase = function(req, res) {
 				isFirstPage: isFirstPage,
 				isLastPage: isLastPage,
 				matname: matname,
-				proname: proname
+				proname: proname,
+				start_time:start_time,
+				end_time:end_time
 			});
 		}
 	});

@@ -66,6 +66,9 @@ WxUser = function(action,req,res){
 	  	case "UpdateWxUserInfo":
 	  		UpdateWxUserInfo(req,res);
 	  		break;
+	  	case "setUserState":
+	  		setUserState(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
@@ -519,6 +522,20 @@ function setUser(req,res){
 		var userid = req.param("userid");
 		var id = req.param("id");
 		var sql = "update wx_user set user_id = "+userid+" where id = " + id;
+		var sql1 = "select name from view_user_group where id = " + id;
+		mysql.query(sql, function(err, result) {
+			if (err) return console.error(err.stack);
+			mysql.query(sql1, function(err, rows) {
+				if (err) return console.error(err.stack);
+				res.json(rows[0]);
+			});
+		});
+}
+
+function setUserState(req,res){
+		var wx_state = req.param("wx_state");
+		var id = req.param("id");
+		var sql = "update wx_user set state_id = "+wx_state+" where id = " + id;
 		var sql1 = "select name from view_user_group where id = " + id;
 		mysql.query(sql, function(err, result) {
 			if (err) return console.error(err.stack);

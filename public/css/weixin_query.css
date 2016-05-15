@@ -28,3 +28,12 @@ h1{
 	max-width:150px;
 	word-wrap: break-word;
 }
+.date_sel{
+	display:inline-block !important;
+	margin-right: 10px !important;
+	width:30%;
+	font-size: 12px;
+}
+.range{
+	width:30%;
+}

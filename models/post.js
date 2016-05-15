@@ -200,36 +200,43 @@ function shareToFriend(req,res){
 						}else{
 							obj.hasCancelFocus = 1;
 						}
-						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
-						/*获取系统设定*/
-				          var sql_settings = "select * from settings";
-				          mysql.query(sql_settings, function(err, settings) {
-				              if (err) return console.error(err.stack);
-				              obj.score = settings[0].score_transpond;
-				              obj.day = settings[0].day_transpond;
-				              /*记录微信用户积分行为*/
-				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",5,"+id+")";
-				              setLog(sql_score);
-				              /*给用户增加积分*/
-				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
-				              setLog(sql_wx_user);
-				              /*给用户的建定通账户增加使用天数*/
-				              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
-				              mysql.query(sql_admin, function(err, admin) {
-				                if (err) return console.error(err.stack);
-				                if(admin[0]){
-				                    var d = admin[0].limited + "";
-				                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
-				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
-				                    setLog(sql_adday);
-				                    obj.ActivedJDT = 1;
-				                    res.json(obj);
-				                }else{
-				                	obj.ActivedJDT = 0;
-				              		res.json(obj);
-				                }
-				              });	
-				          });
+						//判断账号是否异常
+						if(rows2[0].state_id == 1){
+							obj.hasCatch = 0;
+							setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),5,'',"+id+")");
+							/*获取系统设定*/
+					          var sql_settings = "select * from settings";
+					          mysql.query(sql_settings, function(err, settings) {
+					              if (err) return console.error(err.stack);
+					              obj.score = settings[0].score_transpond;
+					              obj.day = settings[0].day_transpond;
+					              /*记录微信用户积分行为*/
+					              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_transpond+",5,"+id+")";
+					              setLog(sql_score);
+					              /*给用户增加积分*/
+					              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_transpond+",score_total = score_total + "+settings[0].score_transpond+" where openid = '" +openid+"'";
+					              setLog(sql_wx_user);
+					              /*给用户的建定通账户增加使用天数*/
+					              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
+					              mysql.query(sql_admin, function(err, admin) {
+					                if (err) return console.error(err.stack);
+					                if(admin[0]){
+					                    var d = admin[0].limited + "";
+					                    var limited = GetDateStr(new Date(d),settings[0].day_transpond);
+					                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+					                    setLog(sql_adday);
+					                    obj.ActivedJDT = 1;
+					                    res.json(obj);
+					                }else{
+					                	obj.ActivedJDT = 0;
+					              		res.json(obj);
+					                }
+					              });	
+					          });
+						}else{
+							obj.hasCatch = 1;
+							res.json(obj);
+						}
 					}else{
 						obj.hasFocus = 0;
 						res.json(obj);
@@ -266,36 +273,43 @@ function shareToCricle(req,res){
 						}else{
 							obj.hasCancelFocus = 1;
 						}
-						setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
-						/*获取系统设定*/
-				          var sql_settings = "select * from settings";
-				          mysql.query(sql_settings, function(err, settings) {
-				              if (err) return console.error(err.stack);
-				              obj.score = settings[0].score_share;
-				              obj.day = settings[0].day_share;
-				              /*记录微信用户积分行为*/
-				              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_share+",6,"+id+")";
-				              setLog(sql_score);
-				              /*给用户增加积分*/
-				              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_share+",score_total = score_total + "+settings[0].score_share+" where openid = '" +openid+"'";
-				              setLog(sql_wx_user);
-				              /*给用户的建定通账户增加使用天数*/
-				              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
-				              mysql.query(sql_admin, function(err, admin) {
-				                if (err) return console.error(err.stack);
-				                if(admin[0]){
-				                    var d = admin[0].limited + "";
-				                    var limited = GetDateStr(new Date(d),settings[0].day_share);
-				                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
-				                    setLog(sql_adday);
-				                    obj.ActivedJDT = 1;
-				                    res.json(obj);
-				                }else{
-				                	obj.ActivedJDT = 0;
-				              		res.json(obj);
-				                }
-				              });
-				          });	
+						//判断账号是否异常
+						if(rows2[0].state_id == 1){
+							obj.hasCatch = 0;
+							setLog("insert into wx_user_record(wx_openid,operation_time,type_id,remark,post_id) values('"+openid+"',now(),6,'',"+id+")");
+							/*获取系统设定*/
+					          var sql_settings = "select * from settings";
+					          mysql.query(sql_settings, function(err, settings) {
+					              if (err) return console.error(err.stack);
+					              obj.score = settings[0].score_share;
+					              obj.day = settings[0].day_share;
+					              /*记录微信用户积分行为*/
+					              var sql_score = "insert into wx_user_score(wx_openid,time,score,type_id,post_id) values('"+openid+"',now(),"+settings[0].score_share+",6,"+id+")";
+					              setLog(sql_score);
+					              /*给用户增加积分*/
+					              var sql_wx_user = "update wx_user set score_unused = score_unused + "+settings[0].score_share+",score_total = score_total + "+settings[0].score_share+" where openid = '" +openid+"'";
+					              setLog(sql_wx_user);
+					              /*给用户的建定通账户增加使用天数*/
+					              var sql_admin = "select * from admin where username ='"+openid+"' and state_id = 1";
+					              mysql.query(sql_admin, function(err, admin) {
+					                if (err) return console.error(err.stack);
+					                if(admin[0]){
+					                    var d = admin[0].limited + "";
+					                    var limited = GetDateStr(new Date(d),settings[0].day_share);
+					                    var sql_adday = "update admin set limited = '"+limited+"' where username ='"+openid+"'";
+					                    setLog(sql_adday);
+					                    obj.ActivedJDT = 1;
+					                    res.json(obj);
+					                }else{
+					                	obj.ActivedJDT = 0;
+					              		res.json(obj);
+					                }
+					              });
+					          });	
+						}else{
+							obj.hasCatch = 1;
+							res.json(obj);
+						}
 					}else{
 						obj.hasFocus = 0;
 						res.json(obj);

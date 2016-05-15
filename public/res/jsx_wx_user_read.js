@@ -60,6 +60,8 @@ var R_content = React.createClass({displayName: "R_content",
 				$("#user_id").html(data[0].name);
 				$("#score_unused").html(data[0].score_unused);
 				$("#score_total").html(data[0].score_total);
+				$("#state_id").html(data[0].state_id==1?"正常":"异常");
+				$("#wx_state").val(data[0].state_id);
 				$modal.modal('close');
 			}
 		});
@@ -114,6 +116,29 @@ var R_content = React.createClass({displayName: "R_content",
 			success: function(data) {
 				$('.successinfo').html('<p>分配成功</p>').removeClass("none");
 				$("#user_id").html(data.name);
+				setTimeout(function() {
+					$('.successinfo').addClass("none");
+				}, 2000);
+			}
+		});
+	},
+	setwxState:function(e){
+		e.preventDefault();
+		var wx_state = $("#wx_state").val();
+		var readdocid = window.sessionStorage.getItem("readdocid");
+		if(wx_state == "-"){
+			return false;
+		}
+		$.ajax({
+			type: "post",
+			url: hosts + "/wx_user/setUserState",
+			data: {
+				wx_state:wx_state,
+				id:readdocid
+			},
+			success: function(data) {
+				$('.successinfo').html('<p>设置成功</p>').removeClass("none");
+				$("#state_id").html(wx_state==1?"正常":"异常");
 				setTimeout(function() {
 					$('.successinfo').addClass("none");
 				}, 2000);
@@ -461,6 +486,21 @@ var R_content = React.createClass({displayName: "R_content",
 					            React.createElement("div", {id: "user_id", className: "am-u-sm-8 am-u-md-4"}), 
 					            React.createElement("div", {className: "am-hide-sm-only am-u-md-6"}, 
 									React.createElement("select", {id: "wx_user", onChange: this.setUser.bind(this)})
+					            )
+
+					        ), 
+					        
+					        React.createElement("div", {className: "am-g am-margin-top"}, 
+
+							    React.createElement("div", {className: "am-u-sm-4 am-u-md-2 am-text-left"}, 
+					              "账号状态"
+					            ), 
+					            React.createElement("div", {id: "state_id", className: "am-u-sm-8 am-u-md-4"}), 
+					            React.createElement("div", {className: "am-hide-sm-only am-u-md-6"}, 
+									React.createElement("select", {id: "wx_state", onChange: this.setwxState}, 
+										React.createElement("option", {value: "1"}, "正常"), 
+										React.createElement("option", {value: "0"}, "异常")
+									)
 					            )
 
 					        )

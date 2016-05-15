@@ -133,6 +133,10 @@
 									alert("您已经转发过了，不再获得积分和建定通使用天数");
 									return false;
 								}
+								if(data.hasCatch == 1){
+									alert('您的账号状态异常，不能获得红包积分和建定通使用天数');
+									return false;
+								}
 								if(data.hasFocus == 0){
 									alert('您当前未关注"建定工程"不能获得红包积分和建定通使用天数 请关注');
 									return false;
@@ -172,6 +176,10 @@
 							success: function(data) {
 								if(data.hasShared == 1){
 									alert("您已经分享过了，不再获得积分和建定通使用天数");
+									return false;
+								}
+								if(data.hasCatch == 1){
+									alert('您的账号状态异常，不能获得红包积分和建定通使用天数');
 									return false;
 								}
 								if(data.hasFocus == 0){

@@ -44,13 +44,21 @@
 			function toPage(i) {
 				var matname = $("#matname").val();
 				var proname = $("#proname").val();
-				window.location = "/WXpromatbase?p=" + i+"&matname="+matname+"&proname="+proname;
+				var start_time = $("#start_time").val();
+				var end_time = $("#end_time").val();
+				window.location = "/WXpromatbase?p=" + i+"&matname="+matname+"&proname="+proname+"&start_time="+start_time+"&end_time="+end_time;
 			}
 			
 			function setUser(){
 				$("#cuser").html(window.localStorage.getItem("user"));
 				$("#matname").val('<%=matname%>');
 				$("#proname").val('<%=proname%>');
+				if('<%=start_time%>'){
+					$("#start_time").datepicker('setValue','<%=start_time%>');
+				}
+				if('<%=end_time%>'){
+					$("#end_time").datepicker('setValue','<%=end_time%>');
+				}
 			}
 		</script>
 	</head>
@@ -69,6 +77,10 @@
 				<h1>“建定工程”微信服务号 工程信息查询(江浙沪地区)</h1>
 				<p>采购内容：<input type="text" className="am-input-sm" id="matname" /></p>
 				<p>工程名称：<input type="text" className="am-input-sm" id="proname" /></p>
+				<p>发布日期：
+					<input type="text" id="start_time" class="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly  />
+			        <input type="text" id="end_time" class="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly  />
+				</p>
 				<p><button type="button" class="btn-c am-btn am-btn-primary am-btn-xs" onclick="toPage(1)"><span class="am-icon-search"></span> 查询</button></p>
 				<table class="am-table am-table-striped am-table-hover jdt-table">
 					<thead>
