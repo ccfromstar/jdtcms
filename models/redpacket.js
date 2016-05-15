@@ -101,7 +101,10 @@ function sendRecord(req, res) {
 	var order_no = req.param("order_no");
 	var money_max = req.param("money_max");
 	var type_id = req.param("type_id");
-	var nick_name = req.param("nick_name");
+	var subject = req.param("subject");
+	var description = req.param("description");
+	var send_name = req.param("send_name");
+	var body = req.param("body");
 	//var timestamp=Math.round(new Date().getTime()/1000);
 	order_no = order_no + "";
 	if(Number(type_id)==1){
@@ -127,14 +130,14 @@ function sendRecord(req, res) {
 					channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
 					amount: Number(rnd_money) * 100, //金额在 100-20000 之间
 					currency: "cny",
-					subject: nick_name+"现金红包",
-					body: "感谢您长久以来对"+nick_name+"的支持！",
+					subject: subject,
+					body: body,
 					extra: { //extra 需填入的参数请参阅[API 文档]()
-						nick_name: nick_name,
-						send_name: "积分兑换"
+						nick_name: "建定通",
+						send_name: send_name
 					},
 					recipient: openid, //指定用户的 open_id
-					description: "感谢您长久以来对"+nick_name+"的支持！"
+					description: description
 				}, function(err, redEnvelope) {
 					//YOUR CODE
 					if (!err) {
@@ -162,14 +165,14 @@ function sendRecord(req, res) {
 				channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
 				amount: Number(money) * 100, //金额在 100-20000 之间
 				currency: "cny",
-				subject: nick_name+"现金红包",
-				body: "感谢您长久以来对"+nick_name+"的支持！",
+				subject: subject,
+				body: body,
 				extra: { //extra 需填入的参数请参阅[API 文档]()
-					nick_name: nick_name,
-					send_name: "积分兑换"
+					nick_name: "建定通",
+					send_name: send_name
 				},
 				recipient: openid, //指定用户的 open_id
-				description: "感谢您长久以来对"+nick_name+"的支持！"
+				description: description
 			}, function(err, redEnvelope) {
 				//YOUR CODE
 				if (!err) {
@@ -190,11 +193,14 @@ function changeRecord(req, res) {
 	var openid = req.param("openid");
 	var name = req.param("name");
 	var type_id = req.param("type_id");
-	var nick_name = req.param("nick_name");
+	var subject = req.param("subject");
+	var description = req.param("description");
+	var send_name = req.param("send_name");
+	var body = req.param("body");
 	var timestamp = Math.round(new Date().getTime() / 1000);
 	timestamp = timestamp;
 	//创建红包兑换记录表
-	var sql1 = "insert into redpacket_record(openid,score,money,time,order_no,name,type_id,money_max,nick_name) values('" + openid + "'," + score + "," + money + ",now(),'" + timestamp + "','" + name + "'," + type_id + "," + money_max + ",'"+nick_name+"')";
+	var sql1 = "insert into redpacket_record(openid,score,money,time,order_no,name,type_id,money_max,subject,description,send_name,body) values('" + openid + "'," + score + "," + money + ",now(),'" + timestamp + "','" + name + "'," + type_id + "," + money_max + ",'"+subject+"','"+description+"','"+send_name+"','"+body+"')";
 	mysql.query(sql1, function(err, result) {
 		if (err) return console.error(err.stack);
 		/*扣除用户表中对应的积分*/
@@ -252,7 +258,11 @@ function createPacket(req, res) {
 	var state_id = req.param("state_id");
 	var redname = req.param("redname");
 	var sort_id = req.param("sort_id");
-	var nick_name = req.param("nick_name");
+	
+	var subject = req.param("subject");
+	var description = req.param("description");
+	var send_name = req.param("send_name");
+	var body = req.param("body");
 	/*编辑模式*/
 	if (mode == "edit") {
 		var sql = "update redpacket set ";
@@ -261,7 +271,10 @@ function createPacket(req, res) {
 		sql += " state_id = " + state_id + ",";
 		sql += " type_id = " + type_id + ",";
 		sql += " name = '" + redname + "',";
-		sql += " nick_name = '" + nick_name + "',";
+		sql += " subject = '" + subject + "',";
+		sql += " description = '" + description + "',";
+		sql += " send_name = '" + send_name + "',";
+		sql += " body = '" + body + "',";
 		sql += " sort_id = " + sort_id + ",";
 		sql += " score = " + score + "";
 		sql += " where id = " + editid;
@@ -272,7 +285,7 @@ function createPacket(req, res) {
 			}
 		});
 	} else {
-		var sql = "insert into redpacket (money,score,state_id,type_id,name,money_max,sort_id,nick_name) values (" + money + "," + score + "," + state_id + "," + type_id + ",'" + redname + "'," + money_max + ","+sort_id+",'"+nick_name+"')";
+		var sql = "insert into redpacket (money,score,state_id,type_id,name,money_max,sort_id,subject,description,send_name,body) values (" + money + "," + score + "," + state_id + "," + type_id + ",'" + redname + "'," + money_max + ","+sort_id+",'"+subject+"','"+description+"','"+send_name+"','"+body+"')";
 		mysql.query(sql, function(err, result) {
 			if (err) return console.error(err.stack);
 			if (result.affectedRows == 1) {

@@ -8,7 +8,7 @@ var R_content = React.createClass({
 		window.sessionStorage.setItem("mode","new");
 		window.sessionStorage.removeItem("editid");
 		window.sessionStorage.removeItem("startDate");
-		window.location = 'redpacketform.html';
+		window.location = 'userform.html';
 	},
 	readDoc:function(id){
 		window.sessionStorage.setItem("readdocid",id);
@@ -25,13 +25,16 @@ var R_content = React.createClass({
 		e.preventDefault();
 		window.sessionStorage.setItem("editid",id);
 		window.sessionStorage.setItem("mode","edit");
-		window.location = 'redpacketform.html';
+		window.location = 'userform.html';
+	},
+	resetKey:function(){
+		window.location.reload();
 	},
 	delsql:function(){
 		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/delRecord",
+			url: hosts + "/user/delUser",
 			data: {
 				id:window.sessionStorage.getItem("delid")
 			},
@@ -46,22 +49,20 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	backDoc:function(id,openid,score,money,e){
-		var o = this;
+	ActiveDoc:function(id,username,e){
 		e.preventDefault();
+		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/backRecord",
+			url: hosts + "/modeluser/activeUser",
 			data: {
 				id:id,
-				openid:openid,
-				score:score,
-				money:money
+				username:username
 			},
 			success: function(data) {
 				if(data == "300"){
 					o.toPage(window.sessionStorage.getItem("indexPage"));
-					$('.successinfo').html('<p>退回成功</p>').removeClass("none");
+					$('.successinfo').html('<p>激活成功</p>').removeClass("none");
 					setTimeout(function() {
 						$('.successinfo').addClass("none");
 					}, 2000);
@@ -69,28 +70,20 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	sendDoc:function(id,openid,money,order_no,money_max,type_id,subject,description,send_name,body,e){
-		var o = this;
+	disActiveDoc:function(id,username,e){
 		e.preventDefault();
+		var o = this;
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/sendRecord",
+			url: hosts + "/modeluser/disactiveUser",
 			data: {
 				id:id,
-				openid:openid,
-				money:money,
-				order_no:order_no,
-				money_max:money_max,
-				type_id:type_id,
-				subject:subject,
-				description:description,
-				send_name:send_name,
-				body:body
+				username:username
 			},
 			success: function(data) {
 				if(data == "300"){
 					o.toPage(window.sessionStorage.getItem("indexPage"));
-					$('.successinfo').html('<p>发放成功</p>').removeClass("none");
+					$('.successinfo').html('<p>停权成功</p>').removeClass("none");
 					setTimeout(function() {
 						$('.successinfo').addClass("none");
 					}, 2000);
@@ -103,39 +96,34 @@ var R_content = React.createClass({
 		if(e){
 			e.preventDefault();
 		}
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
+		indexPage = indexPage?indexPage:1;
 		
-		indexPage = indexPage?indexPage:1;
-		$.ajax({
-			type: "post",
-			url: hosts + "/redpacket/getAllgetchangeRecord",
-			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
+		/*查询参数*/
+		var name = $("#name").val();
+		var mobile = $("#mobile").val();
+		var company = $("#company").val();
+		var address = $("#address").val();
+		var job = $("#job").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
 		
 		$.ajax({
 			type: "post",
-			url: hosts + "/redpacket/getAllgetchangeRecord",
+			url: hosts + "/modeluser/getUser",
 			data: {
-				indexPage:indexPage
+				indexPage:indexPage,
+				name:name,
+				mobile:mobile,
+				company:company,
+				address:address,
+				job:job,
+				start_time:start_time,
+				end_time:end_time
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -147,46 +135,58 @@ var R_content = React.createClass({
 			}
 		});
 	},
+	componentDidMount:function(){
+		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		this.toPage(1);
+	},
 	render:function(){
 		var o = this;
 		var list = this.state.data.map(function(c){
-		if(c.status_id == 1){
-			return(
+			var limited = c.limited?new Date(c.limited).Format("yyyy-MM-dd hh:mm:ss"):"";
+			if(c.state_id == 0){
+				return(
 					<tr>
-		              <td>{c.openid}</td>
-		              <td>{c.nickname}</td>
-		              <td>{c.score}</td>
 		              <td>{c.name}</td>
-		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
-		              <td>{c.sname}</td>
+		              <td>{c.mobile}</td>
+		              <td>{c.company}</td>
+		              <td>{c.address}</td>
+		              <td>{c.job}</td>
+		              <td>{c.applytime?new Date(c.applytime).Format("yyyy-MM-dd hh:mm:ss"):""}</td>
+		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
-		                    <button onClick={o.sendDoc.bind(o,c.id,c.openid,c.money,c.order_no,c.money_max,c.type_id,c.subject,c.description,c.send_name,c.body)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-gavel"></span> 发放</button>
-		                    <button onClick={o.backDoc.bind(o,c.id,c.openid,c.score,c.money)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-reply"></span> 退回</button>
+		                    <button onClick={o.ActiveDoc.bind(o,c.id,c.username)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-bell"></span> 激活</button>
 		                  </div>
 		                </div>
 		              </td>
 		            </tr>
-			);	
-		}else{
-			return(
+				);
+			}else{
+				return(
 					<tr>
-		              <td>{c.openid}</td>
-		              <td>{c.nickname}</td>
-		              <td>{c.score}</td>
 		              <td>{c.name}</td>
-		              <td>{new Date(c.time).Format("yyyy-MM-dd hh:mm:ss")}</td>
-		              <td>{c.sname}</td>
+		              <td>{c.mobile}</td>
+		              <td>{c.company}</td>
+		              <td>{c.address}</td>
+		              <td>{c.job}</td>
+		              <td>{c.applytime?new Date(c.applytime).Format("yyyy-MM-dd hh:mm:ss"):""}</td>
+		              <td>{c.state_id == 0?'未激活':'已激活'}</td>
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
-		                    </div>
+		                  </div>
 		                </div>
 		              </td>
 		            </tr>
-			);	
-		}
+				);
+			}
 		});
 		var pager=[];
 		var iPa = Number(window.sessionStorage.getItem("indexPage"));
@@ -204,14 +204,31 @@ var R_content = React.createClass({
 			<div className="admin-content">
 			
 			    <div className="am-cf am-padding">
-			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">红包发放</strong> / <small>列表</small></div>
+			      <div className="am-fl am-cf"><strong className="am-text-primary am-text-lg">积分审核账户</strong> / <small>列表</small></div>
 				</div>
 			    <div className="am-g">
 			      <div className="am-u-sm-12 am-u-md-12">
 			        <div className="am-btn-toolbar">
 			          <div className="am-btn-group am-btn-group-xs">
-			            
+			            <button id="btn_add" type="button" onClick={this.newDoc} className="am-btn am-btn-default none"><span className="am-icon-plus"></span> 新增</button>
 			          </div>
+			        </div>
+			      </div>
+			    </div>
+			    
+			    <div className="am-g">
+			      <div className="am-u-sm-12 am-u-md-12 menu-search">
+			        <div className="am-btn-toolbar">  
+			          		<input type="text" id="name" className="am-input-sm search_input" placeholder="姓名" />
+			          		<input type="text" id="mobile" className="am-input-sm search_input" placeholder="手机" />
+			          		<input type="text" id="company" className="am-input-sm search_input" placeholder="所属公司" />
+			          		<input type="text" id="address" className="am-input-sm search_input" placeholder="地址" />
+			          		<input type="text" id="job" className="am-input-sm search_input" placeholder="职位" />
+			          		<br/>申请时间：
+			          		<input type="text" id="start_time" className="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly required />
+			          		<input type="text" id="end_time" className="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly required />
+			          		<button type="button" onClick={this.toPage.bind(o,1)} className="btn-c am-btn am-btn-primary am-btn-xs btn-search"><span className="am-icon-search"></span> 查询</button>
+			          		<button type="button" onClick={this.resetKey} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-bitbucket"></span> 清空</button>
 			        </div>
 			      </div>
 			    </div>
@@ -221,13 +238,14 @@ var R_content = React.createClass({
 				        <form className="am-form">
 				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
 				            <thead>
-				              <tr>
-				                <th>兑换人openid</th>
-				                <th>兑换人昵称</th>
-				                <th>兑换积分</th>
-				                <th>兑换名称</th>
-				                <th>兑换时间</th>
-				                <th>状态</th>
+				              <tr> 
+				                <th>姓名</th>
+			            		<th>手机</th>
+			            		<th>所属公司</th>
+			            		<th>地址</th>
+			            		<th>职务</th>
+			            		<th>申请时间</th>
+			            		<th>激活状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>

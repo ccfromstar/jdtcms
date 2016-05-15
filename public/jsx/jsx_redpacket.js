@@ -152,7 +152,6 @@ var R_content = React.createClass({
 	              <td>{c.score}</td>
 	              <td>{c.state_id==0?"未发布":"已发布"}</td>
 	              <td>{c.sort_id}</td>
-	              <td>{c.nick_name}</td>
 	              <td>
 	                <div className="am-hide-sm-only am-btn-toolbar">
 	                  <div className="am-btn-group am-btn-group-xs">
@@ -205,7 +204,6 @@ var R_content = React.createClass({
 							                <th>所需积分</th>
 							                <th>状态</th>
 							                <th>排序</th>
-							                <th>文字</th>
 						            		<th className="am-hide-sm-only table-set">操作</th>
 							              </tr>
 							          	</thead>

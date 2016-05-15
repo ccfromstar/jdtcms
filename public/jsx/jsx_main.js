@@ -64,18 +64,18 @@ var R_sidebar = React.createClass({
 			$('.admin-sidebar-list').find('li').eq(4).addClass('none');
 			/*红包设定*/
 			$('.admin-sidebar-list').find('li').eq(5).find('li').eq(1).addClass('none');
-			/*帐号管理*/
-			$('.admin-sidebar-list').find('li').eq(8).addClass('none');
+			/*管理员管理*/
+			$('.admin-sidebar-list').find('li').eq(9).addClass('none');
 			/*软文管理*/
-			$('.admin-sidebar-list').find('li').eq(11).addClass('none');
+			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
 		}
 		if(role_send == 0){
 			/*红包管理*/
 			$('.admin-sidebar-list').find('li').eq(5).addClass('none');
 		}
-		if(role_manage == 1){
+		if(role_option == 1){
 			/*修改密码*/
-			$('.admin-sidebar-list').find('li').eq(13).addClass('none');
+			$('.admin-sidebar-list').find('li').eq(14).addClass('none');
 		}
 	},
 	render:function(){
@@ -100,6 +100,7 @@ var R_sidebar = React.createClass({
 						<ul className="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
 				            <li><a href="user.html"><span className="am-icon-meh-o"></span> 管理员帐号</a></li>
 				            <li><a href="jdtuser.html"><span className="am-icon-windows"></span> 建定通账户</a></li>
+				            <li><a href="modeluser.html"><span className="am-icon-bell"></span> 积分审核账户</a></li>
 				        </ul>
 					</li>
 					<li className="admin-parent">

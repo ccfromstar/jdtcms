@@ -527,3 +527,7 @@ strong{
 .btn-getDate{
 	margin-right: 1rem;
 }
+.sel_model{
+	display: inline-block !important;
+	margin-left: 10px;
+}

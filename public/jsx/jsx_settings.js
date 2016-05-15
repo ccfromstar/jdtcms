@@ -26,6 +26,7 @@ var R_content = React.createClass({
 				$("#score_admin_read").val(data[0].score_admin_read);
 				$("#score_admin_like").val(data[0].score_admin_like);
 				$("#score_admin_transpond").val(data[0].score_admin_transpond);
+				$("#model").val(data[0].model);
 				$modal.modal('close');
 			}
 		});
@@ -49,6 +50,7 @@ var R_content = React.createClass({
 		var score_admin_read = $("#score_admin_read").val();
 		var score_admin_like = $("#score_admin_like").val();
 		var score_admin_transpond = $("#score_admin_transpond").val();
+		var model = $("#model").val();
 
 		if(isNaN(day_share) || isNaN(score_share) || isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
@@ -77,7 +79,8 @@ var R_content = React.createClass({
 				score_admin_focus:score_admin_focus,
 				score_admin_read:score_admin_read,
 				score_admin_like:score_admin_like,
-				score_admin_transpond:score_admin_transpond
+				score_admin_transpond:score_admin_transpond,
+				model:model
 			},
 			success: function(data) {
 				that.setSettings();
@@ -102,6 +105,12 @@ var R_content = React.createClass({
 				          <p><span className="am-icon-bookmark"></span> 基础参数：</p>
 				          <p>首次激活建定通帐号的初始使用天数
 				       		<input type="text" id="day_initial" className="am-input-sm settings_input" /></p>
+				       	  <p>积分模式切换 
+				       	  <select id="model" className="sel_model">
+				       	  		<option value="0">非审核</option>
+				       	  		<option value="1">审核</option>
+				       	  </select>
+				       	  </p>		
 						</div>
 				    </div>    
 				    <div className="am-panel am-panel-default admin-sidebar-panel">

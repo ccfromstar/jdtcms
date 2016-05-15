@@ -38,7 +38,10 @@
 						type_id:arr[2],
 						money:arr[3],
 						money_max:arr[4],
-						nick_name:arr[5],
+						subject:arr[5],
+						description:arr[6],
+						send_name:arr[7],
+						body:arr[8],
 						openid:"<%=openid%>"
 					},
 					success: function(data) {
@@ -135,7 +138,7 @@
 					<%for(var i in redpacket){%>
 						<div>
 							<label class="am-radio">
-								<input type="radio" name="changeType" value="<%=redpacket[i].name%>@<%=redpacket[i].score%>@<%=redpacket[i].type_id%>@<%=redpacket[i].money%>@<%=redpacket[i].money_max%>@<%=redpacket[i].nick_name%>" id="changeType<%=i%>" data-am-ucheck />
+								<input type="radio" name="changeType" value="<%=redpacket[i].name%>@<%=redpacket[i].score%>@<%=redpacket[i].type_id%>@<%=redpacket[i].money%>@<%=redpacket[i].money_max%>@<%=redpacket[i].subject%>@<%=redpacket[i].description%>@<%=redpacket[i].send_name%>@<%=redpacket[i].body%>" id="changeType<%=i%>" data-am-ucheck />
 								<%=redpacket[i].name%>-<%=redpacket[i].score%>积分
 							</label>
 						</div>

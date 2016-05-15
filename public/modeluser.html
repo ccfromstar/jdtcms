@@ -12,25 +12,13 @@
 		<link rel="stylesheet" href="css/basic.css" />
 		<script src="js/jquery.min.js"></script>
 		<script src="js/amazeui.min.js"></script>
-		<script type="text/javascript" src="/js/Kindeditor/kindeditor-min.js"></script>
-    	<script type="text/javascript" src="/js/Kindeditor/lang/zh_CN.js"></script>
 		<script type="text/javascript" src="js/setting.js"></script>
 		<script type="text/javascript" src="js/check.js"></script>
 		<script src="build/react.js"></script>
 		<script src="build/JSXTransformer.js"></script>
-		<!--<script type="text/javascript" src="js/basic.js"></script>-->
+		<script type="text/javascript" src="js/basic.js"></script>
 		<script type="text/javascript" src="res/jsx_main.js"></script>
-		<script type="text/javascript" src="res/jsx_postform.js"></script>
-		<script type="text/javascript">
-			window.addEventListener('message',function(e){
-	          	var fname=e.data;
-	          	$('#supplyfile').val(fname);
-		       	$(".loadinfo").addClass("none");
-		       	$(".successinfo").html("<p>文件上传成功</p>").removeClass("none");
-		       	setTimeout(function() { $(".successinfo").addClass("none");}, 2000);
-		       	$("#supplyfile_div").html('<span class="am-icon-file-o"></span> <a target="_blank" href="'+hosts+'/upload/'+fname+'">图片预览</a>');
-		    },false);
-		</script>
+		<script type="text/javascript" src="res/jsx_modeluser.js"></script>
 		<script type="text/jsx">
 			React.render(
 				<div>
@@ -38,6 +26,7 @@
 					<R_main>
 						<R_sidebar />
 						<R_content />
+						<R_loading />
 					</R_main>
 					<R_menu />
 					<R_footer />

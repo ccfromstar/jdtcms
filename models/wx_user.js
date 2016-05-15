@@ -54,6 +54,9 @@ WxUser = function(action,req,res){
 	  	case "createAdmin":
 	  		createAdmin(req,res);
 	  		break;
+	  	case "createModelAdmin":
+	  		createModelAdmin(req,res);
+	  		break;
 	  	case "setRP":
 	  		setRP(req,res);
 	  		break;
@@ -69,9 +72,22 @@ WxUser = function(action,req,res){
 	  	case "setUserState":
 	  		setUserState(req,res);
 	  		break;
+	  	case "createMessage":
+	  		createMessage(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
+}
+
+function createMessage(req,res){
+	var message = (req.param("message"));
+	var openid = (req.param("openid"));
+	var sql = "insert into wx_user_record(wx_openid,operation_time,type_id,remark) values ('"+openid+"',now(),12,'"+message+"')";
+	mysql.query(sql, function(err, result) {
+		if (err) return console.error(err.stack);
+		res.send("300");
+	});
 }
 
 /*奖罚发放*/
@@ -534,6 +550,7 @@ function setUser(req,res){
 
 function setUserState(req,res){
 		var wx_state = req.param("wx_state");
+		var openid = req.param("openid");
 		var id = req.param("id");
 		var sql = "update wx_user set state_id = "+wx_state+" where id = " + id;
 		var sql1 = "select name from view_user_group where id = " + id;
@@ -541,6 +558,14 @@ function setUserState(req,res){
 			if (err) return console.error(err.stack);
 			mysql.query(sql1, function(err, rows) {
 				if (err) return console.error(err.stack);
+				/*插入奖罚记录表*/
+				var ws = 9;
+				if(Number(wx_state) == 1){
+					ws = 8;
+				}
+				var sql_score = "insert into rp_record(openid,type_id,number,txtRemark,time) values('"+openid+"',"+ws+",0,'',now())";
+				
+				setLog(sql_score);
 				res.json(rows[0]);
 			});
 		});
@@ -1044,6 +1069,28 @@ function createAdmin(req,res){
 	var openid = req.param("openid");
 	var sql1 = "select id from admin where username = '"+openid+"'";
 	var sql2 = "insert into admin (name,mobile,company,address,job,username,password,applytime) values('"+name+"','"+mobile+"','"+company+"','"+address+"','"+job+"','"+openid+"','"+openid+"',now())";
+	mysql.query(sql1, function(err, result) {
+		if (err) return console.error(err.stack);
+		if(result[0]){
+			res.send("400");
+		}else{
+			mysql.query(sql2, function(err, rows) {
+		        if (err) return console.error(err.stack);
+		        res.send("300");
+		    });
+		}
+	});
+}
+
+function createModelAdmin(req,res){
+	var name = req.param("name");
+	var mobile = req.param("mobile");
+	var company = req.param("company");
+	var address = req.param("address");
+	var job = req.param("job");
+	var openid = req.param("openid");
+	var sql1 = "select id from modeladmin where username = '"+openid+"'";
+	var sql2 = "insert into modeladmin (name,mobile,company,address,job,username,password,applytime) values('"+name+"','"+mobile+"','"+company+"','"+address+"','"+job+"','"+openid+"','"+openid+"',now())";
 	mysql.query(sql1, function(err, result) {
 		if (err) return console.error(err.stack);
 		if(result[0]){

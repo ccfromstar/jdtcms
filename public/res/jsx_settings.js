@@ -26,6 +26,7 @@ var R_content = React.createClass({displayName: "R_content",
 				$("#score_admin_read").val(data[0].score_admin_read);
 				$("#score_admin_like").val(data[0].score_admin_like);
 				$("#score_admin_transpond").val(data[0].score_admin_transpond);
+				$("#model").val(data[0].model);
 				$modal.modal('close');
 			}
 		});
@@ -49,6 +50,7 @@ var R_content = React.createClass({displayName: "R_content",
 		var score_admin_read = $("#score_admin_read").val();
 		var score_admin_like = $("#score_admin_like").val();
 		var score_admin_transpond = $("#score_admin_transpond").val();
+		var model = $("#model").val();
 
 		if(isNaN(day_share) || isNaN(score_share) || isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
@@ -77,7 +79,8 @@ var R_content = React.createClass({displayName: "R_content",
 				score_admin_focus:score_admin_focus,
 				score_admin_read:score_admin_read,
 				score_admin_like:score_admin_like,
-				score_admin_transpond:score_admin_transpond
+				score_admin_transpond:score_admin_transpond,
+				model:model
 			},
 			success: function(data) {
 				that.setSettings();
@@ -101,7 +104,13 @@ var R_content = React.createClass({displayName: "R_content",
 				        React.createElement("div", {className: "am-panel-bd"}, 
 				          React.createElement("p", null, React.createElement("span", {className: "am-icon-bookmark"}), " 基础参数："), 
 				          React.createElement("p", null, "首次激活建定通帐号的初始使用天数", 
-				       		React.createElement("input", {type: "text", id: "day_initial", className: "am-input-sm settings_input"}))
+				       		React.createElement("input", {type: "text", id: "day_initial", className: "am-input-sm settings_input"})), 
+				       	  React.createElement("p", null, "积分模式切换",  
+				       	  React.createElement("select", {id: "model", className: "sel_model"}, 
+				       	  		React.createElement("option", {value: "0"}, "非审核"), 
+				       	  		React.createElement("option", {value: "1"}, "审核")
+				       	  )
+				       	  )		
 						)
 				    ), 
 				    React.createElement("div", {className: "am-panel am-panel-default admin-sidebar-panel"}, 

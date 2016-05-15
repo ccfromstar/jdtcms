@@ -15,6 +15,7 @@ var crypto = require("crypto");
 var Jdtuser = require('../models/jdtuser');
 var Redpacket = require('../models/redpacket');
 var Iconv = require('iconv-lite');
+var Modeluser = require('../models/modeluser');
 
 exports.userdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,6 +30,11 @@ exports.redpacketdo = function(req, res) {
 exports.jdtuserdo = function(req, res) {
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	var jdtuser = new Jdtuser(req.params.sql, req, res);
+}
+
+exports.modeluserdo = function(req, res) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	var modeluser = new Modeluser(req.params.sql, req, res);
 }
 
 exports.wx_userdo = function(req, res) {
@@ -769,6 +775,48 @@ exports.reg = function(req, res) {
 	});
 }
 
+exports.message = function(req, res) {
+	var code = req.query.code;
+	var appId = settings.AppID;
+	var appSecret = settings.AppSecret;
+	var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+	request(url, function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			if (JSON.parse(body).errcode != null) {
+				console.log(body);
+				res.redirect(req.url);
+				return false;
+			}
+			console.log(body);
+			var openid = JSON.parse(body).openid;
+			res.render("message", {
+				openid: openid
+			});
+		}
+	});
+}
+
+exports.modelreg = function(req, res) {
+	var code = req.query.code;
+	var appId = settings.AppID;
+	var appSecret = settings.AppSecret;
+	var url = "https://api.weixin.qq.com/sns/oauth2/access_token?grant_type=authorization_code&appid=" + appId + "&secret=" + appSecret + "&code=" + code;
+	request(url, function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			if (JSON.parse(body).errcode != null) {
+				console.log(body);
+				res.redirect(req.url);
+				return false;
+			}
+			console.log(body);
+			var openid = JSON.parse(body).openid;
+			res.render("modelreg", {
+				openid: openid
+			});
+		}
+	});
+}
+
 exports.Query_redirect = function(req, res) {
 	var code = req.query.code;
 	var appId = settings.AppID;
@@ -889,13 +937,19 @@ exports.weixin_js = function(req, res) {
 						request(url_info, function(err_info, response_info, body_info) {
 							if (!err_info && response_info.statusCode == 200) {
 								console.log(signature);
-								res.render('weixin_js', {
-									signature: signature,
-									jsapi_ticket: jsapi_ticket,
-									body_info: body_info,
-									appId: appId,
-									id: id,
-									openid: openid
+								var sql3 = "select * from post where id = " + id;
+								mysql.query(sql3, function(err, rows3) {
+									if (err) return console.error(err.stack);
+									res.render('weixin_js', {
+										signature: signature,
+										jsapi_ticket: jsapi_ticket,
+										body_info: body_info,
+										appId: appId,
+										id: id,
+										openid: openid,
+										img:settings.hosts + "/upload/"+rows3[0].shareimg,
+										title:rows3[0].sharetitle
+									});
 								});
 							}
 						});

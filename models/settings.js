@@ -55,6 +55,7 @@ function updateSettings(req,res){
 	var day_like = req.param("day_like");
 	var day_transpond = req.param("day_transpond");
 	var day_share = req.param("day_share");
+	var model = req.param("model");
 
 			var sql = "update settings set ";
 			sql += " day_initial = "+day_initial+",";
@@ -70,6 +71,7 @@ function updateSettings(req,res){
 			sql += " score_admin_focus = "+score_admin_focus+",";
 			sql += " score_admin_read = "+score_admin_read+",";
 			sql += " score_admin_like = "+score_admin_like+",";
+			sql += " model = "+model+",";
 			sql += " score_admin_transpond = "+score_admin_transpond;
 			mysql.query(sql, function(err, result) {
 				if (err) return console.error(err.stack);

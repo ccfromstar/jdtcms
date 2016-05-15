@@ -7,6 +7,12 @@ var R_content = React.createClass({
 		var role = window.sessionStorage.getItem('crole');
         return {smallname:smallname};
     },
+    UploadSupplyer:function(){
+		var path = document.all.fileUp.value;
+		if(!path){return false;}
+		$('.loadinfo').html('<p>文件上传中...</p>').removeClass("none");
+        $('#supplyformFile').submit();
+	},
 	createDoc:function(){
 		var title = $('#title').val();
 
@@ -14,11 +20,26 @@ var R_content = React.createClass({
       	editor.sync();
 
       	var post = $('#post').val();
-		
+      	var sharetitle = $('#sharetitle').val();
+		var supplyfile = $('#supplyfile').val();
 		var mode = window.sessionStorage.getItem('mode');
 		
 		if (!title) {
 			$('.errorinfo').html('<p>软文标题不能为空</p>').removeClass("none");
+			setTimeout(function() {
+				$('.errorinfo').addClass("none");
+			}, 2000);
+			return false;
+		}
+		if (!sharetitle) {
+			$('.errorinfo').html('<p>分享标题不能为空</p>').removeClass("none");
+			setTimeout(function() {
+				$('.errorinfo').addClass("none");
+			}, 2000);
+			return false;
+		}
+		if (!supplyfile) {
+			$('.errorinfo').html('<p>分享图片不能为空</p>').removeClass("none");
 			setTimeout(function() {
 				$('.errorinfo').addClass("none");
 			}, 2000);
@@ -32,6 +53,8 @@ var R_content = React.createClass({
 				mode:mode,
 				title:title,
 				post:post,
+				shareimg:supplyfile,
+				sharetitle:sharetitle,
 				editid: window.sessionStorage.getItem("editid")
 			},
 			success: function(data) {
@@ -65,12 +88,19 @@ var R_content = React.createClass({
 					},
 					success: function(data) {
 						$('#title').val(data[0].title);
+						$('#sharetitle').val(data[0].sharetitle);
+						$('#title').val(data[0].title);
 						editor.html(data[0].post);
-						
+						$('#supplyfile').val(data[0].shareimg);
+						if(data[0].shareimg){
+							var files = '<span class="am-icon-file-o"></span> <a target="_blank" href="'+hosts+'/upload/'+data[0].shareimg+'">供应商确认单</a>';
+							$('#supplyfile_div').html(files);
+						}
 					}
 				});
 			}
 	    });
+	    $('#supplyformFile').attr('action',hosts + "/post/uploaddo");
 	},
 	render:function(){
 		return(
@@ -96,7 +126,38 @@ var R_content = React.createClass({
 				        <div className="am-u-sm-12 am-u-md-12">
 				            <textarea id="post" name="post"></textarea>
 				        </div>
-				    </div>      
+				    </div> 
+				    
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				           	分享图片上传
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				              	<form id="supplyformFile" name="formFile" method="post" target="frameFile"
+    encType="multipart/form-data">
+				              		<div className="am-form-file">
+									  <button type="button" className="am-btn am-btn-default am-btn-sm">
+									    <i className="am-icon-cloud-upload"></i> 选择要上传的文件
+									  </button>
+									  <input type="file" id="fileUp" onChange={this.UploadSupplyer} name="fileUp" />
+									</div>                                    
+									<div id="supplyfile_div"></div>
+				              	</form>
+				              	<iframe id="frameFile" name="frameFile" style={{display: 'none'}}></iframe>
+				              	<input type="hidden" id="supplyfile" />
+				            </div>
+				        <div className="am-hide-sm-only am-u-md-6">*必填</div>
+				    </div>
+				    
+				    <div className="am-g am-margin-top">
+				        <div className="am-u-sm-4 am-u-md-2 am-text-right">
+				            分享标题
+				        </div>
+				        <div className="am-u-sm-8 am-u-md-4">
+				            <input type="text" id="sharetitle" className="am-input-sm" />
+				        </div>
+				        <div className="am-hide-sm-only am-u-md-6">*必填</div>
+				    </div>
 				</div>
 				
 				<div className="am-margin">

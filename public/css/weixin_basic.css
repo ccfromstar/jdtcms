@@ -419,7 +419,6 @@ gallery.html css
 .am-form input[type=url],
 .am-form input[type=tel],
 .am-form input[type=color],
-.am-form textarea,
 .am-form-field {
 	font-size: 1.2rem;
 	width: auto !important;
@@ -509,4 +508,9 @@ gallery.html css
 
 .header p {
 	font-size: 14px;
+}
+
+textarea{
+	font-size: 1.2rem;
+	width:95% !important;
 }

@@ -335,6 +335,21 @@ var R_content = React.createClass({displayName: "R_content",
 							), 
 							React.createElement("label", {for: "type_5"}, 
 								React.createElement("input", {type: "checkbox", name: "type_id", value: "5", id: "type_5", "data-am-ucheck": true}), " 惩罚建定通天数"
+							), 
+							React.createElement("label", {for: "type_6"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "6", id: "type_6", "data-am-ucheck": true}), " 激活建定通账号"
+							), 
+							React.createElement("label", {for: "type_7"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "7", id: "type_7", "data-am-ucheck": true}), " 停用建定通账号"
+							), 
+							React.createElement("label", {for: "type_8"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "8", id: "type_8", "data-am-ucheck": true}), " 账号设置正常"
+							), 
+							React.createElement("label", {for: "type_9"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "9", id: "type_9", "data-am-ucheck": true}), " 账号设置异常"
+							), 
+							React.createElement("label", {for: "type_10"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "10", id: "type_10", "data-am-ucheck": true}), " 积分账户批准"
 							)
 						), 
 						React.createElement("button", {type: "button", onClick: this.setType, className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, "确定")

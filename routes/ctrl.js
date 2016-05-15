@@ -8,8 +8,11 @@ module.exports = function (app, routes) {
     app.get('/getopenid',routes.getopenid);
     app.get('/weixin_js',routes.weixin_js);
     app.get('/reg',routes.reg);
+    app.get('/modelreg',routes.modelreg);
+    app.get('/message',routes.message);
     app.get('/myinfo',routes.myinfo);
     app.post('/jdtuser/:sql',routes.jdtuserdo);
+    app.post('/modeluser/:sql',routes.modeluserdo);
     app.post('/redpacket/:sql',routes.redpacketdo);
     app.get('/sendredpack',routes.sendredpack);
     app.get('/regsuccess',routes.regsuccess);

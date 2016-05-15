@@ -28,9 +28,21 @@ Post = function(action,req,res){
 	  	case "shareToCricle":
 	  		shareToCricle(req,res);
 	  		break;
+	  	case "uploaddo":
+	  		uploaddo(req,res);
+	  		break;
 		default:
 	  		//do something
 	}
+}
+
+function uploaddo(req,res){
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	var fname = req.files.fileUp.path.replace("public\\upload\\", "").replace("public/upload/", "");
+	res.writeHead(200, {'Content-type' : 'text/html'});
+	res.write('<script>');
+	res.write('window.parent.postMessage("'+fname+'","*");');
+	res.end('</script>');
 }
 
 function getPost(req,res){
@@ -80,6 +92,8 @@ function createPost(req,res){
 		var mode = req.param("mode");
 		var title = req.param("title");
 		var post = req.param("post");
+		var shareimg = req.param("shareimg");
+		var sharetitle = req.param("sharetitle");
 		var editid = req.param("editid");
 		/*对单引号进行转义*/
 		title = title.replace(/'/g, "\\'");
@@ -88,6 +102,8 @@ function createPost(req,res){
 		if(mode == "edit"){
 			var sql = "update post set ";
 			sql += " title = '"+title+"',";
+			sql += " shareimg = '"+shareimg+"',";
+			sql += " sharetitle = '"+sharetitle+"',";
 			sql += " post = '"+post+"'";
 			sql += " where id = "+editid;
 			mysql.query(sql, function(err, result) {
@@ -97,7 +113,7 @@ function createPost(req,res){
 				}
 			});
 		}else{
-			var sql = "insert into post (title,post,created_at) values ('"+title+"','"+post+"',now())";
+			var sql = "insert into post (title,post,created_at,shareimg,sharetitle) values ('"+title+"','"+post+"',now(),'"+shareimg+"','"+sharetitle+"')";
 			mysql.query(sql, function(err, result) {
 				if (err) return console.error(err.stack);
 				if(result.affectedRows == 1){
@@ -200,6 +216,9 @@ function shareToFriend(req,res){
 						}else{
 							obj.hasCancelFocus = 1;
 						}
+						//判断是否是激活过用户
+						obj.active = rows2[0].active;
+						
 						//判断账号是否异常
 						if(rows2[0].state_id == 1){
 							obj.hasCatch = 0;
@@ -273,6 +292,8 @@ function shareToCricle(req,res){
 						}else{
 							obj.hasCancelFocus = 1;
 						}
+						//判断是否是激活过用户
+						obj.active = rows2[0].active;
 						//判断账号是否异常
 						if(rows2[0].state_id == 1){
 							obj.hasCatch = 0;

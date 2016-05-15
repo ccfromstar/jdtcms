@@ -331,7 +331,7 @@ var R_content = React.createClass({
 				              	<th>昵称</th>
 				              	<th>操作时间</th>
 				              	<th>行为分类</th>
-				              	<th>记录备注</th>
+				              	<th>记录备注/留言</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>
 				          	</thead>
@@ -389,6 +389,9 @@ var R_content = React.createClass({
 							</label>
 							<label for="type_6">
 								<input type="checkbox" name="type_id" value="6" id="type_6" data-am-ucheck />	分享朋友圈
+							</label>
+							<label for="type_7">
+								<input type="checkbox" name="type_id" value="12" id="type_7" data-am-ucheck />	用户留言
 							</label>
 						</div>
 						<button type="button" onClick={this.setType} className="btn-c am-btn am-btn-primary am-btn-xs btn-search">确定</button>

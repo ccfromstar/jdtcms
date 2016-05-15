@@ -134,7 +134,8 @@ var R_content = React.createClass({
 			url: hosts + "/wx_user/setUserState",
 			data: {
 				wx_state:wx_state,
-				id:readdocid
+				id:readdocid,
+				openid:$("#openid").html()
 			},
 			success: function(data) {
 				$('.successinfo').html('<p>设置成功</p>').removeClass("none");

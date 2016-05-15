@@ -56,8 +56,8 @@ function getUser(req,res){
 			change += " and applytime <= '"+GetDateStr_end(end_time,1)+"'";
 		}
 		
-		var sql1 = "select * from admin where 1=1 "+change+" order by id desc limit " + (page - 1) * limit + "," + limit;
-		var sql2 = "select count(*) as count from admin where 1=1 "+change;
+		var sql1 = "select * from modeladmin where 1=1 "+change+" order by id desc limit " + (page - 1) * limit + "," + limit;
+		var sql2 = "select count(*) as count from modeladmin where 1=1 "+change;
 		debug(sql1);
 		async.waterfall([function(callback) {
 		    mysql.query(sql1, function(err, result) {
@@ -91,21 +91,6 @@ function getUser(req,res){
 		});	
 }
 
-function GetDateStr_end(time,AddDayCount) { 
-	var dd = new Date(time); 
-  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
-  var y = dd.getFullYear(); 
-  //var m = dd.getMonth()+1;//获取当前月份的日期 
-  //var d = dd.getDate(); 
-  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
-  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
-  var hh = dd.getHours();
-  var mm = dd.getMinutes();
-  var ss = dd.getSeconds(); 
-  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
-  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
-}
-
 function GetDateStr(time,AddDayCount) { 
 	var dd = time; 
 	dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
@@ -130,21 +115,16 @@ function activeUser(req,res){
 		if (err) return console.error(err.stack);
 		var iday = rows[0].day_initial;
 		var limited = GetDateStr(new Date(),iday);
-		var sql3 = "select limited from admin where id = "+id;
-		mysql.query(sql3, function(err, result3) {
+		var sql2 = "update modeladmin set state_id = 1,limited = '"+limited+"' where id = "+id;
+		mysql.query(sql2, function(err, result) {
 			if (err) return console.error(err.stack);
-			if(result3[0].limited){
-				var sql2 = "update admin set state_id = 1 where id = "+id;
-			}else{
-				var sql2 = "update admin set state_id = 1,limited = '"+limited+"' where id = "+id;
-			}
-			mysql.query(sql2, function(err, result) {
-				if (err) return console.error(err.stack);
-				/*插入奖罚记录表*/
-				var sql_score = "insert into rp_record(openid,type_id,number,txtRemark,time) values('"+username+"',6,0,'',now())";
-				setLog(sql_score);
-				res.send("300");
-			});
+			//微信用户表里的active激活
+			var sql_wxuser = "update wx_user set active = 1 where openid = '"+username+"'";
+			setLog(sql_wxuser);
+			/*插入奖罚记录表*/
+			var sql_score = "insert into rp_record(openid,type_id,number,txtRemark,time) values('"+username+"',10,0,'',now())";
+			setLog(sql_score);
+			res.send("300");
 		});
 	});
 }
@@ -152,7 +132,7 @@ function activeUser(req,res){
 function disactiveUser(req,res){
 		var id = parseInt(req.param("id"));
 		var username = (req.param("username"));
-		var sql2 = "update admin set state_id = 0 where id = "+id;
+		var sql2 = "update modeladmin set state_id = 0 where id = "+id;
 		mysql.query(sql2, function(err, result) {
 			if (err) return console.error(err.stack);
 			/*插入奖罚记录表*/

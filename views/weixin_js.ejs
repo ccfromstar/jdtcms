@@ -120,6 +120,8 @@
 						// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
 						//alert('用户点击发送给朋友');
 					},
+					imgUrl: '<%=img%>', // 分享图标
+					title: '<%=title%>', // 分享标题
 					success: function(res) {
 						$.ajax({
 							type: "post",
@@ -145,6 +147,10 @@
 									alert('您当前未关注"建定工程"不能获得红包积分和建定通使用天数 请重新关注');
 									return false;
 								}
+								if(data.active == 0){
+									//alert('当前获得红包积分需要认证申请，请至官方微信菜单申请');
+									//return false;
+								}
 								if(data.ActivedJDT == 0){
 									alert('转发给好友成功，您获得了'+data.score+'积分，但是您没有激活建定通账号，不能获得建定通使用天数');
 									return false;
@@ -165,6 +171,8 @@
 						// 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
 						//alert('用户点击发送给朋友');
 					},
+					imgUrl: '<%=img%>', // 分享图标
+					title: '<%=title%>', // 分享标题
 					success: function(res) {
 						$.ajax({
 							type: "post",
@@ -189,6 +197,10 @@
 								if(data.hasCancelFocus == 1){
 									alert('您当前未关注"建定工程"不能获得红包积分和建定通使用天数 请重新关注');
 									return false;
+								}
+								if(data.active == 0){
+									//alert('当前获得红包积分需要认证申请，请至官方微信菜单申请');
+									//return false;
 								}
 								if(data.ActivedJDT == 0){
 									alert('分享到朋友圈成功，您获得了'+data.score+'积分，但是您没有激活建定通账号，不能获得建定通使用天数');

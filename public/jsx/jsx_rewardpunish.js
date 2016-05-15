@@ -336,6 +336,21 @@ var R_content = React.createClass({
 							<label for="type_5">
 								<input type="checkbox" name="type_id" value="5" id="type_5" data-am-ucheck />	惩罚建定通天数
 							</label>
+							<label for="type_6">
+								<input type="checkbox" name="type_id" value="6" id="type_6" data-am-ucheck />	激活建定通账号
+							</label>
+							<label for="type_7">
+								<input type="checkbox" name="type_id" value="7" id="type_7" data-am-ucheck />	停用建定通账号
+							</label>
+							<label for="type_8">
+								<input type="checkbox" name="type_id" value="8" id="type_8" data-am-ucheck />	账号设置正常
+							</label>
+							<label for="type_9">
+								<input type="checkbox" name="type_id" value="9" id="type_9" data-am-ucheck />	账号设置异常
+							</label>
+							<label for="type_10">
+								<input type="checkbox" name="type_id" value="10" id="type_10" data-am-ucheck />	积分账户批准
+							</label>
 						</div>
 						<button type="button" onClick={this.setType} className="btn-c am-btn am-btn-primary am-btn-xs btn-search">确定</button>
 			          		

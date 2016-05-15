@@ -46,14 +46,15 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	ActiveDoc:function(id,e){
+	ActiveDoc:function(id,username,e){
 		e.preventDefault();
 		var o = this;
 		$.ajax({
 			type: "post",
 			url: hosts + "/jdtuser/activeUser",
 			data: {
-				id:id
+				id:id,
+				username:username
 			},
 			success: function(data) {
 				if(data == "300"){
@@ -66,14 +67,15 @@ var R_content = React.createClass({
 			}
 		});
 	},
-	disActiveDoc:function(id,e){
+	disActiveDoc:function(id,username,e){
 		e.preventDefault();
 		var o = this;
 		$.ajax({
 			type: "post",
 			url: hosts + "/jdtuser/disactiveUser",
 			data: {
-				id:id
+				id:id,
+				username:username
 			},
 			success: function(data) {
 				if(data == "300"){
@@ -91,37 +93,34 @@ var R_content = React.createClass({
 		if(e){
 			e.preventDefault();
 		}
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		indexPage = indexPage?indexPage:1;
+		
+		/*查询参数*/
+		var name = $("#name").val();
+		var mobile = $("#mobile").val();
+		var company = $("#company").val();
+		var address = $("#address").val();
+		var job = $("#job").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		
 		$.ajax({
 			type: "post",
 			url: hosts + "/jdtuser/getUser",
 			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		$.ajax({
-			type: "post",
-			url: hosts + "/jdtuser/getUser",
-			data: {
-				indexPage:indexPage
+				indexPage:indexPage,
+				name:name,
+				mobile:mobile,
+				company:company,
+				address:address,
+				job:job,
+				start_time:start_time,
+				end_time:end_time
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -132,6 +131,19 @@ var R_content = React.createClass({
 				$modal.modal('close');
 			}
 		});
+	},
+	resetKey:function(){
+		window.location.reload();
+	},
+	componentDidMount:function(){
+		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		this.toPage(1);
 	},
 	render:function(){
 		var o = this;
@@ -154,7 +166,7 @@ var R_content = React.createClass({
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
-		                    <button onClick={o.ActiveDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-bell"></span> 激活</button>
+		                    <button onClick={o.ActiveDoc.bind(o,c.id,c.username)} className="am-btn am-btn-default am-btn-xs am-text-secondary"><span className="am-icon-bell"></span> 激活</button>
 		                  </div>
 		                </div>
 		              </td>
@@ -177,7 +189,7 @@ var R_content = React.createClass({
 		              <td>
 		                <div className="am-hide-sm-only am-btn-toolbar">
 		                  <div className="am-btn-group am-btn-group-xs">
-		                  	<button onClick={o.disActiveDoc.bind(o,c.id)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-ban"></span> 停权</button>
+		                  	<button onClick={o.disActiveDoc.bind(o,c.id,c.username)} className="am-btn am-btn-default am-btn-xs am-text-danger"><span className="am-icon-ban"></span> 停权</button>
 		                  </div>
 		                </div>
 		              </td>
@@ -214,6 +226,23 @@ var R_content = React.createClass({
 			    </div>
 			    
 			    <div className="am-g">
+			      <div className="am-u-sm-12 am-u-md-12 menu-search">
+			        <div className="am-btn-toolbar">  
+			          		<input type="text" id="name" className="am-input-sm search_input" placeholder="姓名" />
+			          		<input type="text" id="mobile" className="am-input-sm search_input" placeholder="手机" />
+			          		<input type="text" id="company" className="am-input-sm search_input" placeholder="所属公司" />
+			          		<input type="text" id="address" className="am-input-sm search_input" placeholder="地址" />
+			          		<input type="text" id="job" className="am-input-sm search_input" placeholder="职位" />
+			          		<br/>申请时间：
+			          		<input type="text" id="start_time" className="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly required />
+			          		<input type="text" id="end_time" className="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly required />
+			          		<button type="button" onClick={this.toPage.bind(o,1)} className="btn-c am-btn am-btn-primary am-btn-xs btn-search"><span className="am-icon-search"></span> 查询</button>
+			          		<button type="button" onClick={this.resetKey} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-bitbucket"></span> 清空</button>
+			        </div>
+			      </div>
+			    </div>
+			    
+			    <div className="am-g">
 				    <div className="am-u-sm-12">
 				        <form className="am-form">
 				          <table className="am-table am-table-striped am-table-hover table-main jdt-table">
@@ -228,7 +257,7 @@ var R_content = React.createClass({
 			            		<th>账号有效期</th>
 			            		<th>账号</th>
 			            		<th>密码</th>
-			            		<th>激活时间</th>
+			            		<th>申请时间</th>
 			            		<th>激活状态</th>
 			            		<th className="am-hide-sm-only table-set">操作</th>
 				              </tr>

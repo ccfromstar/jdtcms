@@ -331,7 +331,7 @@ var R_content = React.createClass({displayName: "R_content",
 				              	React.createElement("th", null, "昵称"), 
 				              	React.createElement("th", null, "操作时间"), 
 				              	React.createElement("th", null, "行为分类"), 
-				              	React.createElement("th", null, "记录备注"), 
+				              	React.createElement("th", null, "记录备注/留言"), 
 			            		React.createElement("th", {className: "am-hide-sm-only table-set"}, "操作")
 				              )
 				          	), 
@@ -389,6 +389,9 @@ var R_content = React.createClass({displayName: "R_content",
 							), 
 							React.createElement("label", {for: "type_6"}, 
 								React.createElement("input", {type: "checkbox", name: "type_id", value: "6", id: "type_6", "data-am-ucheck": true}), " 分享朋友圈"
+							), 
+							React.createElement("label", {for: "type_7"}, 
+								React.createElement("input", {type: "checkbox", name: "type_id", value: "12", id: "type_7", "data-am-ucheck": true}), " 用户留言"
 							)
 						), 
 						React.createElement("button", {type: "button", onClick: this.setType, className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, "确定")

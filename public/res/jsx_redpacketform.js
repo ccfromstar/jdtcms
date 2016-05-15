@@ -16,7 +16,11 @@ var R_content = React.createClass({displayName: "R_content",
 		var state_id = jqradio('state_id');
 		
 		var sort_id = $('#sort_id').val();
-		var nick_name = $('#nick_name').val();
+		
+		var subject = $('#subject').val();
+		var description = $('#description').val();
+		var send_name = $('#send_name').val();
+		var body = $('#body').val();
 		
 		var mode = window.sessionStorage.getItem('mode');
 		
@@ -51,13 +55,7 @@ var R_content = React.createClass({displayName: "R_content",
 			return false;
 		}
 		
-		if(!nick_name){
-			$('.errorinfo').html('<p>红包文字不能为空</p>').removeClass("none");
-			setTimeout(function() {
-				$('.errorinfo').addClass("none");
-			}, 2000);
-			return false;
-		}
+		
 		
 		$.ajax({
 			type: "post",
@@ -71,7 +69,10 @@ var R_content = React.createClass({displayName: "R_content",
 				state_id:state_id,
 				redname:redname,
 				sort_id:sort_id,
-				nick_name:nick_name,
+				subject:subject,
+				description:description,
+				send_name:send_name,
+				body:body,
 				editid: window.sessionStorage.getItem("editid")
 			},
 			success: function(data) {
@@ -105,7 +106,10 @@ var R_content = React.createClass({displayName: "R_content",
 					$('#redname').val(data[0].name);
 					$('#score').val(data[0].score);
 					$('#sort_id').val(data[0].sort_id);
-					$('#nick_name').val(data[0].nick_name);
+					$('#subject').val(data[0].subject);
+					$('#description').val(data[0].description);
+					$('#send_name').val(data[0].send_name);
+					$('#body').val(data[0].body);
 					var i = 0;
 					i = data[0].type_id;
 					$("#type_id_div").find("label").eq(i).addClass("am-active");
@@ -215,8 +219,18 @@ var R_content = React.createClass({displayName: "R_content",
 				        React.createElement("div", {className: "am-u-sm-4 am-u-md-2 am-text-right"}, 
 				            "红包文字"
 				        ), 
+				        React.createElement("div", {className: "am-u-sm-8 am-u-md-10"}, 
+				            "你参与", React.createElement("input", {type: "text", id: "subject", className: "am-input-sm settings_input"}), "，成功获得", React.createElement("input", {type: "text", id: "send_name", className: "am-input-sm settings_input"}), "赠送的红包，", React.createElement("input", {type: "text", id: "description", className: "am-input-sm settings_input"})
+				        )
+				        
+				    ), 
+				    
+				    React.createElement("div", {className: "am-g am-margin-top"}, 
+				        React.createElement("div", {className: "am-u-sm-4 am-u-md-2 am-text-right"}, 
+				            "红包封面"
+				        ), 
 				        React.createElement("div", {className: "am-u-sm-8 am-u-md-4"}, 
-				            React.createElement("input", {type: "text", id: "nick_name", className: "am-input-sm settings_input"})
+				        	React.createElement("input", {type: "text", id: "body", className: "am-input-sm settings_input"})
 				        ), 
 				        React.createElement("div", {className: "am-hide-sm-only am-u-md-6"}, "*必填")
 				    )
