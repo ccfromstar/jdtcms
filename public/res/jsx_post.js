@@ -36,6 +36,9 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.setItem("mode","edit");
 		window.location = 'postform.html';
 	},
+	resetKey:function(){
+		window.location.reload();
+	},
 	delsql:function(){
 		var o = this;
 		$.ajax({
@@ -60,40 +63,28 @@ var R_content = React.createClass({displayName: "R_content",
 		if(e){
 			e.preventDefault();
 		}
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
 		var role = window.sessionStorage.getItem("crole");
 		indexPage = indexPage?indexPage:1;
-		$.ajax({
-			type: "post",
-			url: hosts + "/post/getPost",
-			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		var role = window.sessionStorage.getItem("crole");
+		
+		/*查询参数*/
+		var title = $("#title").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
 		
 		$.ajax({
 			type: "post",
 			url: hosts + "/post/getPost",
 			data: {
-				indexPage:indexPage
+				indexPage:indexPage,
+				title:title,
+				start_time:start_time,
+				end_time:end_time
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -104,6 +95,16 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
+	},
+	componentDidMount:function(){
+		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		this.toPage(1);
 	},
 	render:function(){
 		var o = this;
@@ -152,6 +153,19 @@ var R_content = React.createClass({displayName: "R_content",
 			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}, 
 			            React.createElement("button", {id: "btn_add", type: "button", onClick: this.newDoc, className: "am-btn am-btn-default"}, React.createElement("span", {className: "am-icon-plus"}), " 新增")
 			          )
+			        )
+			      )
+			    ), 
+			    
+			    React.createElement("div", {className: "am-g"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12 menu-search"}, 
+			        React.createElement("div", {className: "am-btn-toolbar"}, 
+			          	React.createElement("input", {type: "text", id: "title", className: "am-input-sm search_input", placeholder: "标题"}), 
+			          	"创建日期：", 
+			          	React.createElement("input", {type: "text", id: "start_time", className: "am-form-field date_sel", placeholder: "开始日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          	React.createElement("input", {type: "text", id: "end_time", className: "am-form-field date_sel", placeholder: "结束日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          	React.createElement("button", {type: "button", onClick: this.toPage.bind(o,1), className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-search"}), " 查询"), 
+			          	React.createElement("button", {type: "button", onClick: this.resetKey, className: "btn-c am-btn am-btn-default am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-bitbucket"}), " 清空")
 			        )
 			      )
 			    ), 

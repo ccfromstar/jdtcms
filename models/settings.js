@@ -50,6 +50,7 @@ function updateSettings(req,res){
 	var score_admin_read = req.param("score_admin_read");
 	var score_admin_like = req.param("score_admin_like");
 	var score_admin_transpond = req.param("score_admin_transpond");
+	var score_admin_share = req.param("score_admin_share");
 	var day_initial = req.param("day_initial");
 	var day_read = req.param("day_read");
 	var day_like = req.param("day_like");
@@ -71,6 +72,7 @@ function updateSettings(req,res){
 			sql += " score_admin_focus = "+score_admin_focus+",";
 			sql += " score_admin_read = "+score_admin_read+",";
 			sql += " score_admin_like = "+score_admin_like+",";
+			sql += " score_admin_share = "+score_admin_share+",";
 			sql += " model = "+model+",";
 			sql += " score_admin_transpond = "+score_admin_transpond;
 			mysql.query(sql, function(err, result) {

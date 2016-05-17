@@ -27,6 +27,9 @@ var R_content = React.createClass({displayName: "R_content",
 		window.sessionStorage.setItem("mode","edit");
 		window.location = 'redpacketform.html';
 	},
+	resetKey:function(){
+		window.location.reload();
+	},
 	delsql:function(){
 		var o = this;
 		$.ajax({
@@ -103,6 +106,17 @@ var R_content = React.createClass({displayName: "R_content",
 		if(e){
 			e.preventDefault();
 		}
+		
+		var $modal = $('#my-modal-loading');
+		$modal.modal();
+		
+		/*查询参数*/
+		var k_openid = $("#k_openid").val();
+		var k_nickname = $("#k_nickname").val();
+		var k_name = $("#k_name").val();
+		var start_time = $("#start_time").val();
+		var end_time = $("#end_time").val();
+		
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
 		var id = window.sessionStorage.getItem('cid');
@@ -112,30 +126,12 @@ var R_content = React.createClass({displayName: "R_content",
 			type: "post",
 			url: hosts + "/redpacket/getAllgetchangeRecord",
 			data: {
-				indexPage:indexPage
-			},
-			success: function(data) {
-				o.setState({data:data.record});
-				o.setState({total:data.total});
-				o.setState({totalpage:data.totalpage});
-				o.setState({isFirst:(data.isFirstPage?"am-disabled":"")});
-				o.setState({isLast:(data.isLastPage?"am-disabled":"")});
-			}
-		});
-	},
-	componentDidMount:function(){
-		var o = this;
-		var $modal = $('#my-modal-loading');
-		$modal.modal();
-		var indexPage = window.sessionStorage.getItem("indexPage");
-		var id = window.sessionStorage.getItem('cid');
-		indexPage = indexPage?indexPage:1;
-		
-		$.ajax({
-			type: "post",
-			url: hosts + "/redpacket/getAllgetchangeRecord",
-			data: {
-				indexPage:indexPage
+				indexPage:indexPage,
+				openid:k_openid,
+				nickname:k_nickname,
+				name:k_name,
+				start_time:start_time,
+				end_time:end_time
 			},
 			success: function(data) {
 				o.setState({data:data.record});
@@ -146,6 +142,16 @@ var R_content = React.createClass({displayName: "R_content",
 				$modal.modal('close');
 			}
 		});
+	},
+	componentDidMount:function(){
+		var o = this;
+		$("#start_time").bind("click",function(){
+			$('#start_time').datepicker('open');
+		});
+		$("#end_time").bind("click",function(){
+			$('#end_time').datepicker('open');
+		});
+		this.toPage(1);
 	},
 	render:function(){
 		var o = this;
@@ -206,12 +212,18 @@ var R_content = React.createClass({displayName: "R_content",
 			    React.createElement("div", {className: "am-cf am-padding"}, 
 			      React.createElement("div", {className: "am-fl am-cf"}, React.createElement("strong", {className: "am-text-primary am-text-lg"}, "红包发放"), " / ", React.createElement("small", null, "列表"))
 				), 
+			    
 			    React.createElement("div", {className: "am-g"}, 
-			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12"}, 
+			      React.createElement("div", {className: "am-u-sm-12 am-u-md-12 menu-search"}, 
 			        React.createElement("div", {className: "am-btn-toolbar"}, 
-			          React.createElement("div", {className: "am-btn-group am-btn-group-xs"}
-			            
-			          )
+			          	React.createElement("input", {type: "text", id: "k_openid", className: "am-input-sm search_input", placeholder: "openid"}), 
+			          	React.createElement("input", {type: "text", id: "k_nickname", className: "am-input-sm search_input", placeholder: "昵称"}), 
+			          	React.createElement("input", {type: "text", id: "k_name", className: "am-input-sm search_input", placeholder: "红包名称"}), 
+			          	"兑换时间：", 
+			          	React.createElement("input", {type: "text", id: "start_time", className: "am-form-field date_sel", placeholder: "开始日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          	React.createElement("input", {type: "text", id: "end_time", className: "am-form-field date_sel", placeholder: "结束日期", "data-am-datepicker": true, readOnly: true, required: true}), 
+			          	React.createElement("button", {type: "button", onClick: this.toPage.bind(o,1), className: "btn-c am-btn am-btn-primary am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-search"}), " 查询"), 
+			          	React.createElement("button", {type: "button", onClick: this.resetKey, className: "btn-c am-btn am-btn-default am-btn-xs btn-search"}, React.createElement("span", {className: "am-icon-bitbucket"}), " 清空")
 			        )
 			      )
 			    ), 

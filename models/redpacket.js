@@ -295,13 +295,53 @@ function createPacket(req, res) {
 	}
 }
 
+function GetDateStr_end(time,AddDayCount) { 
+	var dd = new Date(time); 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+}
+
 function getAllgetchangeRecord(req, res) {
 	var page = parseInt(req.param("indexPage"));
+	
+	var openid = req.param("openid");
+	var nickname = req.param("nickname");
+	var name = req.param("name");
+	var start_time = req.param("start_time");
+	var end_time = req.param("end_time");
+	
 	var LIMIT = 20;
 	page = (page && page > 0) ? page : 1;
 	var limit = (limit && limit > 0) ? limit : LIMIT;
-	var sql1 = "select * from view_redpacket_record_status order by id desc limit " + (page - 1) * limit + "," + limit;
-	var sql2 = "select count(*) as count from view_redpacket_record_status";
+	
+	var change = "";
+	if(start_time != ""){
+		change += " and time >= '"+start_time+"'";
+	}
+	if(end_time != ""){
+		change += " and time <= '"+GetDateStr_end(end_time,1)+"'";
+	}
+	if(openid != ""){
+		change += " and openid like '%"+openid+"%'";
+	}
+	if(nickname != ""){
+		change += " and nickname like '%"+nickname+"%'";
+	}
+	if(name != ""){
+		change += " and name like '%"+name+"%'";
+	}
+		
+	var sql1 = "select * from view_redpacket_record_status where 1=1 "+change+" order by id desc limit " + (page - 1) * limit + "," + limit;
+	var sql2 = "select count(*) as count from view_redpacket_record_status where 1=1 "+change;
 	debug(sql1);
 	async.waterfall([function(callback) {
 		mysql.query(sql1, function(err, result) {

@@ -45,13 +45,43 @@ function uploaddo(req,res){
 	res.end('</script>');
 }
 
+function GetDateStr_end(time,AddDayCount) { 
+	var dd = new Date(time); 
+  dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期 
+  var y = dd.getFullYear(); 
+  //var m = dd.getMonth()+1;//获取当前月份的日期 
+  //var d = dd.getDate(); 
+  var m = (((dd.getMonth()+1)+"").length==1)?"0"+(dd.getMonth()+1):(dd.getMonth()+1);
+  var d = (((dd.getDate())+"").length==1)?"0"+(dd.getDate()):(dd.getDate());
+  var hh = dd.getHours();
+  var mm = dd.getMinutes();
+  var ss = dd.getSeconds(); 
+  console.log(y+"-"+m+"-"+d + " " + hh+":"+mm+":"+ss);
+  return y+"-"+m+"-"+d +" " + hh+":"+mm+":"+ss; 
+}
+
 function getPost(req,res){
 		var page = parseInt(req.param("indexPage"));
+		var title = req.param("title");
+		var start_time = req.param("start_time");
+		var end_time = req.param("end_time");
 		var LIMIT = 6;
 		page = (page && page > 0) ? page : 1;
-		var limit = (limit && limit > 0) ? limit : LIMIT
-		var sql1 = "select * from post order by created_at desc limit " + (page - 1) * limit + "," + limit;
-		var sql2 = "select count(*) as count from post";
+		var limit = (limit && limit > 0) ? limit : LIMIT;
+		
+		var change = "";
+		if(start_time != ""){
+			change += " and created_at >= '"+start_time+"'";
+		}
+		if(end_time != ""){
+			change += " and created_at <= '"+GetDateStr_end(end_time,1)+"'";
+		}
+		if(title != ""){
+			change += " and title like '%"+title+"%'";
+		}
+		
+		var sql1 = "select * from post where 1=1 "+change+" order by created_at desc limit " + (page - 1) * limit + "," + limit;
+		var sql2 = "select count(*) as count from post where 1=1 "+change;
 		debug(sql1);
 		async.waterfall([function(callback) {
 		    mysql.query(sql1, function(err, result) {

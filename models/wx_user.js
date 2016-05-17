@@ -1017,8 +1017,11 @@ function getParentScore(req,res){
             	}else if(result[i].type_id == 4){
             		result[i].score_1 = settings[0].score_admin_like;
             		//total_score += settings[0].score_admin_like;
-            	}else if(result[i].type_id == 5 || result[i].type_id == 6){
+            	}else if(result[i].type_id == 5){
             		result[i].score_1 = settings[0].score_admin_transpond;
+            		//total_score += settings[0].score_admin_transpond;
+            	}else if(result[i].type_id == 6){
+            		result[i].score_1 = settings[0].score_admin_share;
             		//total_score += settings[0].score_admin_transpond;
             	}
             }
@@ -1032,9 +1035,12 @@ function getParentScore(req,res){
             	}else if(rows[i].type_id == 4){
             		//result[i].score_1 = settings[0].score_admin_like;
             		total_score += settings[0].score_admin_like;
-            	}else if(rows[i].type_id == 5 || rows[i].type_id == 6){
+            	}else if(rows[i].type_id == 5){
             		//result[i].score_1 = settings[0].score_admin_transpond;
             		total_score += settings[0].score_admin_transpond;
+            	}else if(rows[i].type_id == 6){
+            		//result[i].score_1 = settings[0].score_admin_transpond;
+            		total_score += settings[0].score_admin_share;
             	}
             }
 		   	var ret = {

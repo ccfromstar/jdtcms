@@ -26,6 +26,7 @@ var R_content = React.createClass({displayName: "R_content",
 				$("#score_admin_read").val(data[0].score_admin_read);
 				$("#score_admin_like").val(data[0].score_admin_like);
 				$("#score_admin_transpond").val(data[0].score_admin_transpond);
+				$("#score_admin_share").val(data[0].score_admin_share);
 				$("#model").val(data[0].model);
 				$modal.modal('close');
 			}
@@ -50,9 +51,11 @@ var R_content = React.createClass({displayName: "R_content",
 		var score_admin_read = $("#score_admin_read").val();
 		var score_admin_like = $("#score_admin_like").val();
 		var score_admin_transpond = $("#score_admin_transpond").val();
+		var score_admin_share = $("#score_admin_share").val();
+		
 		var model = $("#model").val();
 
-		if(isNaN(day_share) || isNaN(score_share) || isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond)){
+		if(isNaN(day_share) || isNaN(score_share) || isNaN(day_initial) || isNaN(day_read) || isNaN(day_like) || isNaN(day_transpond) || isNaN(score_focus) || isNaN(score_read) || isNaN(score_like) || isNaN(score_transpond) || isNaN(score_admin_focus) || isNaN(score_admin_read) || isNaN(score_admin_like) || isNaN(score_admin_transpond) || isNaN(score_admin_share)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
 			setTimeout(function() {
 				$('.errorinfo').addClass("none");
@@ -80,6 +83,7 @@ var R_content = React.createClass({displayName: "R_content",
 				score_admin_read:score_admin_read,
 				score_admin_like:score_admin_like,
 				score_admin_transpond:score_admin_transpond,
+				score_admin_share:score_admin_share,
 				model:model
 			},
 			success: function(data) {
@@ -150,7 +154,9 @@ var R_content = React.createClass({displayName: "R_content",
 						  React.createElement("p", null, "所辖关注者点赞新软文管理员获得的提成积分", 
 				       		React.createElement("input", {type: "text", id: "score_admin_like", className: "am-input-sm settings_input"})), 
 						  React.createElement("p", null, "所辖关注者转发新软文管理员获得的提成积分", 
-				       		React.createElement("input", {type: "text", id: "score_admin_transpond", className: "am-input-sm settings_input"}))
+				       		React.createElement("input", {type: "text", id: "score_admin_transpond", className: "am-input-sm settings_input"})), 
+				       	  React.createElement("p", null, "所辖关注者分享新软文到朋友圈管理员获得的积分", 
+				       		React.createElement("input", {type: "text", id: "score_admin_share", className: "am-input-sm settings_input"}))
 						)
 				    )
 
