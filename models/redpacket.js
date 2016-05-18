@@ -316,6 +316,7 @@ function getAllgetchangeRecord(req, res) {
 	var openid = req.param("openid");
 	var nickname = req.param("nickname");
 	var name = req.param("name");
+	var k_type_id = req.param("k_type_id");
 	var start_time = req.param("start_time");
 	var end_time = req.param("end_time");
 	
@@ -339,10 +340,22 @@ function getAllgetchangeRecord(req, res) {
 	if(name != ""){
 		change += " and name like '%"+name+"%'";
 	}
+	if(k_type_id != ""){
+		var change_type = "";
+		var arr = k_type_id.split('*');
+		for(var i=0;i<arr.length;i++){
+			if(change_type == ""){
+				change_type = " status_id = "+arr[i];
+			}else{
+				change_type += " or status_id = "+arr[i];
+			}
+		}
+		change += " and ("+change_type+")";
+	}
 		
 	var sql1 = "select * from view_redpacket_record_status where 1=1 "+change+" order by id desc limit " + (page - 1) * limit + "," + limit;
 	var sql2 = "select count(*) as count from view_redpacket_record_status where 1=1 "+change;
-	debug(sql1);
+	console.log(sql1);
 	async.waterfall([function(callback) {
 		mysql.query(sql1, function(err, result) {
 			if (err) return console.error(err.stack);
@@ -362,7 +375,7 @@ function getAllgetchangeRecord(req, res) {
 			var totalpage = Math.ceil(total / limit);
 			var isFirstPage = page == 1;
 			var isLastPage = ((page - 1) * limit + result.length) == total;
-
+				console.log(result);
 			var ret = {
 				total: total,
 				totalpage: totalpage,

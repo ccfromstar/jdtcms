@@ -14,6 +14,9 @@ var R_content = React.createClass({
 		window.sessionStorage.setItem("readdocid",id);
 		window.location = 'booking_read.html';
 	},
+	ShowWin:function(){
+		$("#action_type").modal();
+	},
 	delDoc:function(id,e){
 		var o = this;
 		e.preventDefault();
@@ -29,6 +32,23 @@ var R_content = React.createClass({
 	},
 	resetKey:function(){
 		window.location.reload();
+	},
+	setType:function(){
+		$('#k_type_id').val(this.jqchk('type_id'));
+		$("#action_type").modal('close');
+		this.toPage(1);
+	},
+	jqchk:function(name){ //jquery获取复选框值
+	    var chk_value = '';
+	    $('input[name="' + name + '"]:checked').each(function (){
+	        if (chk_value == ""){
+	            chk_value = $(this).val();
+	        }else{
+	            chk_value = chk_value + "*" + $(this).val();
+	        }
+	    }
+	    );
+	    return chk_value;
 	},
 	delsql:function(){
 		var o = this;
@@ -116,6 +136,7 @@ var R_content = React.createClass({
 		var k_name = $("#k_name").val();
 		var start_time = $("#start_time").val();
 		var end_time = $("#end_time").val();
+		var k_type_id = $("#k_type_id").val();
 		
 		window.sessionStorage.setItem("indexPage",page);
 		var indexPage = window.sessionStorage.getItem("indexPage");
@@ -131,6 +152,7 @@ var R_content = React.createClass({
 				nickname:k_nickname,
 				name:k_name,
 				start_time:start_time,
+				k_type_id:k_type_id,
 				end_time:end_time
 			},
 			success: function(data) {
@@ -222,6 +244,8 @@ var R_content = React.createClass({
 			          	兑换时间：
 			          	<input type="text" id="start_time" className="am-form-field date_sel" placeholder="开始日期" data-am-datepicker readOnly required />
 			          	<input type="text" id="end_time" className="am-form-field date_sel" placeholder="结束日期" data-am-datepicker readOnly required />
+			          	<input type="hidden" id="k_type_id" onClick={this.ShowWin} className="am-input-sm search_input" placeholder="状态" readOnly />	
+			          	<button type="button" onClick={this.ShowWin} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-hand-pointer-o"></span> 选择状态</button>
 			          	<button type="button" onClick={this.toPage.bind(o,1)} className="btn-c am-btn am-btn-primary am-btn-xs btn-search"><span className="am-icon-search"></span> 查询</button>
 			          	<button type="button" onClick={this.resetKey} className="btn-c am-btn am-btn-default am-btn-xs btn-search"><span className="am-icon-bitbucket"></span> 清空</button>
 			        </div>
@@ -272,6 +296,30 @@ var R_content = React.createClass({
 				    </div>
 				  </div>
 				</div>
+				
+				<div className="am-modal am-modal-no-btn" tabindex="-1" id="action_type">
+				  <div className="am-modal-dialog">
+				    <div className="am-modal-hd">选择状态
+				      <a href="javascript: void(0)" className="am-close am-close-spin" data-am-modal-close>&times;</a>
+				    </div>
+				    <div className="am-modal-bd">
+				      	<div className="action_check">
+						   	<label for="type_1">
+								<input type="checkbox" name="type_id" value="1" id="type_1" data-am-ucheck />	审核中
+							</label>
+							<label for="type_2">
+								<input type="checkbox" name="type_id" value="2" id="type_2" data-am-ucheck />	已发放
+							</label>
+							<label for="type_3">
+								<input type="checkbox" name="type_id" value="3" id="type_3" data-am-ucheck />	兑换失败
+							</label>
+						</div>
+						<button type="button" onClick={this.setType} className="btn-c am-btn am-btn-primary am-btn-xs btn-search">确定</button>
+			          		
+				    </div>
+				  </div>
+				</div>
+				
 			</div>
 		);
 	}
