@@ -93,7 +93,7 @@ function createMessage(req,res){
 /*奖罚发放*/
 function setRP(req,res){
 	var score_sel = parseInt(req.param("score_sel"));
-	var score_number = parseInt(req.param("score_number"));
+	var score_number = Number(req.param("score_number"));
 	var score_remark = (req.param("score_remark"));
 	var openid = (req.param("openid"));
 	/*插入奖罚记录表*/
@@ -122,6 +122,10 @@ function setRP(req,res){
 			//奖励红包
 			/*给用户发送红包*/
 			//发送红包API
+			var subject = req.param("subject");
+			var description = req.param("description");
+			var send_name = req.param("send_name");
+			var body = req.param("body");
 			var timestamp=Math.round(new Date().getTime()/1000);
 			timestamp = timestamp + "";
 			var pingpp = require('pingpp')(settings.livekey);
@@ -134,14 +138,14 @@ function setRP(req,res){
 				channel: "wx_pub", //红包基于微信公众帐号，所以渠道是 wx_pub
 				amount: Number(score_number) * 100, //金额在 100-20000 之间
 				currency: "cny",
-				subject: "建定通现金红包",
-				body: "感谢您长久以来对建定通的支持！",
+				subject: subject,
+				body: body,
 				extra: { //extra 需填入的参数请参阅[API 文档]()
 					nick_name: "建定通",
-					send_name: "现金奖励"
+					send_name: send_name
 				},
 				recipient: openid, //指定用户的 open_id
-				description: "感谢您长久以来对建定通的支持！"
+				description: description
 			}, function(err, redEnvelope) {
 				//YOUR CODE
 				if (!err) {

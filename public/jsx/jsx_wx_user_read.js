@@ -36,6 +36,7 @@ var R_content = React.createClass({
 		var o = this;
 		/*权限判断*/
 		this.checkRole();
+		$('#redpacket_settings').css("display","none");
 		var $modal = $('#my-modal-loading');
 		$modal.modal();
 		var readdocid = window.sessionStorage.getItem("readdocid");
@@ -197,6 +198,14 @@ var R_content = React.createClass({
 		e.preventDefault();
 		$("#rp-confirm").modal();
 	},
+	changeType:function(){
+		var score_sel = $("#score_sel").val();
+		if(Number(score_sel) == 3){
+			$('#redpacket_settings').css("display","block");
+		}else{
+			$('#redpacket_settings').css("display","none");
+		}
+	},
 	setRP:function(e){
 		/*奖罚确认*/
 		var that = this;
@@ -205,6 +214,12 @@ var R_content = React.createClass({
 		var score_sel = $("#score_sel").val();
 		var score_number = $("#score_number").val();
 		var score_remark = $("#score_remark").val();
+		/*红包相关设置*/
+		var subject = $('#subject').val();
+		var description = $('#description').val();
+		var send_name = $('#send_name').val();
+		var body = $('#body').val();
+
 		if(isNaN(score_number)){
 			$('.errorinfo').html('<p>只能填写数字</p>').removeClass("none");
 			setTimeout(function() {
@@ -242,7 +257,11 @@ var R_content = React.createClass({
 				score_sel:score_sel,
 				score_number:score_number,
 				score_remark:score_remark,
-				openid:openid
+				openid:openid,
+				subject:subject,
+				description:description,
+				send_name:send_name,
+				body:body
 			},
 			success: function(data) {
 				$('.successinfo').html('<p>发放成功</p>').removeClass("none");
@@ -558,7 +577,7 @@ var R_content = React.createClass({
 				      	<div className="am-panel am-panel-default admin-sidebar-panel">
 					        <div className="am-panel-bd">
 					          <p><span className="am-icon-bookmark"></span> 相关操作：</p>
-					          <p><select id="score_sel">
+					          <p><select id="score_sel" onChange={this.changeType}>
 					          		<option value="-">奖罚类型</option>
 					          		<option value="1">奖励积分</option>
 					          		<option value="2">惩罚积分</option>
@@ -567,6 +586,11 @@ var R_content = React.createClass({
 					          		<option value="5">惩罚建定通天数</option>
 					          </select>
 					       		<input type="text" id="score_number" className="am-input-sm settings_input" defaultValue="0" /></p>
+					       		<div id="redpacket_settings">
+					       		<p>你参与<input type="text" id="subject" className="am-input-sm settings_input" />，成功获得<input type="text" id="send_name" className="am-input-sm settings_input" />赠送的红包，<input type="text" id="description" className="am-input-sm settings_input" />
+				        </p>
+				        		<p>红包封面<input type="text" id="body" className="am-input-sm settings_input" /></p>
+					       		</div>
 					       		<p>备注说明 
 					       		&nbsp;&nbsp;<input type="text" id="score_remark" className="am-input-sm wx_user_input" />
 					       		</p>
