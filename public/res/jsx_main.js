@@ -67,7 +67,7 @@ var R_sidebar = React.createClass({displayName: "R_sidebar",
 			/*管理员管理*/
 			$('.admin-sidebar-list').find('li').eq(9).addClass('none');
 			/*软文管理*/
-			$('.admin-sidebar-list').find('li').eq(12).addClass('none');
+			/*$('.admin-sidebar-list').find('li').eq(12).addClass('none');*/
 		}
 		if(role_send == 0){
 			/*红包管理*/
