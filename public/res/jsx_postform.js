@@ -93,7 +93,7 @@ var R_content = React.createClass({displayName: "R_content",
 						editor.html(data[0].post);
 						$('#supplyfile').val(data[0].shareimg);
 						if(data[0].shareimg){
-							var files = '<span class="am-icon-file-o"></span> <a target="_blank" href="'+hosts+'/upload/'+data[0].shareimg+'">供应商确认单</a>';
+							var files = '<span class="am-icon-file-o"></span> <a target="_blank" href="'+hosts+'/upload/'+data[0].shareimg+'">图片预览</a>';
 							$('#supplyfile_div').html(files);
 						}
 					}
