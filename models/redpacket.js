@@ -106,7 +106,8 @@ function sendRecord(req, res) {
 	var send_name = req.param("send_name");
 	var body = req.param("body");
 	//var timestamp=Math.round(new Date().getTime()/1000);
-	order_no = order_no + "";
+	var timestamp=new Date().getTime();
+	order_no = order_no + timestamp;
 	if(Number(type_id)==1){
 		//随机金额红包
 		var sql0 = "select * from settings";
@@ -115,10 +116,7 @@ function sendRecord(req, res) {
 			//生成金额
 			var rnd_money = rd(Number(money),(Number(money_max)-1));
 			console.log("rnd_money:"+rnd_money);
-			//兑换记录状态变为已发放
-			var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
-			mysql.query(sql1, function(err, result1) {
-				if (err) return console.error(err.stack);
+			
 				//发送红包API
 				var pingpp = require('pingpp')(settings.livekey);
 				pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
@@ -142,18 +140,24 @@ function sendRecord(req, res) {
 					//YOUR CODE
 					if (!err) {
 						console.log(redEnvelope);
-						res.send("300");
+						if(redEnvelope.failure_msg){
+							res.send(redEnvelope.failure_msg);
+						}else{
+							//兑换记录状态变为已发放
+							var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
+							mysql.query(sql1, function(err, result1) {
+								if (err) return console.error(err.stack);
+								res.send("300");
+							});
+						}
 					} else {
 						console.log(err);
 					}
 				});
-			});
+			
 		});
 	}else{
-		//兑换记录状态变为已发放
-		var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
-		mysql.query(sql1, function(err, result1) {
-			if (err) return console.error(err.stack);
+
 			//发送红包API
 			var pingpp = require('pingpp')(settings.livekey);
 			pingpp.setPrivateKeyPath(__dirname + "/pem/rsa_private_key.pem");
@@ -177,12 +181,21 @@ function sendRecord(req, res) {
 				//YOUR CODE
 				if (!err) {
 					console.log(redEnvelope);
-					res.send("300");
+					if(redEnvelope.failure_msg){
+						res.send(redEnvelope.failure_msg);
+					}else{
+						//兑换记录状态变为已发放
+						var sql1 = "update redpacket_record set status_id = 2 where id = " + id;
+						mysql.query(sql1, function(err, result1) {
+							if (err) return console.error(err.stack);
+							res.send("300");
+						});
+					}
 				} else {
 					console.log(err);
 				}
 			});
-		});	
+			
 	}
 }
 

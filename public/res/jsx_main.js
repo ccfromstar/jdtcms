@@ -255,3 +255,20 @@ var R_loading = React.createClass({displayName: "R_loading",
 		);
 	}
 });
+/*
+ * 数据处理组件
+ * */
+var R_waiting = React.createClass({displayName: "R_waiting",
+	render:function(){
+		return(
+			React.createElement("div", {className: "am-modal am-modal-loading am-modal-no-btn", tabIndex: "-1", id: "my-modal-waiting"}, 
+				React.createElement("div", {className: "am-modal-dialog"}, 
+					React.createElement("div", {className: "am-modal-hd"}, "数据处理中..."), 
+					React.createElement("div", {className: "am-modal-bd"}, 
+						React.createElement("span", {className: "am-icon-spinner am-icon-spin"})
+					)
+				)
+			)
+		);
+	}
+});

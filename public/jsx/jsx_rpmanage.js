@@ -95,6 +95,8 @@ var R_content = React.createClass({
 	sendDoc:function(id,openid,money,order_no,money_max,type_id,subject,description,send_name,body,e){
 		var o = this;
 		e.preventDefault();
+		var $modal = $('#my-modal-waiting');
+		$modal.modal();
 		$.ajax({
 			type: "post",
 			url: hosts + "/redpacket/sendRecord",
@@ -107,15 +109,22 @@ var R_content = React.createClass({
 				type_id:type_id,
 				subject:subject,
 				description:description,
-				send_name:send_name,
+				send_name:send_name, 
 				body:body
 			},
 			success: function(data) {
 				if(data == "300"){
 					o.toPage(window.sessionStorage.getItem("indexPage"));
+					$modal.modal('close');
 					$('.successinfo').html('<p>发放成功</p>').removeClass("none");
 					setTimeout(function() {
 						$('.successinfo').addClass("none");
+					}, 2000);
+				}else{
+					$modal.modal('close');
+					$('.errorinfo').html('<p>'+data+'</p>').removeClass("none");
+					setTimeout(function() {
+						$('.errorinfo').addClass("none");
 					}, 2000);
 				}
 			}
