@@ -375,7 +375,7 @@ function getAllgetchangeRecord(req, res) {
 			var totalpage = Math.ceil(total / limit);
 			var isFirstPage = page == 1;
 			var isLastPage = ((page - 1) * limit + result.length) == total;
-				console.log(result);
+				//console.log(result);
 			var ret = {
 				total: total,
 				totalpage: totalpage,
