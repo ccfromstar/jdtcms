@@ -276,12 +276,19 @@ exports.WXcompany = function(req, res) {
 				console.log(body_zh2);
 				var str = '[';
 				var arr1 = body_zh2.split("*");
+				var _proid = "";
 				for (var i = 0; i < arr1.length; i++) {
 					var arr2 = arr1[i].split("@");
-					if (i == 0) {
-						str += '{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
-					} else {
-						str += ',{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+					/*判断是否是多人参与了相同的工程*/
+					if(_proid.indexOf(arr2[3]) == -1){
+						if (i == 0) {
+							str += '{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+						} else {
+							str += ',{"proname":"' + arr2[0] + '","inforptime":"' + arr2[1] + '","prostate":"' + arr2[2] + '","proid":"' + arr2[3] + '"}';
+						}
+						_proid = _proid + ";" + arr2[3];
+					}else{
+						
 					}
 				}
 				str += ']';
@@ -307,6 +314,7 @@ exports.WXcompany = function(req, res) {
 					}
 				}
 				str1 += ']';
+				console.log("str1:"+str1);
 				callback(null, o1 ,str ,JSON.parse(str1));
 			}
 		});
